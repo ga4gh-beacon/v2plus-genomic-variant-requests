@@ -9,12 +9,30 @@
             ],
             "type": "string"
         },
+        "Range": {
+            "description": "An array of 2 integer sequence positions (0-based, inclusive).",
+            "items": {
+                "maxItems": 2,
+                "minItems": 2,
+                "minimum": 0,
+                "type": "integer"
+            },
+            "type": "array"
+        },
         "RefSeqId": {
-            "description": "Reference sequence id for genomic reference sequence in which variant coordinates are given, e.g. \"refseq:NC_000009.12\" for human chromosome 9 in the GRCh38 assembly. The use of the assembly specific RefSeqId is recommended although alternatively names, synonymous or aliases e.g. \"chr9\" could be used in conjunction with an `Assembly` parameter. DEPRECATION NOTE: To be replaced with the more open `SequenceReference` from VRS v2.",
+            "description": "Reference sequence id for genomic reference sequence in which variant coordinates are given, e.g. \"refseq:NC_000009.12\" for human chromosome 9 in the GRCh38 assembly. The use of the assembly specific RefSeqId is recommended although alternatively names, synonymous or aliases e.g. \"chr9\" could be used in conjunction with an `Assembly` parameter. DEPRECATION NOTE: To be replaced with the `RefgetAccession` from VRS v2.",
             "example": [
                 "refseq:NC_000009.12",
                 "chr9",
                 "NC_012920.1"
+            ],
+            "type": "string"
+        },
+        "RefgetAccession": {
+            "description": "A GA4GH RefGet identifier for the reference sequence, _i.e._ either a computed GA4GH checksum or other unique namespaced identifier supported by the server. Origin: VRS v2 Reference: [GA4GH RefGet](http://samtools.github.io/hts-specs/refget.html)",
+            "examples": [
+                "refseq:NC_000009.12",
+                "ga4gh:SQ.S_KjnFVz-FE7M0W6yoaUDgYxLPc1jyWU"
             ],
             "type": "string"
         },
@@ -26,11 +44,34 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "g_variant": {
         "properties": {
+            "adjacencyAccession": {
+                "$ref": "#/$defs/RefgetAccession",
+                "description": "A replacement for the `mateName` parameters following the VRS v2 definition. Note: The name of this parameter allows for encoding an identifier for an adjacent sequence and is potentially subject to change. Status: PROPOSED FOR BEACON v2.n"
+            },
+            "adjacencyEnd": {
+                "description": "End position or range (_i.e._ in case of a fuzzy breakpoint) on an adjacent sequence in case of a sequence adjecency Status: PROPOSED FOR BEACON v2.n",
+                "oneOf": [
+                    "integer",
+                    {
+                        "$ref": "#/$defs/Range"
+                    }
+                ]
+            },
+            "adjacencyStart": {
+                "description": "Start position or range (_i.e._ in case of a fuzzy breakpoint) on an adjacent sequence in case of a sequence adjecency Status: PROPOSED FOR BEACON v2.n",
+                "oneOf": [
+                    "integer",
+                    {
+                        "$ref": "#/$defs/Range"
+                    }
+                ]
+            },
             "alternateBases": {
-                "$ref": "#/$defs/Sequence"
+                "$ref": "#/$defs/Sequence",
+                "description": "Status: LEGACY"
             },
             "aminoacidChange": {
-                "description": "Aminoacid alteration of interest. Format 1 letter",
+                "description": "Aminoacid alteration of interest. Format 1 letter Origin: Beacon v2.0",
                 "examples": [
                     "V600E",
                     "M734V"
@@ -38,21 +79,24 @@
                 "type": "string"
             },
             "assemblyId": {
-                "$ref": "./requestParametersComponents.json#/definitions/Assembly"
+                "$ref": "#/$defs/Assembly",
+                "description": "Status: LEGACY"
+            },
+            "copyChange": {
+                "description": "MUST use a primaryCode representing one of: * EFO:0030069: complete genomic loss * EFO:0020073: high-level loss * EFO:0030068: low-level loss * EFO:0030067: loss * EFO:0030064: regional base ploidy * EFO:0030070: gain * EFO:0030071: low-level gain * EFO:0030072: high-level gain Origin: VRS v1.3+",
+                "type": "string"
             },
             "end": {
-                "description": "Precise or bracketing the end of the variants of interest: * (0-based, exclusive) - see `start` * for bracket queries, provide 2 values (e.g. [111,222]).\"",
-                "items": {
-                    "format": "int64",
-                    "minimum": 1,
-                    "type": "integer"
-                },
-                "maxItems": 2,
-                "minItems": 1,
-                "type": "array"
+                "description": "Precise or bracketing the end of the variants of interest: * (0-based, exclusive) - see `start` * for bracket queries (e.g. CNV matching) provide a range of 2 values\n  (e.g. `[111,222]`).\nOrigin: Beacon v2.0, with modified definition.",
+                "oneOf": [
+                    "integer",
+                    {
+                        "$ref": "#/$defs/Range"
+                    }
+                ]
             },
             "geneId": {
-                "description": "* A gene identifier * It is strongly suggested to use a symbol following\n  the HGNC (https://www.genenames.org) nomenclature.",
+                "description": "* A gene identifier * It is strongly suggested to use a symbol following\n  the HGNC (https://www.genenames.org) nomenclature.\nOrigin: Beacon v2.0",
                 "examples": [
                     "BRAF",
                     "SCN5A"
@@ -60,54 +104,71 @@
                 "type": "string"
             },
             "genomicAlleleShortForm": {
-                "description": "HGVSId descriptor",
+                "description": "HGVSId descriptor Origin: Beacon v2.0",
                 "examples": [
                     "NM_004006.2:c.4375C>T"
                 ],
                 "type": "string"
             },
             "mateEnd": {
-                "description": "genomic end position of fusion partner breakpoint region",
+                "description": "genomic end position of fusion partner breakpoint region Status: LEGACY",
                 "type": "integer"
             },
             "mateName": {
-                "$ref": "#/$defs/RefSeqId"
+                "$ref": "#/$defs/RefSeqId",
+                "description": "Status: LEGACY"
             },
             "mateStart": {
-                "description": "genomic start position of fusion partner breakpoint region",
+                "description": "genomic start position of fusion partner breakpoint region Status: LEGACY",
                 "type": "integer"
             },
+            "molecularEffect": {
+                "description": "CURIE that describes the class of molecular consequence. Values from SO (Sequence Ontology) are recommended, e.g. * `SO:0001583`: missense variant * `SO:0001589`: frameshift variant * `SO:0002054`: loss of function variant Reference: [SO](http://www.sequenceontology.org/browser/current_svn/term/SO:0001536) Status: PROPOSED FOR BEACON v2.n Notes: The use of emerging VA classes has to be evaluated.",
+                "examples": [
+                    "SO:0001583",
+                    "SO:0002054"
+                ],
+                "type": "string"
+            },
+            "referenceAccession": {
+                "$ref": "#/$defs/RefgetAccession",
+                "description": "A replacement for the `referenceName` and `assemblyId` parameters following the VRS v2 definition. Note: The name of this parameter allows for a use of a similar one for encoding an identifier for an adjacent sequence and is potentially subject to change. Status: PROPOSED FOR BEACON v2.n"
+            },
             "referenceBases": {
-                "$ref": "#/$defs/Sequence"
+                "$ref": "#/$defs/Sequence",
+                "description": "Status: LEGACY"
             },
             "referenceName": {
-                "$ref": "./requestParametersComponents.json#/definitions/RefSeqId"
+                "$ref": "#/$defs/RefSeqId",
+                "description": "Status: LEGACY"
+            },
+            "sequence": {
+                "$ref": "#/$defs/Sequence",
+                "description": "Replaces the Beacon v1-v2.1 `alternateBases` to indicate clear alignment in use with VRS Origin: VRS v1.n+"
             },
             "start": {
-                "description": "Precise or fuzzy start coordinate position(s), allele locus (0-based, inclusive). * `start` only:\n  - for single positions, e.g. the start of a specified sequence\n    alteration where the size is given through the specified `alternateBases`\n  - typical use are queries for SNV and small InDels\n  - the use of `start` without an `end` parameter requires the use of\n    `alternateBases`\n* 1 value in both `start` and `end`:\n  - for searching any variant falling fully or partially within the range\n    between `start` and `end` (a.k.a. \"range query\")\n  - additional use of `variantType` OR `alternateBases` can limit the\n    scope of the query\n  - by convention, partial overlaps of variants with the indicated genomic\n    range are accepted; for specific overlap requirements the 4-parameter\n    \"Bracket Queries\" should be employed\n* 2 values in both `start` and `end` for constructing a \"Bracket Query\":\n  - can be used to match any contiguous genomic interval, e.g. for querying\n    imprecise positions\n  - identifies all structural variants starting between `start[0]` and `start[1]`,\n    and ending between `end[0]` <-> `end[1]`\n  - single or double sided precise matches can be achieved by setting\n    `start[1]=start[0]+1` and `end[1]=end[0]+1`",
-                "items": {
-                    "format": "int64",
-                    "minimum": 0,
-                    "type": "integer"
-                },
-                "maxItems": 2,
-                "minItems": 1,
-                "type": "array"
+                "description": "Precise or fuzzy start coordinate position(s), allele locus (0-based, inclusive). * `start` only:\n  - for single positions, e.g. the start of a specified sequence\n    alteration where the size is given through the specified `alternateBases`\n  - typical use are queries for SNV and small InDels\n  - the use of `start` without an `end` parameter requires the use of\n    `alternateBases`\n* 1 value in both `start` and `end`:\n  - for searching any variant falling fully or partially within the range\n    between `start` and `end` (a.k.a. \"range query\")\n  - additional use of `variantType` OR `alternateBases` can limit the\n    scope of the query\n  - by convention, partial overlaps of variants with the indicated genomic\n    range are accepted; for specific overlap requirements the 4-parameter\n    \"Bracket Queries\" should be employed\n* 2 values in both `start` and `end` for constructing a \"Bracket Query\":\n  - can be used to match any contiguous genomic interval, e.g. for querying\n    imprecise positions\n  - identifies all structural variants starting between `start[0]` and `start[1]`,\n    and ending between `end[0]` <-> `end[1]`\n  - single or double sided precise matches can be achieved by setting\n    `start[1]=start[0]+1` and `end[1]=end[0]+1`\nOrigin: Beacon v2.0, with modified definition.",
+                "oneOf": [
+                    "integer",
+                    {
+                        "$ref": "#/$defs/Range"
+                    }
+                ]
             },
             "variantMaxLength": {
-                "description": "* Maximum length in bases of a genomic variant. * This is an optional parameter without prescribed use. While a length is\n  commonly available for structural variants such as copy number variations,\n  it is recommended that length based queries should also be supported for\n  variants with indicated referenceBases and alternateBases, to enable\n  length-specific wildcard queries.",
+                "description": "* Maximum length in bases of a genomic variant. * This is an optional parameter without prescribed use. While a length is\n  commonly available for structural variants such as copy number variations,\n  it is recommended that length based queries should also be supported for\n  variants with indicated referenceBases and alternateBases, to enable\n  length-specific wildcard queries.\nOrigin: Beacon v2.0",
                 "format": "int64",
                 "minimum": 1,
                 "type": "integer"
             },
             "variantMinLength": {
-                "description": "* Minimum length in bases of a genomic variant * This is an optional parameter without prescribed use. While a length is\n  commonly available for structural variants such as copy number variations,\n  it is recommended that length based queries should also be supported for\n  variants with indicated referenceBases and alternateBases, to enable\n  length-specific wildcard queries.",
+                "description": "* Minimum length in bases of a genomic variant * This is an optional parameter without prescribed use. While a length is\n  commonly available for structural variants such as copy number variations,\n  it is recommended that length based queries should also be supported for\n  variants with indicated referenceBases and alternateBases, to enable\n  length-specific wildcard queries.\nOrigin: Beacon v2.0",
                 "format": "int64",
                 "minimum": 0,
                 "type": "integer"
             },
             "variantType": {
-                "description": "The `variantType` is used to query variants which are not defined through a sequence of one or more bases using the `alternateBases` parameter. Examples here are e.g. structural variants: * DUP\n  - increased allelic count of material from the genomic region between\n    `start` and `end` positions\n  - no assumption about the placement of the additional sequences is being\n    made (i.e. no _in situ_ requirement as tandem duplications)\n* DEL: deletion of sequence following `start` The Beacon model is not prescriptive with regard to the values allowed for `variantType` with use of extended types (such as from `EFO:0030063`) being permitted. However, a support for the basic CNV types above - where represented in the data - is recommended.",
+                "description": "The `variantType` is used to query variants which are not defined through a sequence of one or more bases using the `alternateBases` parameter. Examples here are e.g. structural variants: * DUP\n  - increased allelic count of material from the genomic region between\n    `start` and `end` positions\n  - no assumption about the placement of the additional sequences is being\n    made (i.e. no _in situ_ requirement as tandem duplications)\n* DEL: deletion of sequence following `start` The Beacon model is not prescriptive with regard to the values allowed for `variantType` with use of extended types (such as from `EFO:0030063`) being permitted. However, a support for the basic CNV types above - where represented in the data - is recommended. Status: LEGACY? Note: The VRS v2 `copyChange` is now a partial and more specific replacement\n      over `variantType` for copy number variations. However, additional\n      concepts so far have not been covered and might warrant use of an\n      additional parameter (`variantClass`?).",
                 "examples": [
                     "EFO:0030070",
                     "DUP",
