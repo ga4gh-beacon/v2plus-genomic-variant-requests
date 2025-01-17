@@ -43,6 +43,8 @@ g_variant:
           - single or double sided precise matches can be achieved by setting
             `start[1]=start[0]+1` and `end[1]=end[0]+1`
         Origin: Beacon v2.0, with modified definition.
+        TODO: Move detailed usage description to general query documentation and
+              examples.
       oneOf:
         - integer
         - $ref: "#/$defs/Range"
