@@ -82,6 +82,17 @@
                 "$ref": "#/$defs/Assembly",
                 "description": "Status: LEGACY"
             },
+            "clinicalRelevance": {
+                "description": "Indication of the clinical relevance of the variant Recommended: A value from the five-tiered classification from the American College of Medical Genetics (ACMG) designed to describe the likelihood that a genomic sequence variant is causative of an inherited disease. (NCIT:C168798). Status: PROPOSED FOR BEACON v2.n Notes: * The definition mimics the Beacon v2 model and maps to `molecularAttributes.molecularEffects` * The use of emerging VA classes has to be evaluated. * This is part of the general topic of \"filters\" versus named parameters\n  in variation queries.",
+                "enum": [
+                    "benign",
+                    "likely benign",
+                    "uncertain significance",
+                    "likely pathogenic",
+                    "pathogenic"
+                ],
+                "type": "string"
+            },
             "copyChange": {
                 "description": "MUST use a primaryCode representing one of: * EFO:0030069: complete genomic loss * EFO:0020073: high-level loss * EFO:0030068: low-level loss * EFO:0030067: loss * EFO:0030064: regional base ploidy * EFO:0030070: gain * EFO:0030071: low-level gain * EFO:0030072: high-level gain Origin: VRS v1.3+",
                 "type": "string"
@@ -123,7 +134,7 @@
                 "type": "integer"
             },
             "molecularEffect": {
-                "description": "CURIE that describes the class of molecular consequence. Values from SO (Sequence Ontology) are recommended, e.g. * `SO:0001583`: missense variant * `SO:0001589`: frameshift variant * `SO:0002054`: loss of function variant Reference: [SO](http://www.sequenceontology.org/browser/current_svn/term/SO:0001536) Status: PROPOSED FOR BEACON v2.n Notes: The use of emerging VA classes has to be evaluated.",
+                "description": "CURIE that describes the class of molecular consequence. Values from SO (Sequence Ontology) are recommended, e.g. * `SO:0001583`: missense variant * `SO:0001589`: frameshift variant * `SO:0002054`: loss of function variant Reference: [SO](http://www.sequenceontology.org/browser/current_svn/term/SO:0001536) Status: PROPOSED FOR BEACON v2.n Notes: * The definition mimics the Beacon v2 model and maps to `phenotypicEffects.clinicalRelevance` * The use of emerging VA classes has to be evaluated. * This is part of the general topic of \"filters\" versus named parameters\n  in variation queries.",
                 "examples": [
                     "SO:0001583",
                     "SO:0002054"
@@ -147,13 +158,21 @@
                 "description": "Replaces the Beacon v1-v2.1 `alternateBases` to indicate clear alignment in use with VRS Origin: VRS v1.n+"
             },
             "start": {
-                "description": "Precise or fuzzy start coordinate position(s), allele locus (0-based, inclusive). * `start` only:\n  - for single positions, e.g. the start of a specified sequence\n    alteration where the size is given through the specified `alternateBases`\n  - typical use are queries for SNV and small InDels\n  - the use of `start` without an `end` parameter requires the use of\n    `alternateBases`\n* 1 value in both `start` and `end`:\n  - for searching any variant falling fully or partially within the range\n    between `start` and `end` (a.k.a. \"range query\")\n  - additional use of `variantType` OR `alternateBases` can limit the\n    scope of the query\n  - by convention, partial overlaps of variants with the indicated genomic\n    range are accepted; for specific overlap requirements the 4-parameter\n    \"Bracket Queries\" should be employed\n* 2 values in both `start` and `end` for constructing a \"Bracket Query\":\n  - can be used to match any contiguous genomic interval, e.g. for querying\n    imprecise positions\n  - identifies all structural variants starting between `start[0]` and `start[1]`,\n    and ending between `end[0]` <-> `end[1]`\n  - single or double sided precise matches can be achieved by setting\n    `start[1]=start[0]+1` and `end[1]=end[0]+1`\nOrigin: Beacon v2.0, with modified definition.",
+                "description": "Precise or fuzzy start coordinate position(s), allele locus (0-based, inclusive). * `start` only:\n  - for single positions, e.g. the start of a specified sequence\n    alteration where the size is given through the specified `alternateBases`\n  - typical use are queries for SNV and small InDels\n  - the use of `start` without an `end` parameter requires the use of\n    `alternateBases`\n* 1 value in both `start` and `end`:\n  - for searching any variant falling fully or partially within the range\n    between `start` and `end` (a.k.a. \"range query\")\n  - additional use of `variantType` OR `alternateBases` can limit the\n    scope of the query\n  - by convention, partial overlaps of variants with the indicated genomic\n    range are accepted; for specific overlap requirements the 4-parameter\n    \"Bracket Queries\" should be employed\n* 2 values in both `start` and `end` for constructing a \"Bracket Query\":\n  - can be used to match any contiguous genomic interval, e.g. for querying\n    imprecise positions\n  - identifies all structural variants starting between `start[0]` and `start[1]`,\n    and ending between `end[0]` <-> `end[1]`\n  - single or double sided precise matches can be achieved by setting\n    `start[1]=start[0]+1` and `end[1]=end[0]+1`\nOrigin: Beacon v2.0, with modified definition. TODO: Move detailed usage description to general query documentation and\n      examples.",
                 "oneOf": [
                     "integer",
                     {
                         "$ref": "#/$defs/Range"
                     }
                 ]
+            },
+            "variantId": {
+                "description": "* A variant identifier such as a VRSid, ClinVar id, dbSNP rsID or a\n  COSMIC identifier\n* In the default data model this query parameter corresponds to\n  `identifiers.variantAlternateIds` but potentially can map to other\n  identifiers as well.\nStatus: PROPOSED FOR BEACON v2.n",
+                "examples": [
+                    "ClinGen:CA152954",
+                    "dbSNP:rs587780345"
+                ],
+                "type": "string"
             },
             "variantMaxLength": {
                 "description": "* Maximum length in bases of a genomic variant. * This is an optional parameter without prescribed use. While a length is\n  commonly available for structural variants such as copy number variations,\n  it is recommended that length based queries should also be supported for\n  variants with indicated referenceBases and alternateBases, to enable\n  length-specific wildcard queries.\nOrigin: Beacon v2.0",

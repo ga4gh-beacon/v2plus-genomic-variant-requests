@@ -107,6 +107,19 @@ g_variant:
         - integer
         - $ref: "#/$defs/Range"
 
+    variantId:
+      description: >-
+        * A variant identifier such as a VRSid, ClinVar id, dbSNP rsID or a
+          COSMIC identifier
+        * In the default data model this query parameter corresponds to
+          `identifiers.variantAlternateIds` but potentially can map to other
+          identifiers as well.
+        Status: PROPOSED FOR BEACON v2.n
+      type: string
+      examples:
+        - ClinGen:CA152954
+        - dbSNP:rs587780345
+
     geneId:
       description: >-
         * A gene identifier
@@ -144,11 +157,35 @@ g_variant:
         * `SO:0002054`: loss of function variant
         Reference: [SO](http://www.sequenceontology.org/browser/current_svn/term/SO:0001536)
         Status: PROPOSED FOR BEACON v2.n
-        Notes: The use of emerging VA classes has to be evaluated.
+        Notes:
+        * The definition mimics the Beacon v2 model and maps to `phenotypicEffects.clinicalRelevance`
+        * The use of emerging VA classes has to be evaluated.
+        * This is part of the general topic of "filters" versus named parameters
+          in variation queries.
       type: string
       examples:
         - SO:0001583
         - SO:0002054
+
+    clinicalRelevance:
+      description: >-
+        Indication of the clinical relevance of the variant
+        Recommended: A value from the five-tiered classification from the American
+        College of Medical Genetics (ACMG) designed to describe the likelihood that
+        a genomic sequence variant is causative of an inherited disease. (NCIT:C168798).
+        Status: PROPOSED FOR BEACON v2.n
+        Notes:
+        * The definition mimics the Beacon v2 model and maps to `molecularAttributes.molecularEffects`
+        * The use of emerging VA classes has to be evaluated.
+        * This is part of the general topic of "filters" versus named parameters
+          in variation queries.
+      type: string
+      enum:
+        - benign
+        - likely benign
+        - uncertain significance
+        - likely pathogenic
+        - pathogenic
 
     variantMinLength:
       description: >-
