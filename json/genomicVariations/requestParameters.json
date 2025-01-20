@@ -37,7 +37,7 @@
             "type": "string"
         },
         "Sequence": {
-            "description": "DNA bases. * Accepted values: `[ACGTN]*` * N is a wildcard, that denotes the position of any base,\n  and can be used as a standalone base of any type or within a partially known\n  sequence. As example, a query of `ANNT` the Ns can take take any form of [ACGT]\n  and will match `ANNT`, `ACNT`, `ACCT`, `ACGT` ... and so forth.",
+            "description": "DNA bases. * Accepted values: `[ACGTN]*` * N is a wildcard, that denotes the position of any base,\n  and can be used as a standalone base of any type or within a partially known\n  sequence. As example, a query of `ANNT` the Ns can take take any form of [ACGT]\n  and will match `ANNT`, `ACNT`, `ACCT`, `ACGT` ... and so forth.\nOrigin: VRS v1.n TODO: Review use of base characters.",
             "type": "string"
         }
     },
@@ -46,10 +46,10 @@
         "properties": {
             "adjacencyAccession": {
                 "$ref": "#/$defs/RefgetAccession",
-                "description": "A replacement for the `mateName` parameters following the VRS v2 definition. Note: The name of this parameter allows for encoding an identifier for an adjacent sequence and is potentially subject to change. Status: PROPOSED FOR BEACON v2.n"
+                "description": "A replacement for the `mateName` parameters following the VRS v2 definition. Note: The name of this parameter allows for encoding an identifier for an adjacent sequence and is potentially subject to change. Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification"
             },
             "adjacencyEnd": {
-                "description": "End position or range (_i.e._ in case of a fuzzy breakpoint) on an adjacent sequence in case of a sequence adjecency Status: PROPOSED FOR BEACON v2.n",
+                "description": "End position or range (_i.e._ in case of a fuzzy breakpoint) on an adjacent sequence in case of a sequence adjecency Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification",
                 "oneOf": [
                     "integer",
                     {
@@ -58,7 +58,7 @@
                 ]
             },
             "adjacencyStart": {
-                "description": "Start position or range (_i.e._ in case of a fuzzy breakpoint) on an adjacent sequence in case of a sequence adjecency Status: PROPOSED FOR BEACON v2.n",
+                "description": "Start position or range (_i.e._ in case of a fuzzy breakpoint) on an adjacent sequence in case of a sequence adjecency Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification",
                 "oneOf": [
                     "integer",
                     {
@@ -68,7 +68,7 @@
             },
             "alternateBases": {
                 "$ref": "#/$defs/Sequence",
-                "description": "Status: LEGACY"
+                "description": "The bases of a sequence variant at a given position differing from the reference sequence, as defined by the `referenceBases` parameter. Please see `refereenceBases` for further information. Origin: VCF derived use in Beacon v0.3 -> v2.1 Status: LEGACY"
             },
             "aminoacidChange": {
                 "description": "Aminoacid alteration of interest. Format 1 letter Origin: Beacon v2.0",
@@ -80,7 +80,7 @@
             },
             "assemblyId": {
                 "$ref": "#/$defs/Assembly",
-                "description": "Status: LEGACY"
+                "description": "This is a Beacon legacy parameter which is not needed with the versioned sequence identifiers recommended since Beacon v2 and might lead to inconsistencies if used with versioned `referenName` or `referenceAccession`. Status: LEGACY, DEPRECATED"
             },
             "clinicalRelevance": {
                 "description": "Indication of the clinical relevance of the variant Recommended: A value from the five-tiered classification from the American College of Medical Genetics (ACMG) designed to describe the likelihood that a genomic sequence variant is causative of an inherited disease. (NCIT:C168798). Status: PROPOSED FOR BEACON v2.n Notes: * The definition mimics the Beacon v2 model and maps to `molecularAttributes.molecularEffects` * The use of emerging VA classes has to be evaluated. * This is part of the general topic of \"filters\" versus named parameters\n  in variation queries.",
@@ -94,7 +94,7 @@
                 "type": "string"
             },
             "copyChange": {
-                "description": "MUST use a primaryCode representing one of: * EFO:0030069: complete genomic loss * EFO:0020073: high-level loss * EFO:0030068: low-level loss * EFO:0030067: loss * EFO:0030064: regional base ploidy * EFO:0030070: gain * EFO:0030071: low-level gain * EFO:0030072: high-level gain Origin: VRS v1.3+",
+                "description": "MUST use a primaryCode representing one of: * EFO:0030069: complete genomic loss * EFO:0020073: high-level loss * EFO:0030068: low-level loss * EFO:0030067: loss * EFO:0030064: regional base ploidy * EFO:0030070: gain * EFO:0030071: low-level gain * EFO:0030072: high-level gain Origin: Beacon v2.n, based on VRS v1.3+",
                 "type": "string"
             },
             "end": {
@@ -122,15 +122,15 @@
                 "type": "string"
             },
             "mateEnd": {
-                "description": "genomic end position of fusion partner breakpoint region Status: LEGACY",
+                "description": "genomic end position of fusion partner breakpoint region Status: DEPRECATED in v2.n (see `mateName`)",
                 "type": "integer"
             },
             "mateName": {
                 "$ref": "#/$defs/RefSeqId",
-                "description": "Status: LEGACY"
+                "description": "Status: DEPRECATED in v2.n Notes: * while the `mateName` parameter was originally defined for Beacon v1.1\n  it was never properly documented and is not considered a part of the\n  supported Beacon v2.n specification. It is now fully implemented in the\n  VRS v2 based `adjacencyAccession` parameter."
             },
             "mateStart": {
-                "description": "genomic start position of fusion partner breakpoint region Status: LEGACY",
+                "description": "genomic start position of fusion partner breakpoint region Status: DEPRECATED in v2.n (see `mateName`)",
                 "type": "integer"
             },
             "molecularEffect": {
@@ -147,15 +147,15 @@
             },
             "referenceBases": {
                 "$ref": "#/$defs/Sequence",
-                "description": "Status: LEGACY"
+                "description": "The reference bases for the variant at the indicated position. It is based on the VCF cocept of having (anchored) reference bases at an indicated genomic location in combination with `alternateBases` to define their replacement. In contrast, standards such as GA4GH VRS only indicate the `sequence` observed at a given base position, including the use of an empty sequence together with `start` + `end` positions with `end - start > 0` to indicate deletions. Origin: VCF derived (optional) use in Beacon v0.3 -> v2.1 Status: LEGACY"
             },
             "referenceName": {
                 "$ref": "#/$defs/RefSeqId",
-                "description": "Status: LEGACY"
+                "description": "The name of the reference sequence in which variant coordinates are given. While this parameter is still supported, and also allows the *recommended* use of versioned sequence identifiers, it is recommended to transition to the more tightly scoped `referenceAccession` parameter. Status: LEGACY, TRANSITIONAL (as versioned identifier)"
             },
             "sequence": {
                 "$ref": "#/$defs/Sequence",
-                "description": "Replaces the Beacon v1-v2.1 `alternateBases` to indicate clear alignment in use with VRS Origin: VRS v1.n+"
+                "description": "Replaces the Beacon v1-v2.1 `alternateBases` to indicate clear alignment in use with VRS Origin: Beacon v2.n, based on VRS v1.n+"
             },
             "start": {
                 "description": "Precise or fuzzy start coordinate position(s), allele locus (0-based, inclusive). * `start` only:\n  - for single positions, e.g. the start of a specified sequence\n    alteration where the size is given through the specified `alternateBases`\n  - typical use are queries for SNV and small InDels\n  - the use of `start` without an `end` parameter requires the use of\n    `alternateBases`\n* 1 value in both `start` and `end`:\n  - for searching any variant falling fully or partially within the range\n    between `start` and `end` (a.k.a. \"range query\")\n  - additional use of `variantType` OR `alternateBases` can limit the\n    scope of the query\n  - by convention, partial overlaps of variants with the indicated genomic\n    range are accepted; for specific overlap requirements the 4-parameter\n    \"Bracket Queries\" should be employed\n* 2 values in both `start` and `end` for constructing a \"Bracket Query\":\n  - can be used to match any contiguous genomic interval, e.g. for querying\n    imprecise positions\n  - identifies all structural variants starting between `start[0]` and `start[1]`,\n    and ending between `end[0]` <-> `end[1]`\n  - single or double sided precise matches can be achieved by setting\n    `start[1]=start[0]+1` and `end[1]=end[0]+1`\nOrigin: Beacon v2.0, with modified definition. TODO: Move detailed usage description to general query documentation and\n      examples.",
@@ -187,7 +187,7 @@
                 "type": "integer"
             },
             "variantType": {
-                "description": "The `variantType` is used to query variants which are not defined through a sequence of one or more bases using the `alternateBases` parameter. Examples here are e.g. structural variants: * DUP\n  - increased allelic count of material from the genomic region between\n    `start` and `end` positions\n  - no assumption about the placement of the additional sequences is being\n    made (i.e. no _in situ_ requirement as tandem duplications)\n* DEL: deletion of sequence following `start` The Beacon model is not prescriptive with regard to the values allowed for `variantType` with use of extended types (such as from `EFO:0030063`) being permitted. However, a support for the basic CNV types above - where represented in the data - is recommended. Status: LEGACY? Note: The VRS v2 `copyChange` is now a partial and more specific replacement\n      over `variantType` for copy number variations. However, additional\n      concepts so far have not been covered and might warrant use of an\n      additional parameter (`variantClass`?).",
+                "description": "The `variantType` is used to query variants which are not defined through a sequence of one or more bases using the `alternateBases` parameter. This VCF derived parameter is being replaced by the more specific VRS derived parameters such as `copyChange`. (Legacy) Examples here are e.g. structural variants: * DUP\n  - increased allelic count of material from the genomic region between\n    `start` and `end` positions\n  - no assumption about the placement of the additional sequences is being\n    made (i.e. no _in situ_ requirement as tandem duplications)\n* DEL: deletion of sequence following `start` In contrast to the updated VRS based v2.n parameters such as `copyChange` the Beacon v1.1 -> v2.1 query model is not prescriptive with regard to the values allowed for `variantType` with use of extended types (e.g. `EFO:0030063`) being permitted. However, a support for the basic CNV types above - where represented in the data - is recommended. Status: LEGACY with potential use in v2.n for non-CNV parameters  Note: The VRS v2 `copyChange` is now a partial and more specific replacement\n      over `variantType` for copy number variations. However, additional\n      concepts so far have not been covered and might warrant use of an\n      additional parameter (`variantClass`?).",
                 "examples": [
                     "EFO:0030070",
                     "DUP",

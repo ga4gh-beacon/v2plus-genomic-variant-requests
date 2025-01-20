@@ -8,6 +8,10 @@ g_variant:
 
   properties:
 
+################################################################################
+# Beacon v2.n query parameters, either adopted from v2 or intrtoduced for v2.n
+################################################################################
+
     referenceAccession:
       description: >-
         A replacement for the `referenceName` and `assemblyId` parameters following
@@ -64,7 +68,7 @@ g_variant:
       description: >-
         Replaces the Beacon v1-v2.1 `alternateBases` to indicate clear alignment
         in use with VRS
-        Origin: VRS v1.n+
+        Origin: Beacon v2.n, based on VRS v1.n+
       $ref: "#/$defs/Sequence"
 
     copyChange:
@@ -78,7 +82,7 @@ g_variant:
         * EFO:0030070: gain
         * EFO:0030071: low-level gain
         * EFO:0030072: high-level gain
-        Origin: VRS v1.3+
+        Origin: Beacon v2.n, based on VRS v1.3+
       type: string
 
     adjacencyAccession:
@@ -86,14 +90,14 @@ g_variant:
         A replacement for the `mateName` parameters following the VRS v2 definition.
         Note: The name of this parameter allows for encoding an identifier for an
         adjacent sequence and is potentially subject to change.
-        Status: PROPOSED FOR BEACON v2.n
+        Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification
       $ref: "#/$defs/RefgetAccession"
 
     adjacencyStart:
       description: >-
         Start position or range (_i.e._ in case of a fuzzy breakpoint) on an
         adjacent sequence in case of a sequence adjecency
-        Status: PROPOSED FOR BEACON v2.n
+        Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification
       oneOf:
         - integer
         - $ref: "#/$defs/Range"
@@ -102,7 +106,7 @@ g_variant:
       description: >-
         End position or range (_i.e._ in case of a fuzzy breakpoint) on an
         adjacent sequence in case of a sequence adjecency
-        Status: PROPOSED FOR BEACON v2.n
+        Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification
       oneOf:
         - integer
         - $ref: "#/$defs/Range"
@@ -214,45 +218,68 @@ g_variant:
       minimum: 1
 
 ################################################################################
-# properties below are deprecated and will be removed in future versions
+# query parameters below are Beacon v0.3 -> v2.1 legacy and should be
+# transitioned away from, with possible hard deprecation in Beacon v3
 ################################################################################
 
     assemblyId:
       description: >-
-        Status: LEGACY
+        This is a Beacon legacy parameter which is not needed with the versioned
+        sequence identifiers recommended since Beacon v2 and might lead to
+        inconsistencies if used with versioned `referenName` or `referenceAccession`.
+        Status: LEGACY, DEPRECATED
       $ref: "#/$defs/Assembly"
 
     referenceName:
       description: >-
-        Status: LEGACY
+        The name of the reference sequence in which variant coordinates are given.
+        While this parameter is still supported, and also allows the *recommended*
+        use of versioned sequence identifiers, it is recommended to transition to
+        the more tightly scoped `referenceAccession` parameter.
+        Status: LEGACY, TRANSITIONAL (as versioned identifier)
       $ref: "#/$defs/RefSeqId"
 
     referenceBases:
       description: >-
+        The reference bases for the variant at the indicated position. It is based
+        on the VCF cocept of having (anchored) reference bases at an indicated
+        genomic location in combination with `alternateBases` to define their
+        replacement. In contrast, standards such as GA4GH VRS only indicate the
+        `sequence` observed at a given base position, including the use of an empty
+        sequence together with `start` + `end` positions with `end - start > 0`
+        to indicate deletions.
+        Origin: VCF derived (optional) use in Beacon v0.3 -> v2.1
         Status: LEGACY
       $ref: "#/$defs/Sequence"
 
     alternateBases:
       description: >-
+        The bases of a sequence variant at a given position differing from the
+        reference sequence, as defined by the `referenceBases` parameter. Please
+        see `refereenceBases` for further information.
+        Origin: VCF derived use in Beacon v0.3 -> v2.1
         Status: LEGACY
       $ref: "#/$defs/Sequence"
 
     variantType:
       description: >-
         The `variantType` is used to query variants which are not defined through
-        a sequence of one or more bases using the `alternateBases` parameter.
-        Examples here are e.g. structural variants:
+        a sequence of one or more bases using the `alternateBases` parameter. This
+        VCF derived parameter is being replaced by the more specific VRS derived
+        parameters such as `copyChange`.
+        (Legacy) Examples here are e.g. structural variants:
         * DUP
           - increased allelic count of material from the genomic region between
             `start` and `end` positions
           - no assumption about the placement of the additional sequences is being
             made (i.e. no _in situ_ requirement as tandem duplications)
         * DEL: deletion of sequence following `start`
-        The Beacon model is not prescriptive with regard to the values allowed
-        for `variantType` with use of extended types (such as from `EFO:0030063`)
+        In contrast to the updated VRS based v2.n parameters such as `copyChange`
+        the Beacon v1.1 -> v2.1 query model is not prescriptive with regard to the
+        values allowed for `variantType` with use of extended types (e.g. `EFO:0030063`)
         being permitted. However, a support for the basic CNV types above - where
         represented in the data - is recommended.
-        Status: LEGACY?
+        Status: LEGACY with potential use in v2.n for non-CNV parameters 
         Note: The VRS v2 `copyChange` is now a partial and more specific replacement
               over `variantType` for copy number variations. However, additional
               concepts so far have not been covered and might warrant use of an
@@ -264,29 +291,44 @@ g_variant:
         - DEL
         - EFO:0030069
 
+################################################################################
+# The `mate...` parameters are considered as untested parts of earlier Beacon
+# specifications and are not supported in v2.n (see `adjacency...` parameters)
+################################################################################
+
     mateName:
       description: >-
-        Status: LEGACY
+        Status: DEPRECATED in v2.n
+        Notes:
+        * while the `mateName` parameter was originally defined for Beacon v1.1
+          it was never properly documented and is not considered a part of the
+          supported Beacon v2.n specification. It is now fully implemented in the
+          VRS v2 based `adjacencyAccession` parameter.
       $ref: "#/$defs/RefSeqId"
 
     mateStart:
       type: integer
       description: >-
         genomic start position of fusion partner breakpoint region
-        Status: LEGACY
+        Status: DEPRECATED in v2.n (see `mateName`)
 
     mateEnd:
       type: integer
       description: >-
         genomic end position of fusion partner breakpoint region
-        Status: LEGACY
+        Status: DEPRECATED in v2.n (see `mateName`)
 
+
+################################################################################
 ################################################################################
 # / properties #################################################################
 ################################################################################
+################################################################################
 
 ################################################################################
+################################################################################
 # definitions ##################################################################
+################################################################################
 ################################################################################
 
 $defs:
@@ -321,6 +363,8 @@ $defs:
         and can be used as a standalone base of any type or within a partially known
         sequence. As example, a query of `ANNT` the Ns can take take any form of [ACGT]
         and will match `ANNT`, `ACNT`, `ACCT`, `ACGT` ... and so forth.
+      Origin: VRS v1.n
+      TODO: Review use of base characters.
     type: string
 
 ################################################################################
