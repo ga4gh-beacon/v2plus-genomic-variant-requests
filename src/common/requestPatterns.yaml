@@ -1,0 +1,222 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+
+$defs:
+
+################################################################################
+# Beacon v2 status quo
+################################################################################
+
+  g_variant:
+    description: >-
+      This represents the generic collection of variant parameters allowed in
+      Beacon v2 requests.
+    type: object
+    properties:
+      assemblyId:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/Assembly"
+      referenceName:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/RefSeqId"
+      referenceBases:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/ReferenceBases"
+      alternateBases:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/AlternateBases"
+      variantType:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantType"
+      start:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/Start"
+      end:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/End"
+      geneId:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/GeneId"
+      aminoacidChange:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/AminoacidChange"
+      genomicAlleleShortForm:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/GenomicAlleleShortForm"
+      variantMinLength:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMinLength"
+      variantMaxLength:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMaxLength"
+
+################################################################################
+# Typed Beacon v2+ queries utilizing VRS v2 concepts
+################################################################################
+
+  V2NsequenceRequest:
+    type: object
+    properties:
+      referenceAccession:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
+      start:
+        oneOf:
+          - integer
+          - $ref: "./common/requestParameterComponents.yaml#/$defs/Range"
+      end:
+        oneOf:
+          - integer
+          - $ref: "./common/requestParameterComponents.yaml#/$defs/Range"
+      sequence:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/Sequence"
+    required:
+      - referenceAccession
+      - start
+      - sequence
+
+  V2NcopyChangeRequest:
+    description: >-
+      A typical Beacon v2.n request for copy number variations (CNVs) queries
+      approximate positions for CNV start and end regions through use of the
+      `Range` type. The `copyChange` parameter indicates the relative change in
+      genomic copy number (pls. refer to the class definition.)
+    type: object
+    properties:
+      referenceAccession:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
+      start:
+        oneOf:
+          - integer
+          - $ref: "./common/requestParameterComponents.yaml#/$defs/Range"
+      end:
+        oneOf:
+          - integer
+          - $ref: "./common/requestParameterComponents.yaml#/$defs/Range"
+      copyChange:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/CopyChange"
+      variantMinLength:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMinLength"
+      variantMaxLength:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMaxLength"
+    required:
+      - referenceAccession
+      - start
+      - end
+      - copyChange
+
+  V2NadjacencyRequest:
+    description: >-
+      A typical Beacon v2.n request for sequence adjacency queries, e.g. for the
+      retrieval of chromosomal translocation events or sequence fusions.
+      TODO: In VRS v2 there is an implicit sequence directionality from the use
+      of either start or end parameters for either side of the adjacency. This might
+      be problematic on the query side where in many instances just the approximate
+      position of the (fused) breakpoints maight be of interest. This needs additional
+      clarification (e.g. use of integer `start` and `end`, `adjacencyStart` and 
+      `adjecencyEnd` parameters to indicate direction independent matching).
+    type: object
+    properties:
+      referenceAccession:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
+      start:
+        oneOf:
+          - integer
+          - $ref: "./common/requestParameterComponents.yaml#/$defs/Range"
+      end:
+        oneOf:
+          - integer
+          - $ref: "./common/requestParameterComponents.yaml#/$defs/Range"
+      adjacencyAccession:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
+      adjacencyStart:
+        description: >-
+          Start position or range (_i.e._ in case of a fuzzy breakpoint) on an
+          adjacent sequence in case of a sequence adjecency
+          Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification
+        oneOf:
+          - integer
+          - $ref: "./common/requestParameterComponents.yaml#/$defs/Range"
+      adjacencyEnd:
+        description: >-
+          End position or range (_i.e._ in case of a fuzzy breakpoint) on an
+          adjacent sequence in case of a sequence adjecency
+          Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification
+        oneOf:
+          - integer
+          - $ref: "./common/requestParameterComponents.yaml#/$defs/Range"
+
+    GeneIdRequest:
+      type: object
+      properties:
+        geneId:
+          $ref: "./common/requestParameterComponents.yaml#/$defs/GeneId"
+        copyChange:
+          $ref: "./common/requestParameterComponents.yaml#/$defs/CopyChange"
+        variantMinLength:
+          $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMinLength"
+        variantMaxLength:
+          $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMaxLength"
+        molecularEffect:
+          $ref: "./common/requestParameterComponents.yaml#/$defs/molecularEffect"
+        clinicalRelevance:
+          $ref: "./common/requestParameterComponents.yaml#/$defs/clinicalRelevance"
+      required:
+        - geneId
+
+    VariantIdRequest:
+      type: object
+      properties:
+        variantId:
+          $ref: "./common/requestParameterComponents.yaml#/$defs/VariantId"
+
+    AminoacidChangeRequest:
+      type: object
+      properties:
+        aminoacidChange:
+          $ref: "./common/requestParameterComponents.yaml#/$defs/AminoacidChange"
+        geneId:
+          $ref: "./common/requestParameterComponents.yaml#/$defs/GeneId"
+      required:
+        - aminoacidChange
+
+    GenomicAlleleShortFormRequest:
+      type: object
+      properties:
+        genomicAlleleShortForm:
+          $ref: "./common/requestParameterComponents.yaml#/$defs/GenomicAlleleShortForm"
+
+################################################################################
+# Typed Beacon v2+ queries utilizing VRS v2 concepts
+################################################################################
+
+  g_multivars:
+    type: object
+    properties:
+      variantLogic:
+        description: >-
+          The logic to apply to the set of variants in the query. The default is
+          to apply the AND logic, meaning that all **samples** (i.e. biosamples,
+          individuals or analyses) must fulfil the query criteria:
+          * with a (default) AND logic and "biosamples" as requested entity 
+            `biosample_id` values from the individual variant query responses
+            will be intersected
+          * with an OR logic and "analyses" as requested entity `analysis_id`
+            values from the individual variant query responses will be concatenated
+        type: string
+        enum:
+          - AND
+          - OR
+        default: AND
+      queries:
+        type: array
+        items:
+          $ref: "#/$defs/g_variant"
+
+  V2NmultivarRequest:
+    type: object
+    properties:
+      variantLogic:
+        type: string
+        enum:
+          - AND
+          - OR
+        default: AND
+      queries:
+        type: array
+        items:
+          anyOf:
+            - $ref: "#/$defs/V2NsequenceRequest"
+            - $ref: "#/$defs/V2NcopyChangeRequest"
+            - $ref: "#/$defs/V2NadjacencyRequest"
+            - $ref: "#/$defs/GeneIdRequest"
+            - $ref: "#/$defs/VariantIdRequest"
+            - $ref: "#/$defs/AminoacidChangeRequest"
+            - $ref: "#/$defs/GenomicAlleleShortFormRequest"
+
