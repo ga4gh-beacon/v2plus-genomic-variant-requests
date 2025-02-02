@@ -1,6 +1,31 @@
 {
     "$defs": {
-        "V2NadjacencyRequest": {
+        "BV2alleleRequest": {
+            "properties": {
+                "alternateBases": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/AlternateBases"
+                },
+                "assemblyId": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/Assembly"
+                },
+                "referenceBases": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/ReferenceBases"
+                },
+                "referenceName": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/RefSeqId"
+                },
+                "start": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/Start"
+                }
+            },
+            "required": [
+                "referenceName",
+                "start",
+                "alternateBases"
+            ],
+            "type": "object"
+        },
+        "BV2bracketRequest": {
             "AminoacidChangeRequest": {
                 "properties": {
                     "aminoacidChange": {
@@ -15,7 +40,77 @@
                 ],
                 "type": "object"
             },
-            "GeneIdRequest": {
+            "GenomicAlleleShortFormRequest": {
+                "properties": {
+                    "genomicAlleleShortForm": {
+                        "$ref": "./common/requestParameterComponents.json#/$defs/GenomicAlleleShortForm"
+                    }
+                },
+                "type": "object"
+            },
+            "VariantIdRequest": {
+                "properties": {
+                    "variantId": {
+                        "$ref": "./common/requestParameterComponents.json#/$defs/VariantId"
+                    }
+                },
+                "type": "object"
+            },
+            "description": "A typical Beacon v2 request for matching variations where start and end fall in a genomic range. Here, the approximate or varying positions for variation start and end are queried through brackets, _i.e._ by using 2 values for `start` and `end` each. This is a typical scenario in querying for CNVs where the `variantType` parameter indicates the relative change in genomic copy number through either VCF derived string parameters or, preferably, EFO terms (pls. refer to the class definition.)",
+            "properties": {
+                "assemblyId": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/Assembly"
+                },
+                "end": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/End"
+                },
+                "referenceName": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/RefSeqId"
+                },
+                "start": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/Start"
+                },
+                "variantMaxLength": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/VariantMaxLength"
+                },
+                "variantMinLength": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/VariantMinLength"
+                },
+                "variantType": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/VariantType"
+                }
+            },
+            "required": [
+                "referenceName",
+                "start",
+                "end",
+                "variantType"
+            ],
+            "type": "object"
+        },
+        "BV2multivarsRequest": {
+            "description": "This multi variant query is a collection of individual variant queries based on the Beacon v2 parameters (`g_variant`).",
+            "properties": {
+                "queries": {
+                    "items": {
+                        "$ref": "#/$defs/g_variant"
+                    },
+                    "type": "array"
+                },
+                "variantLogic": {
+                    "default": "AND",
+                    "description": "The logic to apply to the set of variants in the query. The default is to apply the AND logic, meaning that all **samples** (i.e. biosamples, individuals or analyses) must fulfil the query criteria: * with a (default) AND logic and \"biosamples\" as requested entity \n  `biosample_id` values from the individual variant query responses\n  will be intersected\n* with an OR logic and \"analyses\" as requested entity `analysis_id`\n  values from the individual variant query responses will be concatenated",
+                    "enum": [
+                        "AND",
+                        "OR"
+                    ],
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "VQSadjacencyRequest": {
+            "VQSgeneIdRequest": {
                 "properties": {
                     "clinicalRelevance": {
                         "$ref": "./common/requestParameterComponents.json#/$defs/clinicalRelevance"
@@ -39,22 +134,6 @@
                 "required": [
                     "geneId"
                 ],
-                "type": "object"
-            },
-            "GenomicAlleleShortFormRequest": {
-                "properties": {
-                    "genomicAlleleShortForm": {
-                        "$ref": "./common/requestParameterComponents.json#/$defs/GenomicAlleleShortForm"
-                    }
-                },
-                "type": "object"
-            },
-            "VariantIdRequest": {
-                "properties": {
-                    "variantId": {
-                        "$ref": "./common/requestParameterComponents.json#/$defs/VariantId"
-                    }
-                },
                 "type": "object"
             },
             "description": "A typical Beacon v2.n request for sequence adjacency queries, e.g. for the retrieval of chromosomal translocation events or sequence fusions. TODO: In VRS v2 there is an implicit sequence directionality from the use of either start or end parameters for either side of the adjacency. This might be problematic on the query side where in many instances just the approximate position of the (fused) breakpoints maight be of interest. This needs additional clarification (e.g. use of integer `start` and `end`, `adjacencyStart` and  `adjecencyEnd` parameters to indicate direction independent matching).",
@@ -102,7 +181,7 @@
             },
             "type": "object"
         },
-        "V2NcopyChangeRequest": {
+        "VQScopyChangeRequest": {
             "description": "A typical Beacon v2.n request for copy number variations (CNVs) queries approximate positions for CNV start and end regions through use of the `Range` type. The `copyChange` parameter indicates the relative change in genomic copy number (pls. refer to the class definition.)",
             "properties": {
                 "copyChange": {
@@ -142,19 +221,20 @@
             ],
             "type": "object"
         },
-        "V2NmultivarRequest": {
+        "VQSmultivarRequest": {
+            "description": "This multi variant query is a collection of individual variant queries based on the Beacon v2+ \"VQS\" query patterns.",
             "properties": {
                 "queries": {
                     "items": {
                         "anyOf": [
                             {
-                                "$ref": "#/$defs/V2NsequenceRequest"
+                                "$ref": "#/$defs/VQSsequenceRequest"
                             },
                             {
-                                "$ref": "#/$defs/V2NcopyChangeRequest"
+                                "$ref": "#/$defs/VQScopyChangeRequest"
                             },
                             {
-                                "$ref": "#/$defs/V2NadjacencyRequest"
+                                "$ref": "#/$defs/VQSadjacencyRequest"
                             },
                             {
                                 "$ref": "#/$defs/GeneIdRequest"
@@ -183,7 +263,7 @@
             },
             "type": "object"
         },
-        "V2NsequenceRequest": {
+        "VQSsequenceRequest": {
             "properties": {
                 "end": {
                     "oneOf": [
@@ -213,26 +293,6 @@
                 "start",
                 "sequence"
             ],
-            "type": "object"
-        },
-        "g_multivars": {
-            "properties": {
-                "queries": {
-                    "items": {
-                        "$ref": "#/$defs/g_variant"
-                    },
-                    "type": "array"
-                },
-                "variantLogic": {
-                    "default": "AND",
-                    "description": "The logic to apply to the set of variants in the query. The default is to apply the AND logic, meaning that all **samples** (i.e. biosamples, individuals or analyses) must fulfil the query criteria: * with a (default) AND logic and \"biosamples\" as requested entity \n  `biosample_id` values from the individual variant query responses\n  will be intersected\n* with an OR logic and \"analyses\" as requested entity `analysis_id`\n  values from the individual variant query responses will be concatenated",
-                    "enum": [
-                        "AND",
-                        "OR"
-                    ],
-                    "type": "string"
-                }
-            },
             "type": "object"
         },
         "g_variant": {

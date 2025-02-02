@@ -38,10 +38,89 @@ $defs:
         $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMaxLength"
 
 ################################################################################
-# Typed Beacon v2+ queries utilizing VRS v2 concepts
+# BV2: Typed Beacon v2 queries utilizing v2.0 parameters
 ################################################################################
 
-  V2NsequenceRequest:
+  BV2alleleRequest:
+    type: object
+    properties:
+      assemblyId:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/Assembly"
+      referenceName:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/RefSeqId"
+      start:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/Start"
+      referenceBases:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/ReferenceBases"
+      alternateBases:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/AlternateBases"
+    required:
+      - referenceName
+      - start
+      - alternateBases
+
+  BV2bracketRequest:
+    description: >-
+      A typical Beacon v2 request for matching variations where start and end
+      fall in a genomic range. Here, the approximate or varying positions for
+      variation start and end are queried through brackets, _i.e._ by using 2
+      values for `start` and `end` each. This is a typical scenario in querying
+      for CNVs where the `variantType` parameter indicates the relative change in
+      genomic copy number through either VCF derived string parameters
+      or, preferably, EFO terms (pls. refer to the class definition.)
+    type: object
+    properties:
+      assemblyId:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/Assembly"
+      referenceName:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/RefSeqId"
+      start:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/Start"
+      end:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/End"
+      variantType:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantType"
+      variantMinLength:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMinLength"
+      variantMaxLength:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMaxLength"
+    required:
+      - referenceName
+      - start
+      - end
+      - variantType
+
+################################################################################
+# Generic query types working both in v2 and v2+
+################################################################################
+
+    VariantIdRequest:
+      type: object
+      properties:
+        variantId:
+          $ref: "./common/requestParameterComponents.yaml#/$defs/VariantId"
+
+    AminoacidChangeRequest:
+      type: object
+      properties:
+        aminoacidChange:
+          $ref: "./common/requestParameterComponents.yaml#/$defs/AminoacidChange"
+        geneId:
+          $ref: "./common/requestParameterComponents.yaml#/$defs/GeneId"
+      required:
+        - aminoacidChange
+
+    GenomicAlleleShortFormRequest:
+      type: object
+      properties:
+        genomicAlleleShortForm:
+          $ref: "./common/requestParameterComponents.yaml#/$defs/GenomicAlleleShortForm"
+
+################################################################################
+# VQS: Typed Beacon v2+ queries utilizing VRS v2 concepts
+################################################################################
+
+  VQSsequenceRequest:
     type: object
     properties:
       referenceAccession:
@@ -61,7 +140,7 @@ $defs:
       - start
       - sequence
 
-  V2NcopyChangeRequest:
+  VQScopyChangeRequest:
     description: >-
       A typical Beacon v2.n request for copy number variations (CNVs) queries
       approximate positions for CNV start and end regions through use of the
@@ -91,7 +170,7 @@ $defs:
       - end
       - copyChange
 
-  V2NadjacencyRequest:
+  VQSadjacencyRequest:
     description: >-
       A typical Beacon v2.n request for sequence adjacency queries, e.g. for the
       retrieval of chromosomal translocation events or sequence fusions.
@@ -132,7 +211,7 @@ $defs:
           - integer
           - $ref: "./common/requestParameterComponents.yaml#/$defs/Range"
 
-    GeneIdRequest:
+    VQSgeneIdRequest:
       type: object
       properties:
         geneId:
@@ -150,33 +229,14 @@ $defs:
       required:
         - geneId
 
-    VariantIdRequest:
-      type: object
-      properties:
-        variantId:
-          $ref: "./common/requestParameterComponents.yaml#/$defs/VariantId"
-
-    AminoacidChangeRequest:
-      type: object
-      properties:
-        aminoacidChange:
-          $ref: "./common/requestParameterComponents.yaml#/$defs/AminoacidChange"
-        geneId:
-          $ref: "./common/requestParameterComponents.yaml#/$defs/GeneId"
-      required:
-        - aminoacidChange
-
-    GenomicAlleleShortFormRequest:
-      type: object
-      properties:
-        genomicAlleleShortForm:
-          $ref: "./common/requestParameterComponents.yaml#/$defs/GenomicAlleleShortForm"
-
 ################################################################################
-# Typed Beacon v2+ queries utilizing VRS v2 concepts
+# Multi  variant requests
 ################################################################################
 
-  g_multivars:
+  BV2multivarsRequest:
+    description: >-
+      This multi variant query is a collection of individual variant queries
+      based on the Beacon v2 parameters (`g_variant`).
     type: object
     properties:
       variantLogic:
@@ -199,7 +259,10 @@ $defs:
         items:
           $ref: "#/$defs/g_variant"
 
-  V2NmultivarRequest:
+  VQSmultivarRequest:
+    description: >-
+      This multi variant query is a collection of individual variant queries
+      based on the Beacon v2+ "VQS" query patterns.
     type: object
     properties:
       variantLogic:
@@ -212,9 +275,9 @@ $defs:
         type: array
         items:
           anyOf:
-            - $ref: "#/$defs/V2NsequenceRequest"
-            - $ref: "#/$defs/V2NcopyChangeRequest"
-            - $ref: "#/$defs/V2NadjacencyRequest"
+            - $ref: "#/$defs/VQSsequenceRequest"
+            - $ref: "#/$defs/VQScopyChangeRequest"
+            - $ref: "#/$defs/VQSadjacencyRequest"
             - $ref: "#/$defs/GeneIdRequest"
             - $ref: "#/$defs/VariantIdRequest"
             - $ref: "#/$defs/AminoacidChangeRequest"
