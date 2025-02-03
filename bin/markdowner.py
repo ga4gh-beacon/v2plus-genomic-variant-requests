@@ -54,7 +54,7 @@ def main():
 
         for chapter, title in d_v.get("chapters").items():
             pp = o.get(chapter, {})
-            ls.append(f'## {title}')
+            ls.append(f'## {title}\n')
             for pk, pi in pp.items():
                 ls.append(f'### `{pk}` \n')
 
@@ -70,7 +70,7 @@ def main():
                     elif "default" in pik or "pattern" in pik and len(str(piv)) > 0:
                         ls.append(f'**{pik}:** `{piv}`    ')
                     elif "description" in pik:
-                        ls.append(f'**{pik}:**\n')
+                        ls.append(f'#### {pik}\n')
                         piv = piv.replace("*", "    \n*")
                         ls.append(f'{piv}    ')
                     else:
@@ -79,7 +79,7 @@ def main():
                 ls.append(f'\n')
 
         pp_fh = open(pp_f, "w")
-        pp_fh.write("\n".join(ls).replace("\n\n", "\n").replace("\n\n", "\n"))
+        pp_fh.write("\n".join(ls).replace("\n\n", "\n").replace("\n\n", "\n").replace("\n#", "\n\n#"))
         pp_fh.close()
 
 ################################################################################

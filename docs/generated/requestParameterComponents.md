@@ -1,34 +1,45 @@
 # Request Parameter Definitions
+
 ## Argument Definitions
+
 ### `AdjacencyAccession` 
-**description:**
+
+#### description
 A GA4GH RefGet identifier for the __adjacent__ sequence in adjacency/fusion scenarios.    
 **$ref:** #/$defs/RefgetAccession    
 
+
 ### `AdjacencyStart` 
-**description:**
+
+#### description
 Start position or range (_i.e._ in case of a fuzzy breakpoint) on an adjacent sequence in case of a sequence adjecency Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification    
 **oneOf:** 
 * `integer`
 * `{'$ref': '#/$defs/Range'}`        
 
+
 ### `AdjacencyEnd` 
-**description:**
+
+#### description
 End position or range (_i.e._ in case of a fuzzy breakpoint) on an adjacent sequence in case of a sequence adjecency Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification    
 **oneOf:** 
 * `integer`
 * `{'$ref': '#/$defs/Range'}`        
 
+
 ### `AminoacidChange` 
-**description:**
+
+#### description
 Aminoacid alteration of interest. Format 1 letter Origin: Beacon v2.0    
 **type:** string    
 **examples:** 
 * `V600E`
 * `M734V`        
 
+
 ### `CopyChange` 
-**description:**
+
+#### description
 MUST use a primaryCode representing one of:     
 * EFO:0030069: complete genomic loss     
 * EFO:0020073: high-level loss     
@@ -59,8 +70,10 @@ Origin: Beacon v2.n, based on VRS v1.3+
 * `EFO:0030071`
 * `EFO:0030072`        
 
+
 ### `GeneId` 
-**description:**
+
+#### description
     
 * A gene identifier     
 * It is strongly suggested to use a symbol following
@@ -71,15 +84,19 @@ Origin: Beacon v2.0
 * `BRAF`
 * `SCN5A`        
 
+
 ### `GenomicAlleleShortForm` 
-**description:**
+
+#### description
 HGVSId descriptor Origin: Beacon v2.0    
 **type:** string    
 **examples:** 
 * `NM_004006.2:c.4375C>T`        
 
+
 ### `Range` 
-**description:**
+
+#### description
 An array of 2 integer sequence positions (0-based, inclusive).    
 **type:** array    
 **items:**  
@@ -88,16 +105,20 @@ An array of 2 integer sequence positions (0-based, inclusive).
     - `minItems`: `2`      
     - `maxItems`: `2`    
 
+
 ### `RefgetAccession` 
-**description:**
+
+#### description
 A GA4GH RefGet identifier for the reference sequence, _i.e._ either a computed GA4GH checksum or other unique namespaced identifier supported by the server. It replaces the `referenceName` and `assemblyId` parameters according to the VRS v2 definition. Origin: VRS v2 Reference: [GA4GH RefGet](http://samtools.github.io/hts-specs/refget.html)    
 **type:** string    
 **examples:** 
 * `refseq:NC_000009.12`
 * `ga4gh:SQ.S_KjnFVz-FE7M0W6yoaUDgYxLPc1jyWU`        
 
+
 ### `Sequence` 
-**description:**
+
+#### description
 DNA bases.     
 * Accepted values: `[ACGTN]    
 *`     
@@ -108,22 +129,28 @@ DNA bases.
 Origin: VRS v1.n TODO: Review use of base characters.    
 **type:** string    
 
+
 ### `SequenceStart` 
-**description:**
+
+#### description
 Start position or range (_i.e._ in case of a fuzzy breakpoint) on a sequence. Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification    
 **oneOf:** 
 * `integer`
 * `{'$ref': '#/$defs/Range'}`        
 
+
 ### `SequenceEnd` 
-**description:**
+
+#### description
 End position or range (_i.e._ in case of a fuzzy breakpoint) on a sequence. Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification    
 **oneOf:** 
 * `integer`
 * `{'$ref': '#/$defs/Range'}`        
 
+
 ### `VariantId` 
-**description:**
+
+#### description
     
 * A variant identifier such as a VRSid, ClinVar id, dbSNP rsID or a
   COSMIC identifier
@@ -137,8 +164,10 @@ Status: PROPOSED FOR BEACON v2.n
 * `ClinGen:CA152954`
 * `dbSNP:rs587780345`        
 
+
 ### `VariantMinLength` 
-**description:**
+
+#### description
     
 * Minimum length in bases of a genomic variant     
 * This is an optional parameter without prescribed use. While a length is
@@ -151,8 +180,10 @@ Origin: Beacon v2.0
 **format:** int64    
 **minimum:** 0    
 
+
 ### `VariantMaxLength` 
-**description:**
+
+#### description
     
 * Maximum length in bases of a genomic variant.     
 * This is an optional parameter without prescribed use. While a length is
@@ -165,8 +196,10 @@ Origin: Beacon v2.0
 **format:** int64    
 **minimum:** 1    
 
+
 ### `Assembly` 
-**description:**
+
+#### description
 Genomic assembly accession and version as RefSqeq assembly accession (e.g. "GCF_000001405.39") or a versioned assembly name or synonym such as UCSC Genome Browser assembly (e.g. "hg38") or Genome Reference Consortium Human (e.g. "GRCh38.p13") names. DEPRECATION NOTE: The use of a assembly specific sequence identifier obviates this parameter. Not part of VRS v2 aligned model versions.    
 **type:** string    
 **example:** 
@@ -174,8 +207,10 @@ Genomic assembly accession and version as RefSqeq assembly accession (e.g. "GCF_
 * `hg38`
 * `GRCh38.p13`        
 
+
 ### `RefSeqId` 
-**description:**
+
+#### description
 Reference sequence id for genomic reference sequence in which variant coordinates are given, e.g. "refseq:NC_000009.12" for human chromosome 9 in the GRCh38 assembly. The use of the assembly specific RefSeqId is recommended although alternatively names, synonymous or aliases e.g. "chr9" could be used in conjunction with an `Assembly` parameter. DEPRECATION NOTE: To be replaced with the `RefgetAccession` from VRS v2.    
 **type:** string    
 **example:** 
@@ -183,18 +218,24 @@ Reference sequence id for genomic reference sequence in which variant coordinate
 * `chr9`
 * `NC_012920.1`        
 
+
 ### `ReferenceBases` 
-**description:**
+
+#### description
 The reference bases for the variant at the indicated position. It is based on the VCF cocept of having (anchored) reference bases at an indicated genomic location in combination with `alternateBases` to define their replacement. In contrast, standards such as GA4GH VRS only indicate the `sequence` observed at a given base position, including the use of an empty sequence together with `start` + `end` positions with `end - start > 0` to indicate deletions. Origin: VCF derived (optional) use in Beacon v0.3 -> v2.1 Status: LEGACY    
 **$ref:** #/$defs/Sequence    
 
+
 ### `AlternateBases` 
-**description:**
+
+#### description
 The bases of a sequence variant at a given position differing from the reference sequence, as defined by the `referenceBases` parameter. Please see `refereenceBases` for further information. Origin: VCF derived use in Beacon v0.3 -> v2.1 Status: LEGACY    
 **$ref:** ./common/requestParameterComponents.yaml#/$defs/Sequence    
 
+
 ### `VariantType` 
-**description:**
+
+#### description
 The `variantType` is used to query variants which are not defined through a sequence of one or more bases using the `alternateBases` parameter. This VCF derived parameter is being replaced by the more specific VRS derived parameters such as `copyChange`. (Legacy) Examples here are e.g. structural variants:     
 * DUP
   - increased allelic count of material from the genomic region between
@@ -213,8 +254,10 @@ The `variantType` is used to query variants which are not defined through a sequ
 * `DEL`
 * `EFO:0030069`        
 
+
 ### `Start` 
-**description:**
+
+#### description
 NOTE: This parameter will be _potentially_ replaced by the VRS based definition
       which uses either an integer or a Range (2 integers) in contrast to
       the use of an array with 1 or 2 integers here. The difference lies in 
@@ -251,8 +294,10 @@ Precise or fuzzy start coordinate position(s), allele locus (0-based, inclusive)
 **minItems:** 1    
 **maxItems:** 2    
 
+
 ### `End` 
-**description:**
+
+#### description
 NOTE: See the `start` parameter for information on the potential replacement
       of this parameter with the VRS based definition.
 Precise or bracketing the end of the variants of interest:     
@@ -266,8 +311,10 @@ Precise or bracketing the end of the variants of interest:
 **minItems:** 1    
 **maxItems:** 2    
 
+
 ### `MateName` 
-**description:**
+
+#### description
 Status: DEPRECATED in v2.n Notes:     
 * while the `mateName` parameter was originally defined for Beacon v1.1
   it was never properly documented and is not considered a part of the
@@ -275,12 +322,16 @@ Status: DEPRECATED in v2.n Notes:
   VRS v2 based `adjacencyAccession` parameter.    
 **$ref:** #/$defs/RefSeqId    
 
+
 ### `MateStart` 
 **type:** integer    
-**description:**
+
+#### description
 genomic start position of fusion partner breakpoint region Status: DEPRECATED in v2.n (see `mateName`)    
+
 
 ### `MateEnd` 
 **type:** integer    
-**description:**
+
+#### description
 genomic end position of fusion partner breakpoint region Status: DEPRECATED in v2.n (see `mateName`)    
