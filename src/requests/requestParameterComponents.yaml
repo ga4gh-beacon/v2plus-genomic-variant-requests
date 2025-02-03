@@ -8,7 +8,7 @@ $defs:
 
   AdjacencyAccession:
     description: >-
-      A GA4GH RefGet identifier for the *adjacent* sequence in adjacency/fusion
+      A GA4GH RefGet identifier for the __adjacent__ sequence in adjacency/fusion
       scenarios.
     $ref: "#/$defs/RefgetAccession"
 
@@ -52,7 +52,9 @@ $defs:
       * EFO:0030072: high-level gain
       Endpoints are expected to provide query expansion according to the hierarchy
       of the terms:
+
       ```
+
       - EFO:0030064
       - EFO:0030067
           |- EFO:0030068
@@ -61,7 +63,10 @@ $defs:
       - EFO:0030070
           |- EFO:0030071
           \- EFO:0030072
+
       ```
+
+
       Origin: Beacon v2.n, based on VRS v1.3+
     type: string
     enum:
