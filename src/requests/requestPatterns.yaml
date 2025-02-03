@@ -36,6 +36,8 @@ $defs:
         $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMinLength"
       variantMaxLength:
         $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMaxLength"
+    examples:
+      $ref: "../examples/g_variant.yaml#/examples"
 
 ################################################################################
 # Beacon v2+ general parameters

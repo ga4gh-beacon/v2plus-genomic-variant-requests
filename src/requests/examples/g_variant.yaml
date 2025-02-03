@@ -1,0 +1,31 @@
+examples:
+- g_variant_rangeRequest_01:
+    description: >-
+      Query for a deletion involving TP53 using the maximum extent of the gene's
+      coding region (known from somewhere...). The deletion to be found are expected
+      to have an overlap with the queried range; however, the extent of the overlap
+      is not pre-defined (most endpoints woul respond to a **recommended** "any"
+      overlap but this is not a strict requirement imposed by the schema).
+      Here positions refer to chromosome 17 on GRCh38 as indicated by the referenceName
+      RefSeq ID.
+    requestType: g_variant
+    request:
+      referenceName: NC_0000017.11
+      start:
+        - 7669608
+      end:
+        - 7676593
+      variantType: DEL
+
+- g_variant_GeneIdRequest_01:
+    description: >-
+      Query for a deletion involving TP53 similar to example `g_variant_rangeRequest_01`
+      but here just using the HUGO name to specify the gene. This request does not
+      provide coordinates so on the server side matching has to be performed from
+      annotated variants or by retrieving the gene's coordinates and creating
+      internally a type of range request.
+    requestType: g_variant
+    request:
+      geneId: TP53
+      variantType: DEL
+

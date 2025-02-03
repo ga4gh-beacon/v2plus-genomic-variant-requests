@@ -335,6 +335,9 @@
         },
         "g_variant": {
             "description": "This represents the generic collection of variant parameters allowed in Beacon v2 requests.",
+            "examples": {
+                "$ref": "../examples/g_variant.json#/examples"
+            },
             "properties": {
                 "alternateBases": {
                     "$ref": "./common/requestParameterComponents.json#/$defs/AlternateBases"

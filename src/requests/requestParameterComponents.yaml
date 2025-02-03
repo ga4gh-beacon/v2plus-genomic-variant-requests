@@ -1,6 +1,8 @@
 $schema: https://json-schema.org/draft/2020-12/schema
 description: >-
-  Component definitions for `requestParameters`.
+  Component definitions for `requestPatterns`. The definition of each parameter
+  as a component allows for reuse across multiple request patterns but also for
+  e.g. easy referencing in OpenAPI endpoints.
 
 $defs:
 
