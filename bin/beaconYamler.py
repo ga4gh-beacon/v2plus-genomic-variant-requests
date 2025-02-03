@@ -101,7 +101,7 @@ def _yaml2json(f_n, in_path, out_path, config):
     i_d = c.sub('\\1.json', i_d)
 
     try:
-        s = yaml.load( i_d )
+        s = yaml.load(i_d)
     except Exception as e:
         print("\n¡¡¡¡¡ ###########################\n{}".format(in_file))
         print(e)
