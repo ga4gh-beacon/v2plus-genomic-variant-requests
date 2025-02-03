@@ -1,5 +1,22 @@
 {
     "$defs": {
+        "AminoacidChangeRequest": {
+            "properties": {
+                "aminoacidChange": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/AminoacidChange"
+                },
+                "geneId": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/GeneId"
+                },
+                "requestType": {
+                    "const": "AminoacidChangeRequest"
+                }
+            },
+            "required": [
+                "aminoacidChange"
+            ],
+            "type": "object"
+        },
         "BV2alleleRequest": {
             "properties": {
                 "alternateBases": {
@@ -14,6 +31,10 @@
                 "referenceName": {
                     "$ref": "./common/requestParameterComponents.json#/$defs/RefSeqId"
                 },
+                "requestType": {
+                    "const": "BV2alleleRequest",
+                    "description": "Note: The `requestType` parameter had not been defined for Beacon v2.0 and therefore in _senso stricto_ is not part of requests only relying on v2 parameters."
+                },
                 "start": {
                     "$ref": "./common/requestParameterComponents.json#/$defs/Start"
                 }
@@ -26,36 +47,6 @@
             "type": "object"
         },
         "BV2bracketRequest": {
-            "AminoacidChangeRequest": {
-                "properties": {
-                    "aminoacidChange": {
-                        "$ref": "./common/requestParameterComponents.json#/$defs/AminoacidChange"
-                    },
-                    "geneId": {
-                        "$ref": "./common/requestParameterComponents.json#/$defs/GeneId"
-                    }
-                },
-                "required": [
-                    "aminoacidChange"
-                ],
-                "type": "object"
-            },
-            "GenomicAlleleShortFormRequest": {
-                "properties": {
-                    "genomicAlleleShortForm": {
-                        "$ref": "./common/requestParameterComponents.json#/$defs/GenomicAlleleShortForm"
-                    }
-                },
-                "type": "object"
-            },
-            "VariantIdRequest": {
-                "properties": {
-                    "variantId": {
-                        "$ref": "./common/requestParameterComponents.json#/$defs/VariantId"
-                    }
-                },
-                "type": "object"
-            },
             "description": "A typical Beacon v2 request for matching variations where start and end fall in a genomic range. Here, the approximate or varying positions for variation start and end are queried through brackets, _i.e._ by using 2 values for `start` and `end` each. This is a typical scenario in querying for CNVs where the `variantType` parameter indicates the relative change in genomic copy number through either VCF derived string parameters or, preferably, EFO terms (pls. refer to the class definition.)",
             "properties": {
                 "assemblyId": {
@@ -66,6 +57,9 @@
                 },
                 "referenceName": {
                     "$ref": "./common/requestParameterComponents.json#/$defs/RefSeqId"
+                },
+                "requestType": {
+                    "const": "BV2bracketRequest"
                 },
                 "start": {
                     "$ref": "./common/requestParameterComponents.json#/$defs/Start"
@@ -89,7 +83,7 @@
             "type": "object"
         },
         "BV2multivarsRequest": {
-            "description": "This multi variant query is a collection of individual variant queries based on the Beacon v2 parameters (`g_variant`).",
+            "description": "This multi variant query is a collection of individual variant queries based on the Beacon v2 parameters (`g_variant`). Status: Proposed for evaluation for Beacon v2.n or v3.0 (but potentially\n        skipped in favor of the `VQSmultivarRequest` queries).",
             "properties": {
                 "queries": {
                     "items": {
@@ -97,14 +91,25 @@
                     },
                     "type": "array"
                 },
+                "requestType": {
+                    "const": "BV2multivarsRequest"
+                },
                 "variantLogic": {
                     "default": "AND",
-                    "description": "The logic to apply to the set of variants in the query. The default is to apply the AND logic, meaning that all **samples** (i.e. biosamples, individuals or analyses) must fulfil the query criteria: * with a (default) AND logic and \"biosamples\" as requested entity \n  `biosample_id` values from the individual variant query responses\n  will be intersected\n* with an OR logic and \"analyses\" as requested entity `analysis_id`\n  values from the individual variant query responses will be concatenated",
+                    "description": "The logic to apply to the set of variants in the query. The default is to apply the AND logic, meaning that all **samples** (i.e. biosamples, individuals or analyses) must fulfil the query criteria: * with a (default) AND logic and \"biosamples\" as requested entity \n  `biosample_id` values from the individual variant query responses\n  will be intersected\n* with an OR logic and \"analyses\" as requested entity `analysis_id`\n  values from the individual variant query responses will be concatenated\nNote: The `variantLogic` parameter is not defined in the current\n      `requestParameterComponents.yaml` file yet due to the very experimental\n      and tentative nature of this proposal.",
                     "enum": [
                         "AND",
                         "OR"
                     ],
                     "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "GenomicAlleleShortFormRequest": {
+            "properties": {
+                "genomicAlleleShortForm": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/GenomicAlleleShortForm"
                 }
             },
             "type": "object"
@@ -139,6 +144,9 @@
                 "referenceAccession": {
                     "$ref": "./common/requestParameterComponents.json#/$defs/RefgetAccession"
                 },
+                "requestType": {
+                    "const": "GenomicVariationQuery"
+                },
                 "sequence": {
                     "$ref": "./common/requestParameterComponents.json#/$defs/Sequence"
                 },
@@ -155,33 +163,6 @@
             "type": "object"
         },
         "VQSadjacencyRequest": {
-            "VQSgeneIdRequest": {
-                "description": "A typical Beacon v2.n request for gene queries, e.g. for the retrieval of all variants in a gene or variants restricted by additional parameters such as CNV type (`copyChange`) or length of the affected sequence.",
-                "properties": {
-                    "clinicalRelevance": {
-                        "$ref": "./common/requestParameterComponents.json#/$defs/clinicalRelevance"
-                    },
-                    "copyChange": {
-                        "$ref": "./common/requestParameterComponents.json#/$defs/CopyChange"
-                    },
-                    "geneId": {
-                        "$ref": "./common/requestParameterComponents.json#/$defs/GeneId"
-                    },
-                    "molecularEffect": {
-                        "$ref": "./common/requestParameterComponents.json#/$defs/molecularEffect"
-                    },
-                    "variantMaxLength": {
-                        "$ref": "./common/requestParameterComponents.json#/$defs/VariantMaxLength"
-                    },
-                    "variantMinLength": {
-                        "$ref": "./common/requestParameterComponents.json#/$defs/VariantMinLength"
-                    }
-                },
-                "required": [
-                    "geneId"
-                ],
-                "type": "object"
-            },
             "description": "A typical Beacon v2.n request for sequence adjacency queries, e.g. for the retrieval of chromosomal translocation events or sequence fusions. TODO: In VRS v2 there is an implicit sequence directionality from the use of either start or end parameters for either side of the adjacency. This might be problematic on the query side where in many instances just the approximate position of the (fused) breakpoints maight be of interest. This needs additional clarification (e.g. use of integer `start` and `end`, `adjacencyStart` and  `adjecencyEnd` parameters to indicate direction independent matching).",
             "properties": {
                 "adjacencyAccession": {
@@ -198,6 +179,9 @@
                 },
                 "referenceAccession": {
                     "$ref": "./common/requestParameterComponents.json#/$defs/RefgetAccession"
+                },
+                "requestType": {
+                    "const": "VQSadjacencyRequest"
                 },
                 "start": {
                     "$ref": "./common/requestParameterComponents.json#/$defs/SequenceStart"
@@ -217,6 +201,9 @@
                 "referenceAccession": {
                     "$ref": "./common/requestParameterComponents.json#/$defs/RefgetAccession"
                 },
+                "requestType": {
+                    "const": "VQScopyChangeRequest"
+                },
                 "start": {
                     "$ref": "./common/requestParameterComponents.json#/$defs/SequenceStart"
                 },
@@ -235,8 +222,38 @@
             ],
             "type": "object"
         },
+        "VQSgeneIdRequest": {
+            "description": "A typical Beacon v2.n request for gene queries, e.g. for the retrieval of all variants in a gene or variants restricted by additional parameters such as CNV type (`copyChange`) or length of the affected sequence. TODO: Evaluate to split into more basic `GeneIdRequest` and specialized\n      requests requiring an effect component.",
+            "properties": {
+                "clinicalRelevance": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/clinicalRelevance"
+                },
+                "copyChange": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/CopyChange"
+                },
+                "geneId": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/GeneId"
+                },
+                "molecularEffect": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/molecularEffect"
+                },
+                "requestType": {
+                    "const": "VQSgeneIdRequest"
+                },
+                "variantMaxLength": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/VariantMaxLength"
+                },
+                "variantMinLength": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/VariantMinLength"
+                }
+            },
+            "required": [
+                "geneId"
+            ],
+            "type": "object"
+        },
         "VQSmultivarRequest": {
-            "description": "This multi variant query is a collection of individual variant queries based on the Beacon v2+ \"VQS\" query patterns.",
+            "description": "This multi variant query is a collection of individual variant queries based on the Beacon v2+ \"VQS\" query patterns. Status: Proposed for evaluation for Beacon v2.n or v3.0",
             "properties": {
                 "queries": {
                     "items": {
@@ -266,6 +283,9 @@
                     },
                     "type": "array"
                 },
+                "requestType": {
+                    "const": "VQSmultivarRequest"
+                },
                 "variantLogic": {
                     "default": "AND",
                     "enum": [
@@ -285,6 +305,9 @@
                 "referenceAccession": {
                     "$ref": "./common/requestParameterComponents.json#/$defs/RefgetAccession"
                 },
+                "requestType": {
+                    "const": "VQSsequenceRequest"
+                },
                 "sequence": {
                     "$ref": "./common/requestParameterComponents.json#/$defs/Sequence"
                 },
@@ -297,6 +320,17 @@
                 "start",
                 "sequence"
             ],
+            "type": "object"
+        },
+        "VariantIdRequest": {
+            "properties": {
+                "requestType": {
+                    "const": "VariantIdRequest"
+                },
+                "variantId": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/VariantId"
+                }
+            },
             "type": "object"
         },
         "g_variant": {

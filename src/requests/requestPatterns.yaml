@@ -47,6 +47,8 @@ $defs:
       Beacon v2+ requests. 
     type: object
     properties:
+      requestType:
+        const: GenomicVariationQuery
       referenceAccession:
         $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
       start:
@@ -81,6 +83,12 @@ $defs:
   BV2alleleRequest:
     type: object
     properties:
+      requestType:
+        description: >-
+          Note: The `requestType` parameter had not been defined for Beacon v2.0
+          and therefore in _senso stricto_ is not part of requests only relying
+          on v2 parameters.
+        const: BV2alleleRequest
       assemblyId:
         $ref: "./common/requestParameterComponents.yaml#/$defs/Assembly"
       referenceName:
@@ -107,6 +115,8 @@ $defs:
       or, preferably, EFO terms (pls. refer to the class definition.)
     type: object
     properties:
+      requestType:
+        const: BV2bracketRequest
       assemblyId:
         $ref: "./common/requestParameterComponents.yaml#/$defs/Assembly"
       referenceName:
@@ -131,27 +141,31 @@ $defs:
 # Generic query types supported both in v2 and v2+
 ################################################################################
 
-    VariantIdRequest:
-      type: object
-      properties:
-        variantId:
-          $ref: "./common/requestParameterComponents.yaml#/$defs/VariantId"
+  VariantIdRequest:
+    type: object
+    properties:
+      requestType:
+        const: VariantIdRequest
+      variantId:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantId"
 
-    AminoacidChangeRequest:
-      type: object
-      properties:
-        aminoacidChange:
-          $ref: "./common/requestParameterComponents.yaml#/$defs/AminoacidChange"
-        geneId:
-          $ref: "./common/requestParameterComponents.yaml#/$defs/GeneId"
-      required:
-        - aminoacidChange
+  AminoacidChangeRequest:
+    type: object
+    properties:
+      requestType:
+        const: AminoacidChangeRequest
+      aminoacidChange:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/AminoacidChange"
+      geneId:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/GeneId"
+    required:
+      - aminoacidChange
 
-    GenomicAlleleShortFormRequest:
-      type: object
-      properties:
-        genomicAlleleShortForm:
-          $ref: "./common/requestParameterComponents.yaml#/$defs/GenomicAlleleShortForm"
+  GenomicAlleleShortFormRequest:
+    type: object
+    properties:
+      genomicAlleleShortForm:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/GenomicAlleleShortForm"
 
 ################################################################################
 # VQS: Typed Beacon v2+ queries utilizing VRS v2 concepts
@@ -160,6 +174,8 @@ $defs:
   VQSsequenceRequest:
     type: object
     properties:
+      requestType:
+        const: VQSsequenceRequest
       referenceAccession:
         $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
       start:
@@ -181,6 +197,8 @@ $defs:
       genomic copy number (pls. refer to the class definition.)
     type: object
     properties:
+      requestType:
+        const: VQScopyChangeRequest
       referenceAccession:
         $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
       start:
@@ -211,6 +229,8 @@ $defs:
       `adjecencyEnd` parameters to indicate direction independent matching).
     type: object
     properties:
+      requestType:
+        const: VQSadjacencyRequest
       referenceAccession:
         $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
       start:
@@ -224,27 +244,31 @@ $defs:
       adjacencyEnd:
         $ref: "./common/requestParameterComponents.yaml#/$defs/AdjacencyEnd"
 
-    VQSgeneIdRequest:
-      description: >-
-        A typical Beacon v2.n request for gene queries, e.g. for the retrieval of
-        all variants in a gene or variants restricted by additional parameters
-        such as CNV type (`copyChange`) or length of the affected sequence.
-      type: object
-      properties:
-        geneId:
-          $ref: "./common/requestParameterComponents.yaml#/$defs/GeneId"
-        copyChange:
-          $ref: "./common/requestParameterComponents.yaml#/$defs/CopyChange"
-        variantMinLength:
-          $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMinLength"
-        variantMaxLength:
-          $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMaxLength"
-        molecularEffect:
-          $ref: "./common/requestParameterComponents.yaml#/$defs/molecularEffect"
-        clinicalRelevance:
-          $ref: "./common/requestParameterComponents.yaml#/$defs/clinicalRelevance"
-      required:
-        - geneId
+  VQSgeneIdRequest:
+    description: >-
+      A typical Beacon v2.n request for gene queries, e.g. for the retrieval of
+      all variants in a gene or variants restricted by additional parameters
+      such as CNV type (`copyChange`) or length of the affected sequence.
+      TODO: Evaluate to split into more basic `GeneIdRequest` and specialized
+            requests requiring an effect component.
+    type: object
+    properties:
+      requestType:
+        const: VQSgeneIdRequest
+      geneId:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/GeneId"
+      copyChange:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/CopyChange"
+      variantMinLength:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMinLength"
+      variantMaxLength:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMaxLength"
+      molecularEffect:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/molecularEffect"
+      clinicalRelevance:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/clinicalRelevance"
+    required:
+      - geneId
 
 ################################################################################
 # Proposed multi variant requests
@@ -254,8 +278,12 @@ $defs:
     description: >-
       This multi variant query is a collection of individual variant queries
       based on the Beacon v2 parameters (`g_variant`).
+      Status: Proposed for evaluation for Beacon v2.n or v3.0 (but potentially
+              skipped in favor of the `VQSmultivarRequest` queries).
     type: object
     properties:
+      requestType:
+        const: BV2multivarsRequest
       variantLogic:
         description: >-
           The logic to apply to the set of variants in the query. The default is
@@ -266,6 +294,9 @@ $defs:
             will be intersected
           * with an OR logic and "analyses" as requested entity `analysis_id`
             values from the individual variant query responses will be concatenated
+          Note: The `variantLogic` parameter is not defined in the current
+                `requestParameterComponents.yaml` file yet due to the very experimental
+                and tentative nature of this proposal.
         type: string
         enum:
           - AND
@@ -280,8 +311,11 @@ $defs:
     description: >-
       This multi variant query is a collection of individual variant queries
       based on the Beacon v2+ "VQS" query patterns.
+      Status: Proposed for evaluation for Beacon v2.n or v3.0
     type: object
     properties:
+      requestType:
+        const: VQSmultivarRequest
       variantLogic:
         type: string
         enum:
