@@ -109,8 +109,54 @@
             },
             "type": "object"
         },
+        "GenomicVariationQuery": {
+            "description": "This represents the generic collection of variant parameters supported in Beacon v2+ requests. ",
+            "properties": {
+                "adjacencyAccession": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/AdjacencyAccession"
+                },
+                "adjacencyEnd": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/AdjacencyEnd"
+                },
+                "adjacencyStart": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/AdjacencyStart"
+                },
+                "aminoacidChange": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/AminoacidChange"
+                },
+                "copyChange": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/CopyChange"
+                },
+                "end": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/SequenceEnd"
+                },
+                "geneId": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/GeneId"
+                },
+                "genomicAlleleShortForm": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/GenomicAlleleShortForm"
+                },
+                "referenceAccession": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/RefgetAccession"
+                },
+                "sequence": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/Sequence"
+                },
+                "start": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/SequenceStart"
+                },
+                "variantMaxLength": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/VariantMaxLength"
+                },
+                "variantMinLength": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/VariantMinLength"
+                }
+            },
+            "type": "object"
+        },
         "VQSadjacencyRequest": {
             "VQSgeneIdRequest": {
+                "description": "A typical Beacon v2.n request for gene queries, e.g. for the retrieval of all variants in a gene or variants restricted by additional parameters such as CNV type (`copyChange`) or length of the affected sequence.",
                 "properties": {
                     "clinicalRelevance": {
                         "$ref": "./common/requestParameterComponents.json#/$defs/clinicalRelevance"
@@ -139,44 +185,22 @@
             "description": "A typical Beacon v2.n request for sequence adjacency queries, e.g. for the retrieval of chromosomal translocation events or sequence fusions. TODO: In VRS v2 there is an implicit sequence directionality from the use of either start or end parameters for either side of the adjacency. This might be problematic on the query side where in many instances just the approximate position of the (fused) breakpoints maight be of interest. This needs additional clarification (e.g. use of integer `start` and `end`, `adjacencyStart` and  `adjecencyEnd` parameters to indicate direction independent matching).",
             "properties": {
                 "adjacencyAccession": {
-                    "$ref": "./common/requestParameterComponents.json#/$defs/RefgetAccession"
+                    "$ref": "./common/requestParameterComponents.json#/$defs/AdjacencyAccession"
                 },
                 "adjacencyEnd": {
-                    "description": "End position or range (_i.e._ in case of a fuzzy breakpoint) on an adjacent sequence in case of a sequence adjecency Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification",
-                    "oneOf": [
-                        "integer",
-                        {
-                            "$ref": "./common/requestParameterComponents.json#/$defs/Range"
-                        }
-                    ]
+                    "$ref": "./common/requestParameterComponents.json#/$defs/AdjacencyEnd"
                 },
                 "adjacencyStart": {
-                    "description": "Start position or range (_i.e._ in case of a fuzzy breakpoint) on an adjacent sequence in case of a sequence adjecency Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification",
-                    "oneOf": [
-                        "integer",
-                        {
-                            "$ref": "./common/requestParameterComponents.json#/$defs/Range"
-                        }
-                    ]
+                    "$ref": "./common/requestParameterComponents.json#/$defs/AdjacencyStart"
                 },
                 "end": {
-                    "oneOf": [
-                        "integer",
-                        {
-                            "$ref": "./common/requestParameterComponents.json#/$defs/Range"
-                        }
-                    ]
+                    "$ref": "./common/requestParameterComponents.json#/$defs/SequenceEnd"
                 },
                 "referenceAccession": {
                     "$ref": "./common/requestParameterComponents.json#/$defs/RefgetAccession"
                 },
                 "start": {
-                    "oneOf": [
-                        "integer",
-                        {
-                            "$ref": "./common/requestParameterComponents.json#/$defs/Range"
-                        }
-                    ]
+                    "$ref": "./common/requestParameterComponents.json#/$defs/SequenceStart"
                 }
             },
             "type": "object"
@@ -188,23 +212,13 @@
                     "$ref": "./common/requestParameterComponents.json#/$defs/CopyChange"
                 },
                 "end": {
-                    "oneOf": [
-                        "integer",
-                        {
-                            "$ref": "./common/requestParameterComponents.json#/$defs/Range"
-                        }
-                    ]
+                    "$ref": "./common/requestParameterComponents.json#/$defs/SequenceEnd"
                 },
                 "referenceAccession": {
                     "$ref": "./common/requestParameterComponents.json#/$defs/RefgetAccession"
                 },
                 "start": {
-                    "oneOf": [
-                        "integer",
-                        {
-                            "$ref": "./common/requestParameterComponents.json#/$defs/Range"
-                        }
-                    ]
+                    "$ref": "./common/requestParameterComponents.json#/$defs/SequenceStart"
                 },
                 "variantMaxLength": {
                     "$ref": "./common/requestParameterComponents.json#/$defs/VariantMaxLength"
@@ -266,12 +280,7 @@
         "VQSsequenceRequest": {
             "properties": {
                 "end": {
-                    "oneOf": [
-                        "integer",
-                        {
-                            "$ref": "./common/requestParameterComponents.json#/$defs/Range"
-                        }
-                    ]
+                    "$ref": "./common/requestParameterComponents.json#/$defs/SequenceEnd"
                 },
                 "referenceAccession": {
                     "$ref": "./common/requestParameterComponents.json#/$defs/RefgetAccession"
@@ -280,12 +289,7 @@
                     "$ref": "./common/requestParameterComponents.json#/$defs/Sequence"
                 },
                 "start": {
-                    "oneOf": [
-                        "integer",
-                        {
-                            "$ref": "./common/requestParameterComponents.json#/$defs/Range"
-                        }
-                    ]
+                    "$ref": "./common/requestParameterComponents.json#/$defs/SequenceStart"
                 }
             },
             "required": [

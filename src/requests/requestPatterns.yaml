@@ -38,6 +38,43 @@ $defs:
         $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMaxLength"
 
 ################################################################################
+# Beacon v2+ general parameters
+################################################################################
+
+  GenomicVariationQuery:
+    description: >-
+      This represents the generic collection of variant parameters supported in
+      Beacon v2+ requests. 
+    type: object
+    properties:
+      referenceAccession:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
+      start:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/SequenceStart"
+      end:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/SequenceEnd"
+      sequence:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/Sequence"
+      copyChange:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/CopyChange"
+      adjacencyAccession:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/AdjacencyAccession"
+      adjacencyStart:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/AdjacencyStart"
+      adjacencyEnd:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/AdjacencyEnd"
+      geneId:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/GeneId"
+      aminoacidChange:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/AminoacidChange"
+      genomicAlleleShortForm:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/GenomicAlleleShortForm"
+      variantMinLength:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMinLength"
+      variantMaxLength:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMaxLength"
+
+################################################################################
 # BV2: Typed Beacon v2 queries utilizing v2.0 parameters
 ################################################################################
 
@@ -91,7 +128,7 @@ $defs:
       - variantType
 
 ################################################################################
-# Generic query types working both in v2 and v2+
+# Generic query types supported both in v2 and v2+
 ################################################################################
 
     VariantIdRequest:
@@ -126,13 +163,9 @@ $defs:
       referenceAccession:
         $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
       start:
-        oneOf:
-          - integer
-          - $ref: "./common/requestParameterComponents.yaml#/$defs/Range"
+        $ref: "./common/requestParameterComponents.yaml#/$defs/SequenceStart"
       end:
-        oneOf:
-          - integer
-          - $ref: "./common/requestParameterComponents.yaml#/$defs/Range"
+        $ref: "./common/requestParameterComponents.yaml#/$defs/SequenceEnd"
       sequence:
         $ref: "./common/requestParameterComponents.yaml#/$defs/Sequence"
     required:
@@ -151,13 +184,9 @@ $defs:
       referenceAccession:
         $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
       start:
-        oneOf:
-          - integer
-          - $ref: "./common/requestParameterComponents.yaml#/$defs/Range"
+        $ref: "./common/requestParameterComponents.yaml#/$defs/SequenceStart"
       end:
-        oneOf:
-          - integer
-          - $ref: "./common/requestParameterComponents.yaml#/$defs/Range"
+        $ref: "./common/requestParameterComponents.yaml#/$defs/SequenceEnd"
       copyChange:
         $ref: "./common/requestParameterComponents.yaml#/$defs/CopyChange"
       variantMinLength:
@@ -185,33 +214,21 @@ $defs:
       referenceAccession:
         $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
       start:
-        oneOf:
-          - integer
-          - $ref: "./common/requestParameterComponents.yaml#/$defs/Range"
+        $ref: "./common/requestParameterComponents.yaml#/$defs/SequenceStart"
       end:
-        oneOf:
-          - integer
-          - $ref: "./common/requestParameterComponents.yaml#/$defs/Range"
+        $ref: "./common/requestParameterComponents.yaml#/$defs/SequenceEnd"
       adjacencyAccession:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
+        $ref: "./common/requestParameterComponents.yaml#/$defs/AdjacencyAccession"
       adjacencyStart:
-        description: >-
-          Start position or range (_i.e._ in case of a fuzzy breakpoint) on an
-          adjacent sequence in case of a sequence adjecency
-          Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification
-        oneOf:
-          - integer
-          - $ref: "./common/requestParameterComponents.yaml#/$defs/Range"
+        $ref: "./common/requestParameterComponents.yaml#/$defs/AdjacencyStart"
       adjacencyEnd:
-        description: >-
-          End position or range (_i.e._ in case of a fuzzy breakpoint) on an
-          adjacent sequence in case of a sequence adjecency
-          Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification
-        oneOf:
-          - integer
-          - $ref: "./common/requestParameterComponents.yaml#/$defs/Range"
+        $ref: "./common/requestParameterComponents.yaml#/$defs/AdjacencyEnd"
 
     VQSgeneIdRequest:
+      description: >-
+        A typical Beacon v2.n request for gene queries, e.g. for the retrieval of
+        all variants in a gene or variants restricted by additional parameters
+        such as CNV type (`copyChange`) or length of the affected sequence.
       type: object
       properties:
         geneId:
@@ -230,7 +247,7 @@ $defs:
         - geneId
 
 ################################################################################
-# Multi  variant requests
+# Proposed multi variant requests
 ################################################################################
 
   BV2multivarsRequest:

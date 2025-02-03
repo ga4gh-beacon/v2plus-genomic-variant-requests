@@ -4,6 +4,30 @@ description: >-
 
 $defs:
 
+  AdjacencyAccession:
+    description: >-
+      A GA4GH RefGet identifier for the *adjacent* sequence in adjacency/fusion
+      scenarios.
+    $ref: "#/$defs/RefgetAccession"
+
+  AdjacencyStart:
+    description: >-
+      Start position or range (_i.e._ in case of a fuzzy breakpoint) on an
+      adjacent sequence in case of a sequence adjecency
+      Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification
+    oneOf:
+      - integer
+      - $ref: "#/$defs/Range"
+
+  AdjacencyEnd:
+    description: >-
+      End position or range (_i.e._ in case of a fuzzy breakpoint) on an
+      adjacent sequence in case of a sequence adjecency
+      Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification
+    oneOf:
+      - integer
+      - $ref: "#/$defs/Range"
+
   AminoacidChange:
     description: >-
       Aminoacid alteration of interest. Format 1 letter
@@ -101,6 +125,22 @@ $defs:
       Origin: VRS v1.n
       TODO: Review use of base characters.
     type: string
+
+  SequenceStart:
+    description: >-
+      Start position or range (_i.e._ in case of a fuzzy breakpoint) on a sequence.
+      Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification
+    oneOf:
+      - integer
+      - $ref: "#/$defs/Range"
+
+  SequenceEnd:
+    description: >-
+      End position or range (_i.e._ in case of a fuzzy breakpoint) on a sequence.
+      Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification
+    oneOf:
+      - integer
+      - $ref: "#/$defs/Range"
 
   VariantId:
     description: >-
