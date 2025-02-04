@@ -2,7 +2,7 @@
     "$defs": {
         "AdjacencyAccession": {
             "$ref": "#/$defs/RefgetAccession",
-            "description": "A GA4GH RefGet identifier for the *adjacent* sequence in adjacency/fusion scenarios."
+            "description": "A GA4GH RefGet identifier for the __adjacent__ sequence in adjacency/fusion scenarios."
         },
         "AdjacencyEnd": {
             "description": "End position or range (_i.e._ in case of a fuzzy breakpoint) on an adjacent sequence in case of a sequence adjecency Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification",
@@ -44,7 +44,7 @@
             "type": "string"
         },
         "CopyChange": {
-            "description": "MUST use a primaryCode representing one of: * EFO:0030069: complete genomic loss * EFO:0020073: high-level loss * EFO:0030068: low-level loss * EFO:0030067: loss * EFO:0030064: regional base ploidy * EFO:0030070: gain * EFO:0030071: low-level gain * EFO:0030072: high-level gain Endpoints are expected to provide query expansion according to the hierarchy of the terms: ``` - EFO:0030064 - EFO:0030067\n    |- EFO:0030068\n    \\- EFO:0020073\n         \\- EFO:0030069\n- EFO:0030070\n    |- EFO:0030071\n    \\- EFO:0030072\n``` Origin: Beacon v2.n, based on VRS v1.3+",
+            "description": "MUST use a primaryCode representing one of: * EFO:0030069: complete genomic loss * EFO:0020073: high-level loss * EFO:0030068: low-level loss * EFO:0030067: loss * EFO:0030064: regional base ploidy * EFO:0030070: gain * EFO:0030071: low-level gain * EFO:0030072: high-level gain Endpoints are expected to provide query expansion according to the hierarchy of the terms:\n```\n- EFO:0030064 - EFO:0030067\n    |- EFO:0030068\n    \\- EFO:0020073\n         \\- EFO:0030069\n- EFO:0030070\n    |- EFO:0030071\n    \\- EFO:0030072\n\n```\n\nOrigin: Beacon v2.n, based on VRS v1.3+",
             "enum": [
                 "EFO:0030069",
                 "EFO:0020073",
