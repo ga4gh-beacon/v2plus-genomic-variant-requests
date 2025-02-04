@@ -42,7 +42,7 @@ def main():
         }
     }
 
-    request_pattern_ids = []
+    request_pattern_ids = {}
 
     for d_k, d_v in file_pars.items():
         o = {}
@@ -65,7 +65,7 @@ def main():
 
                 # very special
                 if d_k == "requestPatterns":
-                    request_pattern_ids.append(pk)
+                    request_pattern_ids.update({pk: pi.get("description", "")})
 
                 ls.append(f'### `{pk}` \n')
 
@@ -74,6 +74,30 @@ def main():
         pp_fh = open(pp_f, "w")
         pp_fh.write("\n".join(ls).replace("\n\n", "\n").replace("\n\n", "\n").replace("\n#", "\n\n#"))
         pp_fh.close()
+
+    #>------------------------------------------------------------------------<#
+
+    for rp_id, rp_desc in request_pattern_ids.items():
+        rp_f = path.join(generated_docs_path, f"requestPatterns_{rp_id}.md")
+        rp_fh = open(rp_f, "w")
+        rp_fh.write(f'# Request Pattern: `{rp_id}`\n\n{rp_desc}')
+
+        ex_f = path.join(examples_yaml_path, f"{rp_id}.yaml")
+
+        if path.exists(ex_f):
+            with open(ex_f) as ex_fh:
+                ex_d = yaml.load(ex_fh, Loader=yaml.FullLoader)
+                ex_ls = [f'## `{rp_id}` Examples']
+                for ex_id, ex in ex_d["examples"].items():
+                    rp_fh.write(f'\n\n{ex.get("description", "")}\n')
+                    rq = ex.get("request", {})
+                    ls = []
+                    ls.append(f'### `request` \n')
+                    ls = __add_md_parameter_lines(ls, rq)
+                    rp_fh.write("\n".join(ls).replace("\n\n", "\n").replace("\n\n", "\n").replace("\n#", "\n\n#"))
+
+        rp_fh.close()
+
 
 ################################################################################
 

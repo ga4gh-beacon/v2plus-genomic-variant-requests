@@ -1,9 +1,7 @@
 examples:
-- g_variant_deletion_01:
+  g_variant_deletion_01:
     description: >-
-      #### Challenge
-
-      Query for a deletion involving TP53
+      ### Query for a deletion involving TP53
       
       #### Solution
 
@@ -23,11 +21,9 @@ examples:
         - 7676593
       variantType: DEL
 
-- g_variant_deletion_02:
+  g_variant_deletion_02:
     description: >-
-      #### Challenge
-
-      Query for a deletion involving TP53
+      ### Query for a deletion involving TP53
       
       #### Solution
 
@@ -40,11 +36,9 @@ examples:
       geneId: TP53
       variantType: DEL
 
-- g_variant_insertion_01:
+  g_variant_insertion_01:
     description: >-
-      #### Challenge
-
-      Find events in TP53 or in close proximity (±~5000bp)
+      ### Find events in TP53 or in close proximity (±~5000bp)
       
       #### Solution
 

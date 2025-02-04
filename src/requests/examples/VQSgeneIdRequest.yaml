@@ -1,9 +1,7 @@
 examples:
-- VQSgeneIdRequest_deletion_01:
+  VQSgeneIdRequest_deletion_01:
     description: >-
-      #### Challenge
-
-      Query for a focal deletion involving TP53
+      #### Query for a focal deletion involving TP53
       
       #### Solution
 
@@ -14,7 +12,7 @@ examples:
       limiting the size of the CNV to a typical "focal deletion" with a lower minimum
       size of 1kb (to avoid noise and non-structural variants) and an upper limit
       of 3Mb (to avoid large chromosomal deletions).
-    requestType: g_variant
+    requestType: VQSgeneIdRequest
     request:
       geneId: TP53
       copyChange: EFO:0030067
