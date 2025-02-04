@@ -126,6 +126,10 @@
             ],
             "type": "string"
         },
+        "RequestProfileId": {
+            "description": "The `requestProfileId` parameter here allows beacons to check the type of query being performed and to compare the provided request parameters for conformity with the expected query profile. The parameter definition here is a placeholder; the definitions of typed queries will use constant values for their `requestProfileId` parameter. Origin: Beacon v2+",
+            "type": "string"
+        },
         "Sequence": {
             "description": "DNA bases. * Accepted values: `[ACGTN]*` * N is a wildcard, that denotes the position of any base,\n  and can be used as a standalone base of any type or within a partially known\n  sequence. As example, a query of `ANNT` the Ns can take take any form of [ACGT]\n  and will match `ANNT`, `ACNT`, `ACCT`, `ACGT` ... and so forth.\nOrigin: VRS v1.n TODO: Review use of base characters.",
             "type": "string"
@@ -191,5 +195,5 @@
         }
     },
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "description": "Component definitions for `requestPatterns`. The definition of each parameter as a component allows for reuse across multiple request patterns but also for e.g. easy referencing in OpenAPI endpoints."
+    "description": "Component definitions for `requestProfiles`. The definition of each parameter as a component allows for reuse across multiple request patterns but also for e.g. easy referencing in OpenAPI endpoints."
 }
