@@ -34,10 +34,10 @@ def main():
                 "$defs": "Argument Definitions"
             },
         },
-        "requestProfiles": {
-            "headline": "Request Profile Definitions",
+        "requestPatterns": {
+            "headline": "Request Patterns Definitions",
             "chapters": {
-                "$defs": "Request Profiles"
+                "$defs": "Request Patterns"
             }
         }
     }
@@ -64,7 +64,7 @@ def main():
             for pk, pi in pp.items():
 
                 # very special
-                if d_k == "requestProfiles":
+                if d_k == "requestPatterns":
                     request_pattern_ids.update({pk: pi.get("description", "")})
 
                 ls.append(f'### `{pk}` \n')
@@ -78,7 +78,7 @@ def main():
     #>------------------------------------------------------------------------<#
 
     for rp_id, rp_desc in request_pattern_ids.items():
-        rp_f = path.join(generated_docs_path, f"requestProfiles_{rp_id}.md")
+        rp_f = path.join(generated_docs_path, f"requestPatterns_{rp_id}.md")
         rp_fh = open(rp_f, "w")
         rp_fh.write(f'# Request Pattern: `{rp_id}`\n\n{rp_desc}')
 
@@ -92,7 +92,7 @@ def main():
                     rp_fh.write(f'\n\n{ex.get("description", "")}\n')
                     rq = ex.get("request", {})
                     ls = []
-                    ls.append(f'### Request \n')
+                    ls.append(f'### `request` \n')
                     ls = __add_md_parameter_lines(ls, rq)
                     rp_fh.write("\n".join(ls).replace("\n\n", "\n").replace("\n\n", "\n").replace("\n#", "\n\n#"))
 
@@ -104,7 +104,6 @@ def main():
 def __add_md_parameter_lines(lines, parameter):
 
     for pik, piv in parameter.items():
-        print(f'{pik}: {type(piv)}')
         if type(piv) is dict:
             js = '  \n'
             lines.append(f'**{pik}:**  \n')
@@ -120,7 +119,7 @@ def __add_md_parameter_lines(lines, parameter):
             piv = piv.replace("*", "    \n*")
             lines.append(f'{piv}    ')
         else:
-            lines.append(f'**{pik}:** `{piv}`    ')
+            lines.append(f'**{pik}:** {piv}    ')
         lines.append(f'\n')
 
     return lines

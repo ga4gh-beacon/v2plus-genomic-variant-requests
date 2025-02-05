@@ -43,14 +43,14 @@ $defs:
 # Beacon v2+ general parameters
 ################################################################################
 
-  VQSrequest:
+  GenomicVariationQuery:
     description: >-
       This represents the generic collection of variant parameters supported in
       Beacon v2+ requests. 
     type: object
     properties:
-      requestProfileId:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/RequestProfileId"
+      requestType:
+        const: GenomicVariationQuery
       referenceAccession:
         $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
       start:
@@ -85,9 +85,9 @@ $defs:
   BV2alleleRequest:
     type: object
     properties:
-      requestProfileId:
+      requestType:
         description: >-
-          Note: The `requestProfile` parameter had not been defined for Beacon v2.0
+          Note: The `requestType` parameter had not been defined for Beacon v2.0
           and therefore in _senso stricto_ is not part of requests only relying
           on v2 parameters.
         const: BV2alleleRequest
@@ -117,7 +117,7 @@ $defs:
       or, preferably, EFO terms (pls. refer to the class definition.)
     type: object
     properties:
-      requestProfileId:
+      requestType:
         const: BV2bracketRequest
       assemblyId:
         $ref: "./common/requestParameterComponents.yaml#/$defs/Assembly"
@@ -143,19 +143,19 @@ $defs:
 # Generic query types supported both in v2 and v2+
 ################################################################################
 
-  BV2variantIdRequest:
+  VariantIdRequest:
     type: object
     properties:
-      requestProfileId:
-        const: BV2variantIdRequest
+      requestType:
+        const: VariantIdRequest
       variantId:
         $ref: "./common/requestParameterComponents.yaml#/$defs/VariantId"
 
-  BV2aminoacidChangeRequest:
+  AminoacidChangeRequest:
     type: object
     properties:
-      requestProfileId:
-        const: BV2aminoacidChangeRequest
+      requestType:
+        const: AminoacidChangeRequest
       aminoacidChange:
         $ref: "./common/requestParameterComponents.yaml#/$defs/AminoacidChange"
       geneId:
@@ -163,7 +163,7 @@ $defs:
     required:
       - aminoacidChange
 
-  BV2genomicAlleleShortFormRequest:
+  GenomicAlleleShortFormRequest:
     type: object
     properties:
       genomicAlleleShortForm:
@@ -176,7 +176,7 @@ $defs:
   VQSsequenceRequest:
     type: object
     properties:
-      requestProfileId:
+      requestType:
         const: VQSsequenceRequest
       referenceAccession:
         $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
@@ -199,7 +199,7 @@ $defs:
       genomic copy number (pls. refer to the class definition.)
     type: object
     properties:
-      requestProfileId:
+      requestType:
         const: VQScopyChangeRequest
       referenceAccession:
         $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
@@ -231,7 +231,7 @@ $defs:
       `adjecencyEnd` parameters to indicate direction independent matching).
     type: object
     properties:
-      requestProfileId:
+      requestType:
         const: VQSadjacencyRequest
       referenceAccession:
         $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
@@ -255,7 +255,7 @@ $defs:
             requests requiring an effect component.
     type: object
     properties:
-      requestProfileId:
+      requestType:
         const: VQSgeneIdRequest
       geneId:
         $ref: "./common/requestParameterComponents.yaml#/$defs/GeneId"
@@ -284,7 +284,7 @@ $defs:
               skipped in favor of the `VQSmultivarRequest` queries).
     type: object
     properties:
-      requestProfileId:
+      requestType:
         const: BV2multivarsRequest
       variantLogic:
         description: >-
@@ -316,7 +316,7 @@ $defs:
       Status: Proposed for evaluation for Beacon v2.n or v3.0
     type: object
     properties:
-      requestProfileId:
+      requestType:
         const: VQSmultivarRequest
       variantLogic:
         type: string
@@ -331,8 +331,8 @@ $defs:
             - $ref: "#/$defs/VQSsequenceRequest"
             - $ref: "#/$defs/VQScopyChangeRequest"
             - $ref: "#/$defs/VQSadjacencyRequest"
-            - $ref: "#/$defs/VQSgeneIdRequest"
-            - $ref: "#/$defs/BV2variantIdRequest"
-            - $ref: "#/$defs/BV2aminoacidChangeRequest"
-            - $ref: "#/$defs/BV2genomicAlleleShortFormRequest"
+            - $ref: "#/$defs/GeneIdRequest"
+            - $ref: "#/$defs/VariantIdRequest"
+            - $ref: "#/$defs/AminoacidChangeRequest"
+            - $ref: "#/$defs/GenomicAlleleShortFormRequest"
 
