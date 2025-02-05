@@ -22,6 +22,8 @@ def main():
     examples_yaml_path = path.join( schemas_yaml_path, "examples")
     generated_docs_path = path.join( dir_path, pardir, "docs", "generated")
 
+    external_documantation_path = path.abspath(path.join( dir_path, pardir, pardir, "variant-query-types", "docs", "generated"))
+
     #>------------------------------------------------------------------------<#
 
     """
@@ -94,16 +96,23 @@ def main():
                 ex_ls = [f'## `{rp_id}` Examples']
                 for ex_id, ex in ex_d["examples"].items():
                     rp_fh.write(f'\n\n{ex.get("description", "")}\n')
-                    gv_fh.write(f'\n\n{ex.get("description", "")}\n')
+                    if "BV2" in rp_id:
+                        gv_fh.write(f'\n\n{ex.get("description", "")}\n')
                     rq = ex.get("request", {})
                     ls = []
                     ls.append(f'### Request \n')
                     ls = __add_md_parameter_lines(ls, rq)
                     rp_fh.write("\n".join(ls).replace("\n\n", "\n").replace("\n\n", "\n").replace("\n#", "\n\n#"))
-                    gv_fh.write("\n".join(ls).replace("\n\n", "\n").replace("\n\n", "\n").replace("\n#", "\n\n#"))
+                    if "BV2" in rp_id:
+                        gv_fh.write("\n".join(ls).replace("\n\n", "\n").replace("\n\n", "\n").replace("\n#", "\n\n#"))
 
         rp_fh.close()
     gv_fh.close()
+
+    cmd = f'rsync -avh --delete {generated_docs_path}/ {external_documantation_path}/'
+    print(cmd)
+
+    system(f'rsync -avh --delete {generated_docs_path}/ {external_documantation_path}/')
 
 
 ################################################################################

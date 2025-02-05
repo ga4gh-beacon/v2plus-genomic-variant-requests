@@ -67,12 +67,16 @@ $defs:
         $ref: "./common/requestParameterComponents.yaml#/$defs/AdjacencyStart"
       adjacencyEnd:
         $ref: "./common/requestParameterComponents.yaml#/$defs/AdjacencyEnd"
+      repeatSubunitLength:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/RepeatSubunitLength"
       geneId:
         $ref: "./common/requestParameterComponents.yaml#/$defs/GeneId"
       aminoacidChange:
         $ref: "./common/requestParameterComponents.yaml#/$defs/AminoacidChange"
       genomicAlleleShortForm:
         $ref: "./common/requestParameterComponents.yaml#/$defs/GenomicAlleleShortForm"
+      sequenceLength:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/SequenceLength"
       variantMinLength:
         $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMinLength"
       variantMaxLength:

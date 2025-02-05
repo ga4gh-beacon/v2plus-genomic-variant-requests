@@ -359,11 +359,17 @@
                 "referenceAccession": {
                     "$ref": "./common/requestParameterComponents.json#/$defs/RefgetAccession"
                 },
+                "repeatSubunitLength": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/RepeatSubunitLength"
+                },
                 "requestProfileId": {
                     "$ref": "./common/requestParameterComponents.json#/$defs/RequestProfileId"
                 },
                 "sequence": {
                     "$ref": "./common/requestParameterComponents.json#/$defs/Sequence"
+                },
+                "sequenceLength": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/SequenceLength"
                 },
                 "start": {
                     "$ref": "./common/requestParameterComponents.json#/$defs/SequenceStart"
