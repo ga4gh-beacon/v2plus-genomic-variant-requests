@@ -1,0 +1,11 @@
+{
+    "examples": {
+        "BV2geneId_deletion_01": {
+            "description": "## Query for a deletion involving TP53\n### Solution `g_variant` with `geneId` (`BV2geneIdRequest`)\nQuery for a deletion involving TP53 by using the HUGO name to specify the gene. This request does not provide coordinates so on the server side matching has to be performed from annotated variants or by retrieving the gene's coordinates and creating internally a type of range request.",
+            "request": {
+                "geneId": "TP53",
+                "variantType": "DEL"
+            }
+        }
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "examples": {
+        "BV2range_allele_01": {
+            "description": "## Find variants overlapping an approximate sequence location\n### Solution `g_variant` with range indicated by single `start` and `end` positions (`BV2rangeRequest`) and `variantType`\nHere sequence variants at a specifiied region on chromosome 2 are matched by using single start and end positions to indicate the genomic *range*.\nCAVE: Since no variant type is indicated such a query can potentially match a large number of variants, depending on the beacon's content and query interpretation (e.g. \"any\" overlap of a CNV could be matched unless the variant type is required for CNV queries).",
+            "request": {
+                "assemblyId": "GRCh38",
+                "end": [
+                    345681
+                ],
+                "referenceName": 17,
+                "start": [
+                    345675
+                ]
+            }
+        }
+    }
+}

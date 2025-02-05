@@ -43,14 +43,14 @@ $defs:
 # Beacon v2+ general parameters
 ################################################################################
 
-  GenomicVariationQuery:
+  VQSrequest:
     description: >-
       This represents the generic collection of variant parameters supported in
       Beacon v2+ requests. 
     type: object
     properties:
-      requestType:
-        const: GenomicVariationQuery
+      requestProfileId:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/RequestProfileId"
       referenceAccession:
         $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
       start:
@@ -85,9 +85,9 @@ $defs:
   BV2alleleRequest:
     type: object
     properties:
-      requestType:
+      requestProfileId:
         description: >-
-          Note: The `requestType` parameter had not been defined for Beacon v2.0
+          Note: The `requestProfile` parameter had not been defined for Beacon v2.0
           and therefore in _senso stricto_ is not part of requests only relying
           on v2 parameters.
         const: BV2alleleRequest
@@ -115,9 +115,11 @@ $defs:
       for CNVs where the `variantType` parameter indicates the relative change in
       genomic copy number through either VCF derived string parameters
       or, preferably, EFO terms (pls. refer to the class definition.)
+      Since a bracket request is a positional query for varying sequence extend
+      no `sequence` parameter should be used.
     type: object
     properties:
-      requestType:
+      requestProfileId:
         const: BV2bracketRequest
       assemblyId:
         $ref: "./common/requestParameterComponents.yaml#/$defs/Assembly"
@@ -139,23 +141,64 @@ $defs:
       - end
       - variantType
 
+  BV2rangeRequest:
+    description: >-
+      Beacon Range Queries are supposed to return matches of any variant with at
+      least partial overlap of the sequence range specified by `referenceName`,
+      `start` and end `parameters`. Additional qualifiers such as `variantType`
+      or length of the affected sequence can be used to further restrict the
+      returned results.
+      For this request type `start` and `end` with a single position are used,
+      _i.e._ a subset of the `start` and `end` specifications.
+    type: object
+    properties:
+      requestProfileId:
+        const: BV2rangeRequest
+      assemblyId:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/Assembly"
+      referenceName:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/RefSeqId"
+      start:
+        type: array
+        items:
+          type: integer
+          minItems: 1
+          maxItems: 1
+      end:
+        type: array
+        items:
+          type: integer
+          minItems: 1
+          maxItems: 1
+      variantType:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantType"
+      variantMinLength:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMinLength"
+      variantMaxLength:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMaxLength"
+    required:
+      - referenceName
+      - start
+      - end
+
+
 ################################################################################
 # Generic query types supported both in v2 and v2+
 ################################################################################
 
-  VariantIdRequest:
+  BV2variantIdRequest:
     type: object
     properties:
-      requestType:
-        const: VariantIdRequest
+      requestProfileId:
+        const: BV2variantIdRequest
       variantId:
         $ref: "./common/requestParameterComponents.yaml#/$defs/VariantId"
 
-  AminoacidChangeRequest:
+  BV2aminoacidChangeRequest:
     type: object
     properties:
-      requestType:
-        const: AminoacidChangeRequest
+      requestProfileId:
+        const: BV2aminoacidChangeRequest
       aminoacidChange:
         $ref: "./common/requestParameterComponents.yaml#/$defs/AminoacidChange"
       geneId:
@@ -163,11 +206,34 @@ $defs:
     required:
       - aminoacidChange
 
-  GenomicAlleleShortFormRequest:
+  BV2genomicAlleleShortFormRequest:
     type: object
     properties:
       genomicAlleleShortForm:
         $ref: "./common/requestParameterComponents.yaml#/$defs/GenomicAlleleShortForm"
+
+  BV2geneIdRequest:
+    description: >-
+      A typical Beacon v2.n request for gene queries, e.g. for the retrieval of
+      all variants in a gene or variants restricted by additional parameters
+      such `variantType` or length of the affected sequence.
+      TODO: Evaluate to split into more basic `GeneIdRequest` and specialized
+            requests requiring an effect component.
+    type: object
+    properties:
+      requestProfileId:
+        const: BV2geneIdRequest
+      geneId:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/GeneId"
+      variantType:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantType"
+      variantMinLength:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMinLength"
+      variantMaxLength:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMaxLength"
+    required:
+      - geneId
+
 
 ################################################################################
 # VQS: Typed Beacon v2+ queries utilizing VRS v2 concepts
@@ -176,7 +242,7 @@ $defs:
   VQSsequenceRequest:
     type: object
     properties:
-      requestType:
+      requestProfileId:
         const: VQSsequenceRequest
       referenceAccession:
         $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
@@ -199,7 +265,7 @@ $defs:
       genomic copy number (pls. refer to the class definition.)
     type: object
     properties:
-      requestType:
+      requestProfileId:
         const: VQScopyChangeRequest
       referenceAccession:
         $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
@@ -231,7 +297,7 @@ $defs:
       `adjecencyEnd` parameters to indicate direction independent matching).
     type: object
     properties:
-      requestType:
+      requestProfileId:
         const: VQSadjacencyRequest
       referenceAccession:
         $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
@@ -255,7 +321,7 @@ $defs:
             requests requiring an effect component.
     type: object
     properties:
-      requestType:
+      requestProfileId:
         const: VQSgeneIdRequest
       geneId:
         $ref: "./common/requestParameterComponents.yaml#/$defs/GeneId"
@@ -284,7 +350,7 @@ $defs:
               skipped in favor of the `VQSmultivarRequest` queries).
     type: object
     properties:
-      requestType:
+      requestProfileId:
         const: BV2multivarsRequest
       variantLogic:
         description: >-
@@ -316,7 +382,7 @@ $defs:
       Status: Proposed for evaluation for Beacon v2.n or v3.0
     type: object
     properties:
-      requestType:
+      requestProfileId:
         const: VQSmultivarRequest
       variantLogic:
         type: string
@@ -331,8 +397,8 @@ $defs:
             - $ref: "#/$defs/VQSsequenceRequest"
             - $ref: "#/$defs/VQScopyChangeRequest"
             - $ref: "#/$defs/VQSadjacencyRequest"
-            - $ref: "#/$defs/GeneIdRequest"
-            - $ref: "#/$defs/VariantIdRequest"
-            - $ref: "#/$defs/AminoacidChangeRequest"
-            - $ref: "#/$defs/GenomicAlleleShortFormRequest"
+            - $ref: "#/$defs/VQSgeneIdRequest"
+            - $ref: "#/$defs/BV2variantIdRequest"
+            - $ref: "#/$defs/BV2aminoacidChangeRequest"
+            - $ref: "#/$defs/BV2genomicAlleleShortFormRequest"
 
