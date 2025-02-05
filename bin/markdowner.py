@@ -123,20 +123,20 @@ def __add_md_parameter_lines(lines, parameter):
         # print(f'{pik}: {type(piv)}')
         if type(piv) is dict:
             js = '  \n'
-            lines.append(f'**{pik}:**  \n')
+            lines.append(f'* `{pik}`:    \n')
             lines.append(js.join([f'    - `{k}`: `{str(v).replace("{", "").replace("}", "")}`    ' for k, v in piv.items()]))                    
         elif type(piv) is list:
-            js = '`\n* `'
-            piv = f'\n* `{js.join([str(x) for x in piv])}`    '
-            lines.append(f'**{pik}:** {piv}    ')
+            js = '`    \n    - `'
+            piv = f'    \n    - `{js.join([str(x) for x in piv])}`    '
+            lines.append(f'* `{pik}`: {piv}    ')
         elif "default" in pik or "pattern" in pik and len(str(piv)) > 0:
-            lines.append(f'**{pik}:** `{piv}`    ')
+            lines.append(f'* `{pik}`: `{piv}`    ')
         elif "description" in pik:
             lines.append(f'#### {pik}\n')
             piv = piv.replace("*", "    \n*")
             lines.append(f'{piv}    ')
         else:
-            lines.append(f'**{pik}:** `{piv}`    ')
+            lines.append(f'* `{pik}`: `{piv}`    ')
         lines.append(f'\n')
 
     return lines
