@@ -77,6 +77,10 @@ def main():
 
     #>------------------------------------------------------------------------<#
 
+    gv_f = path.join(generated_docs_path, f"requestProfiles_g_variant.md")
+    gv_fh = open(gv_f, "w")
+    gv_fh.write(f'# Beacon v2 Request Profiles\n\n')
+
     for rp_id, rp_desc in request_pattern_ids.items():
         rp_f = path.join(generated_docs_path, f"requestProfiles_{rp_id}.md")
         rp_fh = open(rp_f, "w")
@@ -90,13 +94,16 @@ def main():
                 ex_ls = [f'## `{rp_id}` Examples']
                 for ex_id, ex in ex_d["examples"].items():
                     rp_fh.write(f'\n\n{ex.get("description", "")}\n')
+                    gv_fh.write(f'\n\n{ex.get("description", "")}\n')
                     rq = ex.get("request", {})
                     ls = []
                     ls.append(f'### Request \n')
                     ls = __add_md_parameter_lines(ls, rq)
                     rp_fh.write("\n".join(ls).replace("\n\n", "\n").replace("\n\n", "\n").replace("\n#", "\n\n#"))
+                    gv_fh.write("\n".join(ls).replace("\n\n", "\n").replace("\n\n", "\n").replace("\n#", "\n\n#"))
 
         rp_fh.close()
+    gv_fh.close()
 
 
 ################################################################################

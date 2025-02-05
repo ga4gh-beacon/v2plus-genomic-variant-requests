@@ -1,6 +1,34 @@
-# Request Pattern: `g_variant`
+# Beacon v2 Request Profiles
 
-This represents the generic collection of variant parameters allowed in Beacon v2 requests.
+
+
+## Find small, _variable_ sequence insertions/deletions at an approximate position
+### Solution `g_variant` with `start` and `end` ranges (`BV2bracketRequest`) and `variantType`
+Here sequence variants (insertions or deletions) involving a specific region on chromosome 17 but of varying length are matched by using "fuzzy" start  and end ranges ("brackets"). The variant type is identified as an INDEL although the interpretation is left to the implementation; e.g. an insertion which is stored as sequence change `17:43045708:A>AAACAAAC` would fulfill the request but might not be indicated as `INDEL` type.
+### Request 
+**assemblyId:** `GRCh38`    
+**referenceName:** `17`    
+**start:** 
+* `43045703`
+* `43045709`        
+**end:** 
+* `43045715`
+* `43045720`        
+**variantType:** `INDEL`    
+
+
+## Find variants overlapping an approximate sequence location
+### Solution `g_variant` with range indicated by single `start` and `end` positions (`BV2rangeRequest`) and `variantType`
+Here sequence variants at a specifiied region on chromosome 2 are matched by using single start and end positions to indicate the genomic *range*.
+CAVE: Since no variant type is indicated such a query can potentially match a large number of variants, depending on the beacon's content and query interpretation (e.g. "any" overlap of a CNV could be matched unless the variant type is required for CNV queries).
+### Request 
+**assemblyId:** `GRCh38`    
+**referenceName:** `17`    
+**start:** 
+* `345675`        
+**end:** 
+* `345681`        
+
 
 ## Query for a deletion involving TP53
 ### Solution using `g_variant` with position range
@@ -14,16 +42,8 @@ Query for a deletion involving TP53 using the maximum extent of the gene's codin
 **variantType:** `DEL`    
 
 
-## Query for a deletion involving TP53
-### Solution `g_variant` with `geneId`
-Query for a deletion involving TP53 by using the HUGO name to specify the gene. This request does not provide coordinates so on the server side matching has to be performed from annotated variants or by retrieving the gene's coordinates and creating internally a type of range request.
-### Request 
-**geneId:** `TP53`    
-**variantType:** `DEL`    
-
-
-## Find events in TP53 or in close proximity (±~5000bp)
-### Solution using `g_variant` with position range
+## Find insertion events in TP53 or in close proximity (±~5000bp)
+### Solution using `g_variant` with position range (`BV2rangeRequest`)
 For this query the mapping position of TP53 (17:7669607-7676593) has to be known. Usually this knowledge would be provided by a front end helper and the aditional padding added manually or w/ a helper field (if frequent scenario) and the beacon itself would just receive the positional range request.
 The "insertion" type is here provided through the Sequence Ontology term `SO:0000667` and for the chromosome the full, prefixed RefSeq term is being used.
 ### Request 
@@ -33,3 +53,31 @@ The "insertion" type is here provided through the Sequence Ontology term `SO:000
 **end:** 
 * `7682000`        
 **variantType:** `SO:0000667`    
+
+
+## Query for a deletion involving TP53
+### Solution `g_variant` with `geneId` (`BV2geneIdRequest`)
+Query for a deletion involving TP53 by using the HUGO name to specify the gene. This request does not provide coordinates so on the server side matching has to be performed from annotated variants or by retrieving the gene's coordinates and creating internally a type of range request.
+### Request 
+**geneId:** `TP53`    
+**variantType:** `DEL`    
+
+
+## Find insertion events in TP53
+### Solution using `g_variant` with `geneId` (`BV2geneIdRequest`)
+Query for a deletion involving TP53 by using the HUGO name to specify the gene. This request does not provide coordinates so on the server side matching has to be performed from annotated variants or by retrieving the gene's coordinates and creating internally a type of range request.
+The "insertion" type is here provided through the Sequence Ontology term `SO:0000667` (which has to be supported by the beacon server, either in the annotation or through mapping to the internal vocabulary).
+### Request 
+**geneId:** `TP53`    
+**variantType:** `SO:0000667`    
+
+
+## Query for a focal deletion involving TP53
+### Solution using `VQSgeneIdRequest` with `geneId`
+Query for a deletion involving TP53 by using the HUGO name to specify the gene. This request does not provide coordinates so on the server side matching has to be performed from annotated variants or by retrieving the gene's coordinates and creating internally a type of range request. Here we're also  limiting the size of the CNV to a typical "focal deletion" with a lower minimum size of 1kb (to avoid noise and non-structural variants) and an upper limit of 3Mb (to avoid large chromosomal deletions).
+### Request 
+**requestType:** `VQSgeneIdRequest`    
+**geneId:** `TP53`    
+**copyChange:** `EFO:0030067`    
+**variantMinLength:** `1000`    
+**variantMaxLength:** `3000000`    
