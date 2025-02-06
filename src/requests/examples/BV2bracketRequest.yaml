@@ -1,9 +1,9 @@
 examples:
   BV2bracket_indel_01:
     description: >-
-      ## Find small, _variable_ sequence insertions/deletions at an approximate position
+      ### Find small, _variable_ sequence insertions/deletions at an approximate position
       
-      ### Solution `g_variant` with `start` and `end` ranges (`BV2bracketRequest`)
+      #### Solution `g_variant` with `start` and `end` ranges (`BV2bracketRequest`)
       and `variantType`
 
       Here sequence variants (insertions or deletions) involving a specific region

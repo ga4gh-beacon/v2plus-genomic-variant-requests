@@ -1,9 +1,9 @@
 examples:
   BV2geneId_deletion_01:
     description: >-
-      ## Query for a deletion involving TP53
+      ### Query for a deletion involving TP53
       
-      ### Solution `g_variant` with `geneId` (`BV2geneIdRequest`)
+      #### Solution `g_variant` with `geneId` (`BV2geneIdRequest`)
 
       Query for a deletion involving TP53 by using the HUGO name to specify the
       gene. This request does not provide coordinates so on the server side matching
@@ -15,9 +15,9 @@ examples:
 
   BV2geneId_insertion_01:
     description: >-
-      ## Find insertion events in TP53
+      ### Find insertion events in TP53
       
-      ### Solution using `g_variant` with `geneId` (`BV2geneIdRequest`)
+      #### Solution using `g_variant` with `geneId` (`BV2geneIdRequest`)
 
       Query for a deletion involving TP53 by using the HUGO name to specify the
       gene. This request does not provide coordinates so on the server side matching

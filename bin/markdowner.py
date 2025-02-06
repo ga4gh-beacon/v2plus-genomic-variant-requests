@@ -29,49 +29,44 @@ def main():
     """
     """
 
+
+
     file_pars = {
         "requestParameterComponents":{
             "headline": "Request Parameter Definitions",
-            "chapters": {
-                "$defs": "Argument Definitions"
-            },
+            "root": "$defs"
         },
         "requestProfiles": {
             "headline": "Request Profile Definitions",
-            "chapters": {
-                "$defs": "Request Profiles"
-            }
+            "root": "$defs"
         }
     }
 
     request_pattern_ids = {}
+    schemas = {}
 
     for d_k, d_v in file_pars.items():
-        o = {}
         ofp = path.join(schemas_yaml_path, f'{d_k}.yaml' )
         with open(ofp) as od:
-            o = yaml.load(od, Loader=yaml.FullLoader)
-
-        # prjsonnice(o)
+            schemas.update({d_k: yaml.load(od, Loader=yaml.FullLoader)})
 
         pp_f = path.join(generated_docs_path, f"{d_k}.md")
 
         ls = [f'# {d_v.get("headline")}']
 
-        ls.append(f'\n{o.get("description", "")}\n')
+        ls.append(f'\n{schemas[d_k].get("description", "")}\n')
 
-        for chapter, title in d_v.get("chapters").items():
-            pp = o.get(chapter, {})
-            ls.append(f'## {title}\n')
-            for pk, pi in pp.items():
+        r_k = d_v.get("root","$defs")
 
-                # very special
-                if d_k == "requestProfiles":
-                    request_pattern_ids.update({pk: pi.get("description", "")})
+        pp = schemas[d_k].get(r_k, {})
+        for pk, pi in pp.items():
 
-                ls.append(f'### `{pk}` \n')
+            # very special
+            if d_k == "requestProfiles":
+                request_pattern_ids.update({pk: pi.get("description", "")})
 
-                ls = __add_md_parameter_lines(ls, pi)
+            ls.append(f'## `{pk}` \n')
+            ls = __add_md_parameter_lines(ls, pi)
 
         pp_fh = open(pp_f, "w")
         pp_fh.write("\n".join(ls).replace("\n\n", "\n").replace("\n\n", "\n").replace("\n#", "\n\n#"))
@@ -79,14 +74,33 @@ def main():
 
     #>------------------------------------------------------------------------<#
 
-    gv_f = path.join(generated_docs_path, f"requestProfiles_g_variant.md")
+    skips = []
+    ph = "g_variant"
+    gv_f = path.join(generated_docs_path, f"requestProfiles_{ph}.md")
     gv_fh = open(gv_f, "w")
-    gv_fh.write(f'# Beacon v2 Request Profiles\n\n')
+    gv_fh.write(f'# Beacon v2 Requests\n\n{request_pattern_ids.get(ph, "")}\n\n')
+    gv_fh.write(f'## {ph} Parameters\n\n')
+    ls = []
+    ls = __add_md_parameter_lines(ls, schemas["requestProfiles"]["$defs"][ph]["properties"])
+    gv_fh.write("\n".join(ls).replace("\n\n", "\n").replace("\n\n", "\n").replace("\n#", "\n\n#"))
+    gv_fh.write(f'\n\n## Beacon v2 Request Examples\n\n')
+    skips.append(ph)
+
+    ph = "VQSrequest"
+    vqs_f = path.join(generated_docs_path, f"requestProfiles_{ph}.md")
+    vqs_fh = open(vqs_f, "w")
+    vqs_fh.write(f'# Beacon VQS Requests\n\n{request_pattern_ids.get(ph, "")}\n\n')
+    ls = __add_md_parameter_lines(ls, schemas["requestProfiles"]["$defs"][ph]["properties"])
+    vqs_fh.write("\n".join(ls).replace("\n\n", "\n").replace("\n\n", "\n").replace("\n#", "\n\n#"))
+    vqs_fh.write(f'\n\n## Beacon v2+/VQS "VRSified" Request Examples\n\n')
+    skips.append(ph)
 
     for rp_id, rp_desc in request_pattern_ids.items():
+        if rp_id in skips:
+            continue
         rp_f = path.join(generated_docs_path, f"requestProfiles_{rp_id}.md")
         rp_fh = open(rp_f, "w")
-        rp_fh.write(f'# Request Pattern: `{rp_id}`\n\n{rp_desc}')
+        rp_fh.write(f'# Request Profile: `{rp_id}`\n\n{rp_desc}')
 
         ex_f = path.join(examples_yaml_path, f"{rp_id}.yaml")
 
@@ -98,16 +112,21 @@ def main():
                     rp_fh.write(f'\n\n{ex.get("description", "")}\n')
                     if "BV2" in rp_id:
                         gv_fh.write(f'\n\n{ex.get("description", "")}\n')
+                    elif "VQS" in rp_id:
+                        vqs_fh.write(f'\n\n{ex.get("description", "")}\n')
                     rq = ex.get("request", {})
                     ls = []
-                    ls.append(f'### Request \n')
+                    ls.append(f'#### Request \n')
                     ls = __add_md_parameter_lines(ls, rq)
                     rp_fh.write("\n".join(ls).replace("\n\n", "\n").replace("\n\n", "\n").replace("\n#", "\n\n#"))
                     if "BV2" in rp_id:
                         gv_fh.write("\n".join(ls).replace("\n\n", "\n").replace("\n\n", "\n").replace("\n#", "\n\n#"))
+                    elif "VQS" in rp_id:
+                        vqs_fh.write("\n".join(ls).replace("\n\n", "\n").replace("\n\n", "\n").replace("\n#", "\n\n#"))
 
         rp_fh.close()
     gv_fh.close()
+    vqs_fh.close()
 
     cmd = f'rsync -avh --delete {generated_docs_path}/ {external_documantation_path}/'
     print(cmd)

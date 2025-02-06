@@ -30,6 +30,7 @@
             "type": "object"
         },
         "BV2aminoacidChangeRequest": {
+            "description": "A Beacon v2 request for amino acid change queries, e.g. for the retrieval of all variants leading to specific amino acid change. The request may be restricted by additionally providing the gene ID.",
             "properties": {
                 "aminoacidChange": {
                     "$ref": "./common/requestParameterComponents.json#/$defs/AminoacidChange"
@@ -184,6 +185,7 @@
             "type": "object"
         },
         "BV2variantIdRequest": {
+            "description": "A typical Beacon v2 request for matching variations by their `variantId`. This request is used to retrieve a specific variant by its identifier.",
             "properties": {
                 "requestProfileId": {
                     "const": "BV2variantIdRequest"
@@ -330,7 +332,7 @@
             "type": "object"
         },
         "VQSrequest": {
-            "description": "This represents the generic collection of variant parameters supported in Beacon v2+ requests. ",
+            "description": "This represents the generic collection of variant parameters supported in Beacon v2+ requests.",
             "properties": {
                 "adjacencyAccession": {
                     "$ref": "./common/requestParameterComponents.json#/$defs/AdjacencyAccession"
@@ -383,7 +385,29 @@
             },
             "type": "object"
         },
+        "VQSsequenceRepeatRequest": {
+            "description": "A Beacon v2.n request for sequence repeat queries, e.g. for the retrieval of tandem repeat expansions or other sequence repeat events.",
+            "properties": {
+                "end": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/SequenceEnd"
+                },
+                "referenceAccession": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/RefgetAccession"
+                },
+                "repeatSubunitCount": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/RepeatSubunitCount"
+                },
+                "repeatSubunitLength": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/RepeatSubunitLength"
+                },
+                "start": {
+                    "$ref": "./common/requestParameterComponents.json#/$defs/SequenceStart"
+                }
+            },
+            "type": "object"
+        },
         "VQSsequenceRequest": {
+            "description": "A Beacon v2+ sequence query. It is in its scope similar to the Beacon v1/v2 allele requests but replaces the original parameters with VRS v2 concepts.",
             "properties": {
                 "end": {
                     "$ref": "./common/requestParameterComponents.json#/$defs/SequenceEnd"

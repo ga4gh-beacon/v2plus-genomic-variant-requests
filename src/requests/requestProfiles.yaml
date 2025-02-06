@@ -46,7 +46,7 @@ $defs:
   VQSrequest:
     description: >-
       This represents the generic collection of variant parameters supported in
-      Beacon v2+ requests. 
+      Beacon v2+ requests.
     type: object
     properties:
       requestProfileId:
@@ -191,6 +191,9 @@ $defs:
 ################################################################################
 
   BV2variantIdRequest:
+    description: >-
+      A typical Beacon v2 request for matching variations by their `variantId`.
+      This request is used to retrieve a specific variant by its identifier.
     type: object
     properties:
       requestProfileId:
@@ -199,6 +202,10 @@ $defs:
         $ref: "./common/requestParameterComponents.yaml#/$defs/VariantId"
 
   BV2aminoacidChangeRequest:
+    description: >-
+      A Beacon v2 request for amino acid change queries, e.g. for the
+      retrieval of all variants leading to specific amino acid change. The request
+      may be restricted by additionally providing the gene ID.
     type: object
     properties:
       requestProfileId:
@@ -244,6 +251,9 @@ $defs:
 ################################################################################
 
   VQSsequenceRequest:
+    description: >-
+      A Beacon v2+ sequence query. It is in its scope similar to the Beacon v1/v2
+      allele requests but replaces the original parameters with VRS v2 concepts.
     type: object
     properties:
       requestProfileId:
@@ -315,6 +325,23 @@ $defs:
         $ref: "./common/requestParameterComponents.yaml#/$defs/AdjacencyStart"
       adjacencyEnd:
         $ref: "./common/requestParameterComponents.yaml#/$defs/AdjacencyEnd"
+
+  VQSsequenceRepeatRequest:
+    description: >-
+      A Beacon v2.n request for sequence repeat queries, e.g. for the
+      retrieval of tandem repeat expansions or other sequence repeat events.
+    type: object
+    properties:
+      referenceAccession:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
+      start:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/SequenceStart"
+      end:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/SequenceEnd"
+      repeatSubunitLength:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/RepeatSubunitLength"
+      repeatSubunitCount:
+        $ref: "./common/requestParameterComponents.yaml#/$defs/RepeatSubunitCount"
 
   VQSgeneIdRequest:
     description: >-

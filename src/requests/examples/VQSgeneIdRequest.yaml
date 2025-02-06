@@ -1,9 +1,9 @@
 examples:
   VQSgeneIdRequest_deletion_01:
     description: >-
-      ## Query for a focal deletion involving TP53
+      ### Query for a focal deletion involving TP53
       
-      ### Solution using `VQSgeneIdRequest` with `geneId`
+      #### Solution using `VQSgeneIdRequest` with `geneId`
 
       Query for a deletion involving TP53 by using the HUGO name to specify the
       gene. This request does not provide coordinates so on the server side matching
