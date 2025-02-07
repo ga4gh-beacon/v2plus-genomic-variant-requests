@@ -83,6 +83,8 @@ $defs:
         $ref: "./requestParameterComponents.yaml#/$defs/VariantMinLength"
       variantMaxLength:
         $ref: "./requestParameterComponents.yaml#/$defs/VariantMaxLength"
+      vrsType:
+        $ref: "./requestParameterComponents.yaml#/$defs/VRStype"
 
 ################################################################################
 # BV2: Typed Beacon v2 queries utilizing v2.0 parameters
@@ -252,14 +254,14 @@ $defs:
 # VQS: Typed Beacon v2+ queries utilizing VRS v2 concepts
 ################################################################################
 
-  VQSsequenceRequest:
+  VQSalleleRequest:
     description: >-
       A Beacon v2+ sequence query. It is in its scope similar to the Beacon v1/v2
       allele requests but replaces the original parameters with VRS v2 concepts.
     type: object
     properties:
       requestProfileId:
-        const: VQSsequenceRequest
+        const: VQSalleleRequest
       referenceAccession:
         $ref: "./requestParameterComponents.yaml#/$defs/RefgetAccession"
       start:
@@ -268,6 +270,8 @@ $defs:
         $ref: "./requestParameterComponents.yaml#/$defs/SequenceEnd"
       sequence:
         $ref: "./requestParameterComponents.yaml#/$defs/Sequence"
+      vrsType:
+        const: Allele
     required:
       - referenceAccession
       - start
@@ -295,6 +299,8 @@ $defs:
         $ref: "./requestParameterComponents.yaml#/$defs/VariantMinLength"
       variantMaxLength:
         $ref: "./requestParameterComponents.yaml#/$defs/VariantMaxLength"
+      vrsType:
+        const: CopyNumberChange
     required:
       - referenceAccession
       - start
@@ -327,6 +333,8 @@ $defs:
         $ref: "./requestParameterComponents.yaml#/$defs/AdjacencyStart"
       adjacencyEnd:
         $ref: "./requestParameterComponents.yaml#/$defs/AdjacencyEnd"
+      vrsType:
+        const: Adjacency
 
   VQSsequenceRepeatRequest:
     description: >-
@@ -427,7 +435,7 @@ $defs:
         type: array
         items:
           anyOf:
-            - $ref: "#/$defs/VQSsequenceRequest"
+            - $ref: "#/$defs/VQSalleleRequest"
             - $ref: "#/$defs/VQScopyChangeRequest"
             - $ref: "#/$defs/VQSadjacencyRequest"
             - $ref: "#/$defs/VQSgeneIdRequest"

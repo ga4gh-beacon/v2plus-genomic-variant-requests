@@ -219,8 +219,40 @@
                 },
                 "start": {
                     "$ref": "./requestParameterComponents.json#/$defs/SequenceStart"
+                },
+                "vrsType": {
+                    "const": "Adjacency"
                 }
             },
+            "type": "object"
+        },
+        "VQSalleleRequest": {
+            "description": "A Beacon v2+ sequence query. It is in its scope similar to the Beacon v1/v2 allele requests but replaces the original parameters with VRS v2 concepts.",
+            "properties": {
+                "end": {
+                    "$ref": "./requestParameterComponents.json#/$defs/SequenceEnd"
+                },
+                "referenceAccession": {
+                    "$ref": "./requestParameterComponents.json#/$defs/RefgetAccession"
+                },
+                "requestProfileId": {
+                    "const": "VQSalleleRequest"
+                },
+                "sequence": {
+                    "$ref": "./requestParameterComponents.json#/$defs/Sequence"
+                },
+                "start": {
+                    "$ref": "./requestParameterComponents.json#/$defs/SequenceStart"
+                },
+                "vrsType": {
+                    "const": "Allele"
+                }
+            },
+            "required": [
+                "referenceAccession",
+                "start",
+                "sequence"
+            ],
             "type": "object"
         },
         "VQScopyChangeRequest": {
@@ -246,6 +278,9 @@
                 },
                 "variantMinLength": {
                     "$ref": "./requestParameterComponents.json#/$defs/VariantMinLength"
+                },
+                "vrsType": {
+                    "const": "CopyNumberChange"
                 }
             },
             "required": [
@@ -293,7 +328,7 @@
                     "items": {
                         "anyOf": [
                             {
-                                "$ref": "#/$defs/VQSsequenceRequest"
+                                "$ref": "#/$defs/VQSalleleRequest"
                             },
                             {
                                 "$ref": "#/$defs/VQScopyChangeRequest"
@@ -361,6 +396,9 @@
                 "referenceAccession": {
                     "$ref": "./requestParameterComponents.json#/$defs/RefgetAccession"
                 },
+                "repeatSubunitCount": {
+                    "$ref": "./requestParameterComponents.json#/$defs/RepeatSubunitCount"
+                },
                 "repeatSubunitLength": {
                     "$ref": "./requestParameterComponents.json#/$defs/RepeatSubunitLength"
                 },
@@ -381,6 +419,9 @@
                 },
                 "variantMinLength": {
                     "$ref": "./requestParameterComponents.json#/$defs/VariantMinLength"
+                },
+                "vrsType": {
+                    "$ref": "./requestParameterComponents.json#/$defs/VRStype"
                 }
             },
             "type": "object"
@@ -404,32 +445,6 @@
                     "$ref": "./requestParameterComponents.json#/$defs/SequenceStart"
                 }
             },
-            "type": "object"
-        },
-        "VQSsequenceRequest": {
-            "description": "A Beacon v2+ sequence query. It is in its scope similar to the Beacon v1/v2 allele requests but replaces the original parameters with VRS v2 concepts.",
-            "properties": {
-                "end": {
-                    "$ref": "./requestParameterComponents.json#/$defs/SequenceEnd"
-                },
-                "referenceAccession": {
-                    "$ref": "./requestParameterComponents.json#/$defs/RefgetAccession"
-                },
-                "requestProfileId": {
-                    "const": "VQSsequenceRequest"
-                },
-                "sequence": {
-                    "$ref": "./requestParameterComponents.json#/$defs/Sequence"
-                },
-                "start": {
-                    "$ref": "./requestParameterComponents.json#/$defs/SequenceStart"
-                }
-            },
-            "required": [
-                "referenceAccession",
-                "start",
-                "sequence"
-            ],
             "type": "object"
         },
         "g_variant": {

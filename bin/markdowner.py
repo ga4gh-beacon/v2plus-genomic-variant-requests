@@ -1,6 +1,6 @@
 #!/usr/local/bin/python3
 
-import inspect, sys, re, yaml
+import inspect, json, sys, re, yaml
 from os import getlogin, makedirs, pardir, path, system
 from pathlib import Path
 from json_ref_dict import RefDict, materialize
@@ -79,6 +79,7 @@ def main():
     gv_f = path.join(generated_docs_path, f"requestProfiles_{ph}.md")
     gv_fh = open(gv_f, "w")
     gv_fh.write(f'# Beacon v2 Requests\n\n{request_pattern_ids.get(ph, "")}\n\n')
+    gv_fh.write(f'\nFor the parameter definitions please see the [`requestParameterComponents` page.](../requestParameterComponents/)\n\n')
     gv_fh.write(f'## {ph} Parameters\n\n')
     ls = []
     ls = __add_md_parameter_lines(ls, schemas["requestProfiles"]["$defs"][ph]["properties"])
@@ -90,6 +91,7 @@ def main():
     vqs_f = path.join(generated_docs_path, f"requestProfiles_{ph}.md")
     vqs_fh = open(vqs_f, "w")
     vqs_fh.write(f'# Beacon VQS Requests\n\n{request_pattern_ids.get(ph, "")}\n\n')
+    vqs_fh.write(f'\nFor the parameter definitions please see the [`requestParameterComponents` page.](../requestParameterComponents/)\n\n')
     vqs_fh.write(f'## {ph} Parameters\n\n')
     ls = []
     ls = __add_md_parameter_lines(ls, schemas["requestProfiles"]["$defs"][ph]["properties"])
@@ -120,7 +122,8 @@ def main():
                     ls = []
                     ls.append(f'#### Request \n')
                     ls = __add_md_parameter_lines(ls, rq)
-                    ls.append(f'\n##### GET string\n```{__request_make_GET(rq)}```\n')
+                    ls.append(f'\n##### GET query string\n```{__request_make_GET(rq)}```\n')
+                    ls.append(f'\n##### POST query component \n```{__request_make_POST(rq)}```\n')
                     rp_fh.write("\n".join(ls).replace("\n\n", "\n").replace("\n\n", "\n").replace("\n#", "\n\n#"))
                     if "BV2" in rp_id:
                         gv_fh.write("\n".join(ls).replace("\n\n", "\n").replace("\n\n", "\n").replace("\n#", "\n\n#"))
@@ -150,6 +153,11 @@ def __request_make_GET(rq):
 
 ################################################################################
 
+def __request_make_POST(rq):
+    return json.dumps(rq, indent=4, sort_keys=True, default=str)
+
+################################################################################
+
 def __add_md_parameter_lines(lines, parameter):
 
     for pik, piv in parameter.items():
@@ -160,16 +168,16 @@ def __add_md_parameter_lines(lines, parameter):
             lines.append(js.join([f'    - `{k}`: `{str(v).replace("{", "").replace("}", "")}`    ' for k, v in piv.items()]))                    
         elif type(piv) is list:
             js = '`    \n    - `'
-            piv = f'    \n    - `{js.join([str(x) for x in piv])}`    '
-            lines.append(f'* `{pik}`: {piv}    ')
+            piv = f'    \n    - `{js.join([str(x).replace("{", "").replace("}", "").replace("'", "") for x in piv])}`    '
+            lines.append(f'    \n* `{pik}`: {piv}    ')
         elif "default" in pik or "pattern" in pik and len(str(piv)) > 0:
-            lines.append(f'* `{pik}`: `{piv}`    ')
+            lines.append(f'    \n* `{pik}`: `{piv}`    ')
         elif "description" in pik:
-            lines.append(f'#### {pik}\n')
+            lines.append(f'#### Description\n')
             piv = piv.replace("*", "    \n*")
-            lines.append(f'{piv}    ')
+            lines.append(f'{piv}    \n#### Definitions\n')
         else:
-            lines.append(f'* `{pik}`: `{piv}`    ')
+            lines.append(f'    \n* `{pik}`: `{piv}`    ')
         lines.append(f'\n')
 
     return lines

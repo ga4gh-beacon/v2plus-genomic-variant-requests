@@ -44,7 +44,7 @@
             "type": "string"
         },
         "CopyChange": {
-            "description": "MUST use a primaryCode representing one of: * EFO:0030069: complete genomic loss * EFO:0020073: high-level loss * EFO:0030068: low-level loss * EFO:0030067: loss * EFO:0030064: regional base ploidy * EFO:0030070: gain * EFO:0030071: low-level gain * EFO:0030072: high-level gain Endpoints are expected to provide query expansion according to the hierarchy of the terms:\n```\n- EFO:0030064 - EFO:0030067\n    |- EFO:0030068\n    \\- EFO:0020073\n         \\- EFO:0030069\n- EFO:0030070\n    |- EFO:0030071\n    \\- EFO:0030072\n\n```\n\nOrigin: Beacon v2.n, based on VRS v1.3+",
+            "description": "MUST use a primaryCode representing one of:\n``` * EFO:0030069: complete genomic loss     * EFO:0020073: high-level loss     * EFO:0030068: low-level loss     * EFO:0030067: loss     * EFO:0030064: regional base ploidy     * EFO:0030070: gain     * EFO:0030071: low-level gain     * EFO:0030072: high-level gain    \n```\nEndpoints are expected to provide query expansion according to the hierarchy of the terms:\n```\n- EFO:0030064 - EFO:0030067\n    |- EFO:0030068\n    \\- EFO:0020073\n         \\- EFO:0030069\n- EFO:0030070\n    |- EFO:0030071\n    \\- EFO:0030072\n\n```\n\nOrigin: Beacon v2.n, based on VRS v1.3+",
             "enum": [
                 "EFO:0030069",
                 "EFO:0020073",
@@ -149,7 +149,7 @@
             "type": "string"
         },
         "Sequence": {
-            "description": "DNA bases. * Accepted values: `[ACGTN]*` * N is a wildcard, that denotes the position of any base,\n  and can be used as a standalone base of any type or within a partially known\n  sequence. As example, a query of `ANNT` the Ns can take take any form of [ACGT]\n  and will match `ANNT`, `ACNT`, `ACCT`, `ACGT` ... and so forth.\nOrigin: VRS v1.n TODO: Review use of base characters.",
+            "description": "DNA bases.    \n* Accepted values: `[ACGTN]*`     * N is a wildcard, that denotes the position of any base,\n  and can be used as a standalone base of any type or within a partially known\n  sequence. As example, a query of `ANNT` the Ns can take take any form of [ACGT]\n  and will match `ANNT`, `ACNT`, `ACCT`, `ACGT` ... and so forth.    \n\nOrigin: VRS v1.n\nTODO: Review use of base characters.",
             "type": "string"
         },
         "SequenceEnd": {
@@ -162,7 +162,7 @@
             ]
         },
         "SequenceLength": {
-            "description": "The sequence length when querying the conceptual representation of a sequence according to a VRS `ReferenceLengthExpression` class. Origin: VRS v2",
+            "description": "The sequence length when querying the conceptual representation of a sequence according to a VRS `ReferenceLengthExpression` class.    \nOrigin: VRS v2",
             "oneOf": [
                 "integer",
                 {
@@ -189,6 +189,19 @@
             "maxItems": 2,
             "minItems": 1,
             "type": "array"
+        },
+        "VRStype": {
+            "description": "Type of the variation according to the VRS model. Examples are here e.g. `Adjacency` or `Allele`. Origin: VRS v2",
+            "enum": [
+                "Adjacency",
+                "Allele",
+                "CisPhasedBlock",
+                "CopyNumberChange",
+                "CopyNumberCount",
+                "DerivativeMolecule",
+                "Terminus"
+            ],
+            "type": "string"
         },
         "VariantId": {
             "description": "* A variant identifier such as a VRSid, ClinVar id, dbSNP rsID or a\n  COSMIC identifier\n* In the default data model this query parameter corresponds to\n  `identifiers.variantAlternateIds` but potentially can map to other\n  identifiers as well.\nStatus: PROPOSED FOR BEACON v2.n",

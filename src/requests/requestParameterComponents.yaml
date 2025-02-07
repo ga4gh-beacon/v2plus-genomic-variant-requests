@@ -10,6 +10,7 @@ $defs:
     description: >-
       A GA4GH RefGet identifier for the __adjacent__ sequence in adjacency/fusion
       scenarios.
+
     $ref: "#/$defs/RefgetAccession"
 
   AdjacencyStart:
@@ -17,6 +18,7 @@ $defs:
       Start position or range (_i.e._ in case of a fuzzy breakpoint) on an
       adjacent sequence in case of a sequence adjecency
       Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification
+
     oneOf:
       - integer
       - $ref: "#/$defs/Range"
@@ -26,6 +28,7 @@ $defs:
       End position or range (_i.e._ in case of a fuzzy breakpoint) on an
       adjacent sequence in case of a sequence adjecency
       Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification
+
     oneOf:
       - integer
       - $ref: "#/$defs/Range"
@@ -34,6 +37,7 @@ $defs:
     description: >-
       Aminoacid alteration of interest. Format 1 letter
       Origin: Beacon v2.0
+
     type: string
     examples:
       - V600E
@@ -42,14 +46,19 @@ $defs:
   CopyChange:
     description: >-
       MUST use a primaryCode representing one of:
-      * EFO:0030069: complete genomic loss
-      * EFO:0020073: high-level loss
-      * EFO:0030068: low-level loss
-      * EFO:0030067: loss
-      * EFO:0030064: regional base ploidy
-      * EFO:0030070: gain
-      * EFO:0030071: low-level gain
-      * EFO:0030072: high-level gain
+
+      ```
+      * EFO:0030069: complete genomic loss    
+      * EFO:0020073: high-level loss    
+      * EFO:0030068: low-level loss    
+      * EFO:0030067: loss    
+      * EFO:0030064: regional base ploidy    
+      * EFO:0030070: gain    
+      * EFO:0030071: low-level gain    
+      * EFO:0030072: high-level gain    
+
+      ```
+
       Endpoints are expected to provide query expansion according to the hierarchy
       of the terms:
 
@@ -85,6 +94,7 @@ $defs:
       * It is strongly suggested to use a symbol following
         the HGNC (https://www.genenames.org) nomenclature.
       Origin: Beacon v2.0
+
     type: string
     examples:
       - BRAF
@@ -94,6 +104,7 @@ $defs:
     description: >-
       HGVSId descriptor
       Origin: Beacon v2.0
+
     type: string
     examples:
       - NM_004006.2:c.4375C>T
@@ -102,6 +113,7 @@ $defs:
     description: >-
       An array of 2 integer values. If referring to sequence positions the
       "0-based, inclusive" format is used.
+
     type: array
     items: 
       type: integer
@@ -117,6 +129,7 @@ $defs:
       according to the VRS v2 definition.
       Origin: VRS v2
       Reference: [GA4GH RefGet](http://samtools.github.io/hts-specs/refget.html)
+
     type: string
     examples:
       - refseq:NC_000009.12
@@ -129,6 +142,7 @@ $defs:
       `repeatSubunitLength` (required) and `sequence` (optional) to allow e.g.
       queries for ranges of increased repeat number.
       Origin: Beacon v2+ with reference to VRS v2 `ReferenceLengthExpression`
+ 
     oneOf:
       - integer
       - $ref: "#/$defs/Range"
@@ -154,21 +168,27 @@ $defs:
 
   Sequence:
     description: >-
-      DNA bases.
-      * Accepted values: `[ACGTN]*`
+      DNA bases.    
+
+      * Accepted values: `[ACGTN]*`    
       * N is a wildcard, that denotes the position of any base,
         and can be used as a standalone base of any type or within a partially known
         sequence. As example, a query of `ANNT` the Ns can take take any form of [ACGT]
-        and will match `ANNT`, `ACNT`, `ACCT`, `ACGT` ... and so forth.
+        and will match `ANNT`, `ACNT`, `ACCT`, `ACGT` ... and so forth.    
+
       Origin: VRS v1.n
+
       TODO: Review use of base characters.
+
     type: string
 
   SequenceLength:
     description: >-
       The sequence length when querying the conceptual representation of a
-      sequence according to a VRS `ReferenceLengthExpression` class.
+      sequence according to a VRS `ReferenceLengthExpression` class.    
+
       Origin: VRS v2
+
     oneOf:
       - integer
       - $ref: "#/$defs/Range"
@@ -177,6 +197,7 @@ $defs:
     description: >-
       Start position or range (_i.e._ in case of a fuzzy breakpoint) on a sequence.
       Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification
+
     oneOf:
       - integer
       - $ref: "#/$defs/Range"
@@ -185,6 +206,7 @@ $defs:
     description: >-
       End position or range (_i.e._ in case of a fuzzy breakpoint) on a sequence.
       Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification
+
     oneOf:
       - integer
       - $ref: "#/$defs/Range"
@@ -197,6 +219,7 @@ $defs:
         `identifiers.variantAlternateIds` but potentially can map to other
         identifiers as well.
       Status: PROPOSED FOR BEACON v2.n
+
     type: string
     examples:
       - ClinGen:CA152954
@@ -224,9 +247,26 @@ $defs:
         variants with indicated referenceBases and alternateBases, to enable
         length-specific wildcard queries.
       Origin: Beacon v2.0
+
     type: integer
     format: int64
     minimum: 1
+
+  VRStype:
+    description: >-
+      Type of the variation according to the VRS model. Examples are here e.g.
+      `Adjacency` or `Allele`.
+      Origin: VRS v2
+
+    type: string
+    enum:
+      - Adjacency
+      - Allele
+      - CisPhasedBlock
+      - CopyNumberChange
+      - CopyNumberCount
+      - DerivativeMolecule
+      - Terminus
 
 ################################################################################
 # properties below are Beacon v1/v2 legacy and might be removed in future versions
@@ -376,16 +416,16 @@ $defs:
     $ref: "#/$defs/RefSeqId"
 
   MateStart:
-    type: integer
     description: >-
       genomic start position of fusion partner breakpoint region
       Status: DEPRECATED in v2.n (see `mateName`)
+    type: integer
 
   MateEnd:
-    type: integer
     description: >-
       genomic end position of fusion partner breakpoint region
       Status: DEPRECATED in v2.n (see `mateName`)
+    type: integer
 
 
 
