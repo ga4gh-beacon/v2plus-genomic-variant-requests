@@ -13,29 +13,29 @@ $defs:
     type: object
     properties:
       assemblyId:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/Assembly"
+        $ref: "./requestParameterComponents.yaml#/$defs/Assembly"
       referenceName:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/RefSeqId"
+        $ref: "./requestParameterComponents.yaml#/$defs/RefSeqId"
       referenceBases:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/ReferenceBases"
+        $ref: "./requestParameterComponents.yaml#/$defs/ReferenceBases"
       alternateBases:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/AlternateBases"
+        $ref: "./requestParameterComponents.yaml#/$defs/AlternateBases"
       variantType:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantType"
+        $ref: "./requestParameterComponents.yaml#/$defs/VariantType"
       start:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/Start"
+        $ref: "./requestParameterComponents.yaml#/$defs/Start"
       end:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/End"
+        $ref: "./requestParameterComponents.yaml#/$defs/End"
       geneId:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/GeneId"
+        $ref: "./requestParameterComponents.yaml#/$defs/GeneId"
       aminoacidChange:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/AminoacidChange"
+        $ref: "./requestParameterComponents.yaml#/$defs/AminoacidChange"
       genomicAlleleShortForm:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/GenomicAlleleShortForm"
+        $ref: "./requestParameterComponents.yaml#/$defs/GenomicAlleleShortForm"
       variantMinLength:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMinLength"
+        $ref: "./requestParameterComponents.yaml#/$defs/VariantMinLength"
       variantMaxLength:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMaxLength"
+        $ref: "./requestParameterComponents.yaml#/$defs/VariantMaxLength"
     examples:
       $ref: "../examples/g_variant.yaml#/examples"
 
@@ -50,37 +50,39 @@ $defs:
     type: object
     properties:
       requestProfileId:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/RequestProfileId"
+        $ref: "./requestParameterComponents.yaml#/$defs/RequestProfileId"
       referenceAccession:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
+        $ref: "./requestParameterComponents.yaml#/$defs/RefgetAccession"
       start:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/SequenceStart"
+        $ref: "./requestParameterComponents.yaml#/$defs/SequenceStart"
       end:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/SequenceEnd"
+        $ref: "./requestParameterComponents.yaml#/$defs/SequenceEnd"
       sequence:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/Sequence"
+        $ref: "./requestParameterComponents.yaml#/$defs/Sequence"
       copyChange:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/CopyChange"
+        $ref: "./requestParameterComponents.yaml#/$defs/CopyChange"
       adjacencyAccession:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/AdjacencyAccession"
+        $ref: "./requestParameterComponents.yaml#/$defs/AdjacencyAccession"
       adjacencyStart:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/AdjacencyStart"
+        $ref: "./requestParameterComponents.yaml#/$defs/AdjacencyStart"
       adjacencyEnd:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/AdjacencyEnd"
+        $ref: "./requestParameterComponents.yaml#/$defs/AdjacencyEnd"
+      repeatSubunitCount:
+        $ref: "./requestParameterComponents.yaml#/$defs/RepeatSubunitCount"
       repeatSubunitLength:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/RepeatSubunitLength"
+        $ref: "./requestParameterComponents.yaml#/$defs/RepeatSubunitLength"
       geneId:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/GeneId"
+        $ref: "./requestParameterComponents.yaml#/$defs/GeneId"
       aminoacidChange:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/AminoacidChange"
+        $ref: "./requestParameterComponents.yaml#/$defs/AminoacidChange"
       genomicAlleleShortForm:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/GenomicAlleleShortForm"
+        $ref: "./requestParameterComponents.yaml#/$defs/GenomicAlleleShortForm"
       sequenceLength:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/SequenceLength"
+        $ref: "./requestParameterComponents.yaml#/$defs/SequenceLength"
       variantMinLength:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMinLength"
+        $ref: "./requestParameterComponents.yaml#/$defs/VariantMinLength"
       variantMaxLength:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMaxLength"
+        $ref: "./requestParameterComponents.yaml#/$defs/VariantMaxLength"
 
 ################################################################################
 # BV2: Typed Beacon v2 queries utilizing v2.0 parameters
@@ -96,15 +98,15 @@ $defs:
           on v2 parameters.
         const: BV2alleleRequest
       assemblyId:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/Assembly"
+        $ref: "./requestParameterComponents.yaml#/$defs/Assembly"
       referenceName:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/RefSeqId"
+        $ref: "./requestParameterComponents.yaml#/$defs/RefSeqId"
       start:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/Start"
+        $ref: "./requestParameterComponents.yaml#/$defs/Start"
       referenceBases:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/ReferenceBases"
+        $ref: "./requestParameterComponents.yaml#/$defs/ReferenceBases"
       alternateBases:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/AlternateBases"
+        $ref: "./requestParameterComponents.yaml#/$defs/AlternateBases"
     required:
       - referenceName
       - start
@@ -126,19 +128,19 @@ $defs:
       requestProfileId:
         const: BV2bracketRequest
       assemblyId:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/Assembly"
+        $ref: "./requestParameterComponents.yaml#/$defs/Assembly"
       referenceName:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/RefSeqId"
+        $ref: "./requestParameterComponents.yaml#/$defs/RefSeqId"
       start:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/Start"
+        $ref: "./requestParameterComponents.yaml#/$defs/Start"
       end:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/End"
+        $ref: "./requestParameterComponents.yaml#/$defs/End"
       variantType:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantType"
+        $ref: "./requestParameterComponents.yaml#/$defs/VariantType"
       variantMinLength:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMinLength"
+        $ref: "./requestParameterComponents.yaml#/$defs/VariantMinLength"
       variantMaxLength:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMaxLength"
+        $ref: "./requestParameterComponents.yaml#/$defs/VariantMaxLength"
     required:
       - referenceName
       - start
@@ -159,9 +161,9 @@ $defs:
       requestProfileId:
         const: BV2rangeRequest
       assemblyId:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/Assembly"
+        $ref: "./requestParameterComponents.yaml#/$defs/Assembly"
       referenceName:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/RefSeqId"
+        $ref: "./requestParameterComponents.yaml#/$defs/RefSeqId"
       start:
         type: array
         items:
@@ -175,11 +177,11 @@ $defs:
           minItems: 1
           maxItems: 1
       variantType:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantType"
+        $ref: "./requestParameterComponents.yaml#/$defs/VariantType"
       variantMinLength:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMinLength"
+        $ref: "./requestParameterComponents.yaml#/$defs/VariantMinLength"
       variantMaxLength:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMaxLength"
+        $ref: "./requestParameterComponents.yaml#/$defs/VariantMaxLength"
     required:
       - referenceName
       - start
@@ -199,7 +201,7 @@ $defs:
       requestProfileId:
         const: BV2variantIdRequest
       variantId:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantId"
+        $ref: "./requestParameterComponents.yaml#/$defs/VariantId"
 
   BV2aminoacidChangeRequest:
     description: >-
@@ -211,9 +213,9 @@ $defs:
       requestProfileId:
         const: BV2aminoacidChangeRequest
       aminoacidChange:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/AminoacidChange"
+        $ref: "./requestParameterComponents.yaml#/$defs/AminoacidChange"
       geneId:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/GeneId"
+        $ref: "./requestParameterComponents.yaml#/$defs/GeneId"
     required:
       - aminoacidChange
 
@@ -221,7 +223,7 @@ $defs:
     type: object
     properties:
       genomicAlleleShortForm:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/GenomicAlleleShortForm"
+        $ref: "./requestParameterComponents.yaml#/$defs/GenomicAlleleShortForm"
 
   BV2geneIdRequest:
     description: >-
@@ -235,13 +237,13 @@ $defs:
       requestProfileId:
         const: BV2geneIdRequest
       geneId:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/GeneId"
+        $ref: "./requestParameterComponents.yaml#/$defs/GeneId"
       variantType:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantType"
+        $ref: "./requestParameterComponents.yaml#/$defs/VariantType"
       variantMinLength:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMinLength"
+        $ref: "./requestParameterComponents.yaml#/$defs/VariantMinLength"
       variantMaxLength:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMaxLength"
+        $ref: "./requestParameterComponents.yaml#/$defs/VariantMaxLength"
     required:
       - geneId
 
@@ -259,13 +261,13 @@ $defs:
       requestProfileId:
         const: VQSsequenceRequest
       referenceAccession:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
+        $ref: "./requestParameterComponents.yaml#/$defs/RefgetAccession"
       start:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/SequenceStart"
+        $ref: "./requestParameterComponents.yaml#/$defs/SequenceStart"
       end:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/SequenceEnd"
+        $ref: "./requestParameterComponents.yaml#/$defs/SequenceEnd"
       sequence:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/Sequence"
+        $ref: "./requestParameterComponents.yaml#/$defs/Sequence"
     required:
       - referenceAccession
       - start
@@ -282,17 +284,17 @@ $defs:
       requestProfileId:
         const: VQScopyChangeRequest
       referenceAccession:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
+        $ref: "./requestParameterComponents.yaml#/$defs/RefgetAccession"
       start:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/SequenceStart"
+        $ref: "./requestParameterComponents.yaml#/$defs/SequenceStart"
       end:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/SequenceEnd"
+        $ref: "./requestParameterComponents.yaml#/$defs/SequenceEnd"
       copyChange:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/CopyChange"
+        $ref: "./requestParameterComponents.yaml#/$defs/CopyChange"
       variantMinLength:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMinLength"
+        $ref: "./requestParameterComponents.yaml#/$defs/VariantMinLength"
       variantMaxLength:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMaxLength"
+        $ref: "./requestParameterComponents.yaml#/$defs/VariantMaxLength"
     required:
       - referenceAccession
       - start
@@ -314,17 +316,17 @@ $defs:
       requestProfileId:
         const: VQSadjacencyRequest
       referenceAccession:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
+        $ref: "./requestParameterComponents.yaml#/$defs/RefgetAccession"
       start:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/SequenceStart"
+        $ref: "./requestParameterComponents.yaml#/$defs/SequenceStart"
       end:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/SequenceEnd"
+        $ref: "./requestParameterComponents.yaml#/$defs/SequenceEnd"
       adjacencyAccession:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/AdjacencyAccession"
+        $ref: "./requestParameterComponents.yaml#/$defs/AdjacencyAccession"
       adjacencyStart:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/AdjacencyStart"
+        $ref: "./requestParameterComponents.yaml#/$defs/AdjacencyStart"
       adjacencyEnd:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/AdjacencyEnd"
+        $ref: "./requestParameterComponents.yaml#/$defs/AdjacencyEnd"
 
   VQSsequenceRepeatRequest:
     description: >-
@@ -333,15 +335,15 @@ $defs:
     type: object
     properties:
       referenceAccession:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/RefgetAccession"
+        $ref: "./requestParameterComponents.yaml#/$defs/RefgetAccession"
       start:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/SequenceStart"
+        $ref: "./requestParameterComponents.yaml#/$defs/SequenceStart"
       end:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/SequenceEnd"
+        $ref: "./requestParameterComponents.yaml#/$defs/SequenceEnd"
       repeatSubunitLength:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/RepeatSubunitLength"
+        $ref: "./requestParameterComponents.yaml#/$defs/RepeatSubunitLength"
       repeatSubunitCount:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/RepeatSubunitCount"
+        $ref: "./requestParameterComponents.yaml#/$defs/RepeatSubunitCount"
 
   VQSgeneIdRequest:
     description: >-
@@ -355,17 +357,17 @@ $defs:
       requestProfileId:
         const: VQSgeneIdRequest
       geneId:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/GeneId"
+        $ref: "./requestParameterComponents.yaml#/$defs/GeneId"
       copyChange:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/CopyChange"
+        $ref: "./requestParameterComponents.yaml#/$defs/CopyChange"
       variantMinLength:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMinLength"
+        $ref: "./requestParameterComponents.yaml#/$defs/VariantMinLength"
       variantMaxLength:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/VariantMaxLength"
+        $ref: "./requestParameterComponents.yaml#/$defs/VariantMaxLength"
       molecularEffect:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/molecularEffect"
+        $ref: "./requestParameterComponents.yaml#/$defs/molecularEffect"
       clinicalRelevance:
-        $ref: "./common/requestParameterComponents.yaml#/$defs/clinicalRelevance"
+        $ref: "./requestParameterComponents.yaml#/$defs/clinicalRelevance"
     required:
       - geneId
 

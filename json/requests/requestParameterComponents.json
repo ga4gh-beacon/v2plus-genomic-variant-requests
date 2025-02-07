@@ -23,7 +23,7 @@
             ]
         },
         "AlternateBases": {
-            "$ref": "./common/requestParameterComponents.json#/$defs/Sequence",
+            "$ref": "#/$defs/Sequence",
             "description": "The bases of a sequence variant at a given position differing from the reference sequence, as defined by the `referenceBases` parameter. Please see `refereenceBases` for further information. Origin: VCF derived use in Beacon v0.3 -> v2.1 Status: LEGACY"
         },
         "AminoacidChange": {

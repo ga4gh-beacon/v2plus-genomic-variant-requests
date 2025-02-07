@@ -90,6 +90,8 @@ def main():
     vqs_f = path.join(generated_docs_path, f"requestProfiles_{ph}.md")
     vqs_fh = open(vqs_f, "w")
     vqs_fh.write(f'# Beacon VQS Requests\n\n{request_pattern_ids.get(ph, "")}\n\n')
+    vqs_fh.write(f'## {ph} Parameters\n\n')
+    ls = []
     ls = __add_md_parameter_lines(ls, schemas["requestProfiles"]["$defs"][ph]["properties"])
     vqs_fh.write("\n".join(ls).replace("\n\n", "\n").replace("\n\n", "\n").replace("\n#", "\n\n#"))
     vqs_fh.write(f'\n\n## Beacon v2+/VQS "VRSified" Request Examples\n\n')
@@ -118,6 +120,7 @@ def main():
                     ls = []
                     ls.append(f'#### Request \n')
                     ls = __add_md_parameter_lines(ls, rq)
+                    ls.append(f'\n##### GET string\n```{__request_make_GET(rq)}```\n')
                     rp_fh.write("\n".join(ls).replace("\n\n", "\n").replace("\n\n", "\n").replace("\n#", "\n\n#"))
                     if "BV2" in rp_id:
                         gv_fh.write("\n".join(ls).replace("\n\n", "\n").replace("\n\n", "\n").replace("\n#", "\n\n#"))
@@ -133,6 +136,17 @@ def main():
 
     system(f'rsync -avh --delete {generated_docs_path}/ {external_documantation_path}/')
 
+
+################################################################################
+
+def __request_make_GET(rq):
+    pars = []
+    for k, v in rq.items():
+        if type(v) is list:
+            pars.append(f'{k}={",".join(str(x) for x in v)}')
+        else:
+            pars.append(f'{k}={v}')
+    return f'{"&".join(pars)}'
 
 ################################################################################
 

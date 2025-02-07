@@ -14,10 +14,14 @@ CAVE: Since no variant type is indicated such a query can potentially match a la
 * `end`:     
     - `345681`        
 
+##### GET string
+```assemblyId=GRCh38&referenceName=17&start=345675&end=345681```
+
 
 ### Query for a deletion involving TP53
 #### Solution using `g_variant` with position range
 Query for a deletion involving TP53 using the maximum extent of the gene's coding region (known from somewhere...). The deletion to be found are expected to have an overlap with the queried range; however, the extent of the overlap is not pre-defined (most endpoints woul respond to a **recommended** "any" overlap but this is not a strict requirement imposed by the schema). Here positions refer to chromosome 17 on GRCh38 as indicated by the referenceName RefSeq ID.
+*Recommendation* Implementers should provide a mechanism to match any "deletion" `variantType` (`EFO:0030067`, `DEL`, `SO:0001743`) independent of size since operational definitions of `CNV` vs. `INDEL` vary, and use explicit `variantMinLength`, `variantMaxLength` parameters if needed.
 #### Request 
 * `referenceName`: `refseq:NC_0000017.11`    
 * `start`:     
@@ -25,6 +29,9 @@ Query for a deletion involving TP53 using the maximum extent of the gene's codin
 * `end`:     
     - `7676593`        
 * `variantType`: `DEL`    
+
+##### GET string
+```referenceName=refseq:NC_0000017.11&start=7669608&end=7676593&variantType=DEL```
 
 
 ### Find insertion events in TP53 or in close proximity (±~5000bp)
@@ -38,3 +45,6 @@ The "insertion" type is here provided through the Sequence Ontology term `SO:000
 * `end`:     
     - `7682000`        
 * `variantType`: `SO:0000667`    
+
+##### GET string
+```referenceName=refseq:NC_0000017.11&start=7664000&end=7682000&variantType=SO:0000667```

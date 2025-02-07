@@ -1,7 +1,7 @@
 {
     "examples": {
         "BV2range__deletion_01": {
-            "description": "### Query for a deletion involving TP53\n#### Solution using `g_variant` with position range\nQuery for a deletion involving TP53 using the maximum extent of the gene's coding region (known from somewhere...). The deletion to be found are expected to have an overlap with the queried range; however, the extent of the overlap is not pre-defined (most endpoints woul respond to a **recommended** \"any\" overlap but this is not a strict requirement imposed by the schema). Here positions refer to chromosome 17 on GRCh38 as indicated by the referenceName RefSeq ID.",
+            "description": "### Query for a deletion involving TP53\n#### Solution using `g_variant` with position range\nQuery for a deletion involving TP53 using the maximum extent of the gene's coding region (known from somewhere...). The deletion to be found are expected to have an overlap with the queried range; however, the extent of the overlap is not pre-defined (most endpoints woul respond to a **recommended** \"any\" overlap but this is not a strict requirement imposed by the schema). Here positions refer to chromosome 17 on GRCh38 as indicated by the referenceName RefSeq ID.\n*Recommendation* Implementers should provide a mechanism to match any \"deletion\" `variantType` (`EFO:0030067`, `DEL`, `SO:0001743`) independent of size since operational definitions of `CNV` vs. `INDEL` vary, and use explicit `variantMinLength`, `variantMaxLength` parameters if needed.",
             "request": {
                 "end": [
                     7676593

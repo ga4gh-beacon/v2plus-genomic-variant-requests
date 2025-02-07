@@ -281,7 +281,7 @@ $defs:
       see `refereenceBases` for further information.
       Origin: VCF derived use in Beacon v0.3 -> v2.1
       Status: LEGACY
-    $ref: "./common/requestParameterComponents.yaml#/$defs/Sequence"
+    $ref: "#/$defs/Sequence"
 
   VariantType:
     description: >-

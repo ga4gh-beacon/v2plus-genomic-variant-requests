@@ -10,6 +10,9 @@ Query for a deletion involving TP53 by using the HUGO name to specify the gene. 
 * `geneId`: `TP53`    
 * `variantType`: `DEL`    
 
+##### GET string
+```geneId=TP53&variantType=DEL```
+
 
 ### Find insertion events in TP53
 #### Solution using `g_variant` with `geneId` (`BV2geneIdRequest`)
@@ -18,3 +21,6 @@ The "insertion" type is here provided through the Sequence Ontology term `SO:000
 #### Request 
 * `geneId`: `TP53`    
 * `variantType`: `SO:0000667`    
+
+##### GET string
+```geneId=TP53&variantType=SO:0000667```

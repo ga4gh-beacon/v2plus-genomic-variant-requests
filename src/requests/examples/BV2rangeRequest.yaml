@@ -35,6 +35,11 @@ examples:
       overlap but this is not a strict requirement imposed by the schema).
       Here positions refer to chromosome 17 on GRCh38 as indicated by the referenceName
       RefSeq ID.
+
+      *Recommendation* Implementers should provide a mechanism to match any "deletion"
+      `variantType` (`EFO:0030067`, `DEL`, `SO:0001743`) independent of size since
+      operational definitions of `CNV` vs. `INDEL` vary, and use explicit `variantMinLength`,
+      `variantMaxLength` parameters if needed.
     request:
       referenceName: refseq:NC_0000017.11
       start:

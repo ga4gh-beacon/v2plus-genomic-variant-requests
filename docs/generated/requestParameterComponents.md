@@ -241,7 +241,7 @@ The reference bases for the variant at the indicated position. It is based on th
 
 #### description
 The bases of a sequence variant at a given position differing from the reference sequence, as defined by the `referenceBases` parameter. Please see `refereenceBases` for further information. Origin: VCF derived use in Beacon v0.3 -> v2.1 Status: LEGACY    
-* `$ref`: `./common/requestParameterComponents.yaml#/$defs/Sequence`    
+* `$ref`: `#/$defs/Sequence`    
 
 ## `VariantType` 
 

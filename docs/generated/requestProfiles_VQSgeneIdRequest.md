@@ -12,3 +12,6 @@ Query for a deletion involving TP53 by using the HUGO name to specify the gene. 
 * `copyChange`: `EFO:0030067`    
 * `variantMinLength`: `1000`    
 * `variantMaxLength`: `3000000`    
+
+##### GET string
+```requestType=VQSgeneIdRequest&geneId=TP53&copyChange=EFO:0030067&variantMinLength=1000&variantMaxLength=3000000```
