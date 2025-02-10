@@ -1,4 +1,4 @@
-# VAriant queries (and representation) beyond Beacon v2
+# Variant queries (and representation) beyond Beacon v2 - **VQS**
 
 Starting from the Beacon v2 `GenomicVariation` model this repository provides a develop and test environment for the Beacon Variant Scouts team, to generate an updated query and data model aligned with VRS v2.n.
 
