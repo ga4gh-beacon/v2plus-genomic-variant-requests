@@ -126,15 +126,6 @@
             ],
             "type": "string"
         },
-        "RepeatSubunitCount": {
-            "description": "The number of repeats of a given repeat subunit. This is in addition to the options in the VRS model where repeats are expressed by their `length` and `repeatSubunitLength` (required) and `sequence` (optional) to allow e.g. queries for ranges of increased repeat number. Origin: Beacon v2+ with reference to VRS v2 `ReferenceLengthExpression`",
-            "oneOf": [
-                "integer",
-                {
-                    "$ref": "#/$defs/Range"
-                }
-            ]
-        },
         "RepeatSubunitLength": {
             "description": "The number of residues in a repeat subunit. In contrast to the VRS model we allow for range queries (e.g. all repeats with subunits of 1 or 2). Origin: VRS v2",
             "oneOf": [

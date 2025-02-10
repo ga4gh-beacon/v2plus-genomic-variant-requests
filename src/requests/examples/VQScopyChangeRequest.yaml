@@ -24,7 +24,7 @@ examples:
         - 63900000
         - 242193529
       copyChange: EFO:0030070
-      vrsType: copyChange
+      vrsType: CopyNumberCount
 
 
   VQScopyChange_02:
@@ -54,5 +54,6 @@ examples:
         - 21967753
         - 23000000
       copyChange: EFO:0020073
-      vrsType: copyChange
+      vrsType: CopyNumberCount
+
 
