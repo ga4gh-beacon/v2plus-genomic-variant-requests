@@ -11,6 +11,9 @@ $defs:
       A GA4GH RefGet identifier for the __adjacent__ sequence in adjacency/fusion
       scenarios.
 
+    versions:
+      - v2plus
+
     $ref: "#/$defs/RefgetAccession"
 
   AdjacencyStart:
@@ -18,6 +21,9 @@ $defs:
       Start position or range (_i.e._ in case of a fuzzy breakpoint) on an
       adjacent sequence in case of a sequence adjecency
       Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification
+
+    versions:
+      - v2plus
 
     oneOf:
       - integer
@@ -29,6 +35,9 @@ $defs:
       adjacent sequence in case of a sequence adjecency
       Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification
 
+    versions:
+      - v2plus
+
     oneOf:
       - integer
       - $ref: "#/$defs/Range"
@@ -37,6 +46,10 @@ $defs:
     description: >-
       Aminoacid alteration of interest. Format 1 letter
       Origin: Beacon v2.0
+
+    versions:
+      - v2.0
+      - v2plus
 
     type: string
     examples:
@@ -77,6 +90,10 @@ $defs:
 
 
       Origin: Beacon v2.n, based on VRS v1.3+
+
+    versions:
+      - v2plus
+
     type: string
     enum:
       - EFO:0030069
@@ -95,6 +112,10 @@ $defs:
         the HGNC (https://www.genenames.org) nomenclature.
       Origin: Beacon v2.0
 
+    versions:
+      - v2.0
+      - v2plus
+
     type: string
     examples:
       - BRAF
@@ -105,6 +126,10 @@ $defs:
       HGVSId descriptor
       Origin: Beacon v2.0
 
+    versions:
+      - v2.0
+      - v2plus
+
     type: string
     examples:
       - NM_004006.2:c.4375C>T
@@ -113,6 +138,9 @@ $defs:
     description: >-
       An array of 2 integer values. If referring to sequence positions the
       "0-based, inclusive" format is used.
+
+    versions:
+      - v2plus
 
     type: array
     items: 
@@ -130,28 +158,23 @@ $defs:
       Origin: VRS v2
       Reference: [GA4GH RefGet](http://samtools.github.io/hts-specs/refget.html)
 
+    versions:
+      - v2plus
+
     type: string
     examples:
       - refseq:NC_000009.12
       - ga4gh:SQ.S_KjnFVz-FE7M0W6yoaUDgYxLPc1jyWU
-
-  # RepeatSubunitCount:
-  #   description: >-
-  #     The number of repeats of a given repeat subunit. This is in addition to the
-  #     options in the VRS model where repeats are expressed by their `length` and
-  #     `repeatSubunitLength` (required) and `sequence` (optional) to allow e.g.
-  #     queries for ranges of increased repeat number.
-  #     Origin: Beacon v2+ with reference to VRS v2 `ReferenceLengthExpression`
- 
-  #   oneOf:
-  #     - integer
-  #     - $ref: "#/$defs/Range"
 
   RepeatSubunitLength:
     description: >-
       The number of residues in a repeat subunit. In contrast to the VRS model we
       allow for range queries (e.g. all repeats with subunits of 1 or 2).
       Origin: VRS v2
+
+    versions:
+      - v2plus
+
     oneOf:
       - integer
       - $ref: "#/$defs/Range"
@@ -164,6 +187,10 @@ $defs:
       The parameter definition here is a placeholder; the definitions of typed queries
       will use constant values for their `requestProfileId` parameter.
       Origin: Beacon v2+
+
+    versions:
+      - v2plus
+
     type: string
 
   Sequence:
@@ -180,14 +207,24 @@ $defs:
 
       TODO: Review use of base characters.
 
+    versions:
+      - v2plus
+
     type: string
 
   SequenceLength:
     description: >-
       The sequence length when querying the conceptual representation of a
-      sequence according to a VRS `ReferenceLengthExpression` class.    
+      sequence according to a VRS `ReferenceLengthExpression` class.
+
+      Additionally, the `sequenceLength` parameter can be used to limit the length
+      of matched variants, e.g. by specifying a range of lengths for `copyChange`
+      matches.
 
       Origin: VRS v2
+
+    versions:
+      - v2plus
 
     oneOf:
       - integer
@@ -198,6 +235,9 @@ $defs:
       Start position or range (_i.e._ in case of a fuzzy breakpoint) on a sequence.
       Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification
 
+    versions:
+      - v2plus
+
     oneOf:
       - integer
       - $ref: "#/$defs/Range"
@@ -206,6 +246,9 @@ $defs:
     description: >-
       End position or range (_i.e._ in case of a fuzzy breakpoint) on a sequence.
       Status: PROPOSED FOR BEACON v2.n, based on VRS v2 with modification
+
+    versions:
+      - v2plus
 
     oneOf:
       - integer
@@ -217,46 +260,26 @@ $defs:
         COSMIC identifier
       * In the default data model this query parameter corresponds to
         `identifiers.variantAlternateIds` but potentially can map to other
-        identifiers as well.
+        identifiers as well. However, no specific query parameterwas defined
+        in the Beacon v2 default model.
       Status: PROPOSED FOR BEACON v2.n
+
+    versions:
+      - v2plus
 
     type: string
     examples:
       - ClinGen:CA152954
       - dbSNP:rs587780345
 
-  VariantMinLength:
-    description: >-
-      * Minimum length in bases of a genomic variant
-      * This is an optional parameter without prescribed use. While a length is
-        commonly available for structural variants such as copy number variations,
-        it is recommended that length based queries should also be supported for
-        variants with indicated referenceBases and alternateBases, to enable
-        length-specific wildcard queries.
-      Origin: Beacon v2.0
-    type: integer
-    format: int64
-    minimum: 0
-
-  VariantMaxLength:
-    description: >-
-      * Maximum length in bases of a genomic variant.
-      * This is an optional parameter without prescribed use. While a length is
-        commonly available for structural variants such as copy number variations,
-        it is recommended that length based queries should also be supported for
-        variants with indicated referenceBases and alternateBases, to enable
-        length-specific wildcard queries.
-      Origin: Beacon v2.0
-
-    type: integer
-    format: int64
-    minimum: 1
-
   VRStype:
     description: >-
       Type of the variation according to the VRS model. Examples are here e.g.
       `Adjacency` or `Allele`.
       Origin: VRS v2
+
+    versions:
+      - v2plus
 
     type: string
     enum:
@@ -280,6 +303,12 @@ $defs:
       "GRCh38.p13") names.
       DEPRECATION NOTE: The use of a assembly specific sequence identifier obviates
       this parameter. Not part of VRS v2 aligned model versions.
+
+    versions:
+      - v1
+      - v2.0
+      - v2.1
+
     type: string
     example:
       - GCF_000001405.39
@@ -295,6 +324,12 @@ $defs:
       used in conjunction with an `Assembly` parameter.
       DEPRECATION NOTE: To be replaced with the `RefgetAccession` from
       VRS v2.
+
+    versions:
+      - v1
+      - v2.0
+      - v2.1
+
     type: string
     example:
       - refseq:NC_000009.12
@@ -312,6 +347,12 @@ $defs:
       to indicate deletions.
       Origin: VCF derived (optional) use in Beacon v0.3 -> v2.1
       Status: LEGACY
+
+    versions:
+      - v1
+      - v2.0
+      - v2.1
+
     $ref: "#/$defs/Sequence"
 
   AlternateBases:
@@ -321,6 +362,12 @@ $defs:
       see `refereenceBases` for further information.
       Origin: VCF derived use in Beacon v0.3 -> v2.1
       Status: LEGACY
+
+    versions:
+      - v1
+      - v2.0
+      - v2.1
+
     $ref: "#/$defs/Sequence"
 
   VariantType:
@@ -336,6 +383,7 @@ $defs:
         - no assumption about the placement of the additional sequences is being
           made (i.e. no _in situ_ requirement as tandem duplications)
       * DEL: deletion of sequence following `start`
+
       In contrast to the updated VRS based v2.n parameters such as `copyChange`
       the Beacon v1.1 -> v2.1 query model is not prescriptive with regard to the
       values allowed for `variantType` with use of extended types (e.g. `EFO:0030063`)
@@ -346,6 +394,12 @@ $defs:
             over `variantType` for copy number variations. However, additional
             concepts so far have not been covered and might warrant use of an
             additional parameter (`variantClass`?).
+
+    versions:
+      - v1
+      - v2.0
+      - v2.1
+
     type: string
     examples:
       - EFO:0030070
@@ -361,6 +415,7 @@ $defs:
             the format of "1 integer array" versus "1 integer".
       Precise or fuzzy start coordinate position(s), allele locus
       (0-based, inclusive).
+
       * `start` only:
         - for single positions, e.g. the start of a specified sequence
           alteration where the size is given through the specified `alternateBases`
@@ -382,6 +437,11 @@ $defs:
           and ending between `end[0]` <-> `end[1]`
         - single or double sided precise matches can be achieved by setting
           `start[1]=start[0]+1` and `end[1]=end[0]+1`
+
+    versions:
+      - v2.0
+      - v2.1
+
     type: array
     items:
       type: integer
@@ -392,11 +452,20 @@ $defs:
 
   End:
     description: >-
-      NOTE: See the `start` parameter for information on the potential replacement
-            of this parameter with the VRS based definition.
+      ##### Notes
+      
+      See the `start` parameter for information on the potential replacement
+      of this parameter with the VRS based definition.
+
       Precise or bracketing the end of the variants of interest:
+
       * (0-based, exclusive) - see `start`
-      * for bracket queries, provide 2 values (e.g. [111,222])."
+      * for bracket queries, provide 2 values (e.g. [111,222]).
+
+    versions:
+      - v2.0
+      - v2.1
+
     type: array
     items:
       type: integer
@@ -407,25 +476,87 @@ $defs:
 
   MateName:
     description: >-
-      Status: DEPRECATED in v2.n
-      Notes:
+      ##### Notes
+
       * while the `mateName` parameter was originally defined for Beacon v1.1
         it was never properly documented and is not considered a part of the
         supported Beacon v2.n specification. It is now fully implemented in the
         VRS v2 based `adjacencyAccession` parameter.
+
+      Status: DEPRECATED in v2.n
+
+    versions:
+      - v1.1
+      - v2.0
+      - v2.1
+
     $ref: "#/$defs/RefSeqId"
 
   MateStart:
     description: >-
       genomic start position of fusion partner breakpoint region
       Status: DEPRECATED in v2.n (see `mateName`)
+
+    versions:
+      - v1.1
+      - v2.0
+      - v2.1
+
     type: integer
 
   MateEnd:
     description: >-
       genomic end position of fusion partner breakpoint region
       Status: DEPRECATED in v2.n (see `mateName`)
+
+    versions:
+      - v1.1
+      - v2.0
+      - v2.1
+
     type: integer
+
+  VariantMinLength:
+    description: >-
+      * Minimum length in bases of a genomic variant
+      * This is an optional parameter without prescribed use. While a length is
+        commonly available for structural variants such as copy number variations,
+        it is recommended that length based queries should also be supported for
+        variants with indicated referenceBases and alternateBases, to enable
+        length-specific wildcard queries.
+
+      Origin: Beacon v2.0
+
+      Status: DEPRECATED in v2.n (see `sequenceLength`)
+
+    versions:
+      - v2.0
+      - v2.1
+
+    type: integer
+    format: int64
+    minimum: 0
+
+  VariantMaxLength:
+    description: >-
+      * Maximum length in bases of a genomic variant.
+      * This is an optional parameter without prescribed use. While a length is
+        commonly available for structural variants such as copy number variations,
+        it is recommended that length based queries should also be supported for
+        variants with indicated referenceBases and alternateBases, to enable
+        length-specific wildcard queries.
+
+      Status: DEPRECATED in v2.n (see `sequenceLength`)
+
+      Origin: Beacon v2.0
+
+    versions:
+      - v2.0
+      - v2.1
+
+    type: integer
+    format: int64
+    minimum: 1
 
 
 

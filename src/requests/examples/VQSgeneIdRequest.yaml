@@ -17,6 +17,7 @@ examples:
       requestType: VQSgeneIdRequest
       geneId: TP53
       copyChange: EFO:0030067
-      variantMinLength: 1000
-      variantMaxLength: 3000000
+      sequenceLength:
+        - 1000
+        - 3000000
       vrsType: CopyNumberCount

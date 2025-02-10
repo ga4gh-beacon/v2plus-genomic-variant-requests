@@ -314,6 +314,9 @@
                 },
                 "variantMinLength": {
                     "$ref": "./requestParameterComponents.json#/$defs/VariantMinLength"
+                },
+                "vrsType": {
+                    "$ref": "./requestParameterComponents.json#/$defs/VRStype"
                 }
             },
             "required": [
@@ -366,8 +369,41 @@
             },
             "type": "object"
         },
+        "VQSrangeRequest": {
+            "description": "Beacon Range Queries are supposed to return matches of any variant with at least partial overlap of the sequence range specified by `referenceAccession`, `start` and `end` parameters. Additional qualifiers such as `copyChange` or length of the affected sequence can be used to further restrict the returned results. For this request type usually `start` and `end` with a single position are used, _i.e._ a subset of the `start` and `end` specifications. However, \n##### TODO\n* Evaluate to split into more basic `RangeRequest` and specialized\n  requests requiring an effect component\n* Review current VRS v2 and upcoming versions for optoions to express\n  types of variants beyond the `copyChange` parameter",
+            "properties": {
+                "end": {
+                    "type": "integer"
+                },
+                "referenceAccession": {
+                    "$ref": "./requestParameterComponents.json#/$defs/RefSeqId"
+                },
+                "requestProfileId": {
+                    "const": "VQSrangeRequest"
+                },
+                "start": {
+                    "type": "integer"
+                },
+                "variantMaxLength": {
+                    "$ref": "./requestParameterComponents.json#/$defs/VariantMaxLength"
+                },
+                "variantMinLength": {
+                    "$ref": "./requestParameterComponents.json#/$defs/VariantMinLength"
+                },
+                "vrsType": {
+                    "$ref": "./requestParameterComponents.json#/$defs/VRStype"
+                }
+            },
+            "required": [
+                "referenceAccession",
+                "start",
+                "end",
+                "vrsType"
+            ],
+            "type": "object"
+        },
         "VQSrequest": {
-            "description": "This represents the generic collection of variant parameters supported in Beacon v2+ requests.",
+            "description": "The `VQSrequest` type represents the generic collection of variant parameters supported in Beacon v2+ requests. These include parameters with close alignment to VRS v2 concepts and replacing some Beacon v1/v2 generics with tighter definitions (e.g. `referenceAccession` instead of `referenceName` and `accession` or `copyChange` for a specific subset of former `variantType` values) but also keep some conceptsm beyond VRS scope or specifically geared towards query applications (`geneId`, `sequenceLength`)",
             "properties": {
                 "adjacencyAccession": {
                     "$ref": "./requestParameterComponents.json#/$defs/AdjacencyAccession"
@@ -414,12 +450,6 @@
                 "start": {
                     "$ref": "./requestParameterComponents.json#/$defs/SequenceStart"
                 },
-                "variantMaxLength": {
-                    "$ref": "./requestParameterComponents.json#/$defs/VariantMaxLength"
-                },
-                "variantMinLength": {
-                    "$ref": "./requestParameterComponents.json#/$defs/VariantMinLength"
-                },
                 "vrsType": {
                     "$ref": "./requestParameterComponents.json#/$defs/VRStype"
                 }
@@ -441,8 +471,14 @@
                 "repeatSubunitLength": {
                     "$ref": "./requestParameterComponents.json#/$defs/RepeatSubunitLength"
                 },
+                "requestProfileId": {
+                    "const": "VQSsequenceRepeatRequest"
+                },
                 "start": {
                     "$ref": "./requestParameterComponents.json#/$defs/SequenceStart"
+                },
+                "vrsType": {
+                    "const": "SequenceRepeat"
                 }
             },
             "type": "object"

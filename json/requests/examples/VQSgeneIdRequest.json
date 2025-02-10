@@ -6,8 +6,10 @@
                 "copyChange": "EFO:0030067",
                 "geneId": "TP53",
                 "requestType": "VQSgeneIdRequest",
-                "variantMaxLength": 3000000,
-                "variantMinLength": 1000,
+                "sequenceLength": [
+                    1000,
+                    3000000
+                ],
                 "vrsType": "CopyNumberCount"
             }
         }
