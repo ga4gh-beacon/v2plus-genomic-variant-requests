@@ -202,8 +202,7 @@ The `requestProfileId` parameter here allows beacons to check the type of query 
 #### Description
 DNA bases.    
     
-* Accepted values: `[ACGTN]    
-*`         
+* Accepted values: `[ACGTN]*`         
 * N is a wildcard, that denotes the position of any base,
   and can be used as a standalone base of any type or within a partially known
   sequence. As example, a query of `ANNT` the Ns can take take any form of [ACGT]
